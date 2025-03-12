@@ -9,4 +9,4 @@ services:
      MYSQL_USER: david
      MYSQL_PASSWORD: 123
     ports:
-     - 5434:5434
+     - 3306:3306
