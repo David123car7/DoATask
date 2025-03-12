@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dev-db:  # This is the name of your MySQL service
+    image: mysql
+    environment:
+     MYSQL_ROOT_PASSWORD: 123
+     MYSQL_DATABASE: DoATaskDB
+     MYSQL_USER: david
+     MYSQL_PASSWORD: 123
+    ports:
+     - 5434:5434

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NestJS/NestJS.md",
+                "file": "DataBase/Prisma.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NestJS"
+              "title": "Prisma"
             }
           }
         ]
@@ -170,10 +170,18 @@
   },
   "active": "f98993af5d208211",
   "lastOpenFiles": [
-    "NestJS/NestJS Command.md",
     "NestJS/NestJS.md",
-    "NestJS",
+    "NestJS/NestJS Command.md",
+    "Programa/Data Transfer Object (DTO).md",
+    "Imgs/Pasted image 20250312182359.png",
+    "Programa",
+    "DataBase/Prisma.md",
+    "Imgs/Pasted image 20250312175913.png",
+    "Imgs",
     "TypeScript.md",
+    "DataBase/Prisma",
+    "DataBase",
+    "NestJS",
     "Welcome.md"
   ]
 }
