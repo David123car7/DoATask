@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Programa/Dependencias.md",
+                "file": "Programa/Guard.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Dependencias"
+              "title": "Guard"
             }
           }
         ]
@@ -170,11 +170,13 @@
   },
   "active": "f98993af5d208211",
   "lastOpenFiles": [
-    "DataBase/Prisma.md",
-    "NestJS/NestJS.md",
-    "Programa/Data Transfer Object (DTO).md",
     "Programa/Dependencias.md",
+    "Programa/Custom route decorators.md",
+    "Programa/Data Transfer Object (DTO).md",
+    "Programa/Guard.md",
+    "NestJS/NestJS.md",
     "NestJS/NestJS Command.md",
+    "DataBase/Prisma.md",
     "Imgs/Pasted image 20250312182359.png",
     "Programa",
     "Imgs/Pasted image 20250312175913.png",
