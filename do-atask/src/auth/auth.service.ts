@@ -3,7 +3,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
 import { AuthDtoSignup, AuthDtoSignin } from "./dto";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { empty, PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable({})
@@ -20,15 +20,24 @@ export class AuthService{
             //save the new user in the db
             const user = await this.prisma.user.create({
                 data: {
-                    email: dto.email,
-                    firstName: dto.firstName,
-                    lastName: dto.lastName,
+                    email: dto.email,                    
                     hash,
+                },
+            });
+
+
+            const member = await this.prisma.member.create({
+                data: {
+                    name: dto.name, 
+                    dateBirth: dto.dateBirth,
+                    contact: null,
+                    tot_coins: 0,
+                    tot_points: 0,
                 },
             });
             
             //returns the user token
-            return this.signToken(user.id, user.email);  
+            return this.signToken(user.user_id, user.email);  
         }
         catch(error){
             if(error instanceof PrismaClientKnownRequestError){
@@ -58,7 +67,7 @@ export class AuthService{
             throw new ForbiddenException("Invalid Credentials");
 
         //returns the user token
-        return this.signToken(user.id, user.email);  
+        return this.signToken(user.user_id, user.email);  
     }
 
     async signToken( userId: number, email: string,): Promise<{ access_token: string }> {

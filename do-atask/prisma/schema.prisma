@@ -14,16 +14,24 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  user_id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   email String @unique
   hash  String
-  
-  firstName String?
-  lastName  String?
 
   @@map("user")
+}
+
+model Member {
+  member_id               Int         @id @default(autoincrement())
+  name                    String?
+  dateBirth               DateTime?
+  tot_coins               Int?
+  contact                 String?
+  tot_points              Int?
+
+  @@map("member")
 }
 
