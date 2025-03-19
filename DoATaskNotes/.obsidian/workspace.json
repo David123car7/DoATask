@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DataBase/TearDown Logic.md",
+                "file": "Frontend/Nextjs.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TearDown Logic"
+              "title": "Nextjs"
             }
           }
         ]
@@ -170,20 +170,23 @@
   },
   "active": "f98993af5d208211",
   "lastOpenFiles": [
-    "Pasted image 20250319000528.png",
-    "DataBase/Prisma.md",
+    "_imgs/Pasted image 20250319000528.png",
+    "Frontend/Nextjs.md",
+    "Frontend",
+    "Imgs/Untitled",
     "DataBase/TearDown Logic.md",
-    "Programa/DotEnv.md",
-    "Programa/Guard.md",
-    "Programa/Dependencias.md",
-    "Programa/Data Transfer Object (DTO).md",
-    "Programa/Custom route decorators.md",
+    "DataBase/Prisma.md",
+    "Backend/DotEnv.md",
+    "Backend/Guard.md",
+    "Backend/Dependencias.md",
+    "Backend/Data Transfer Object (DTO).md",
+    "Backend/Custom route decorators.md",
     "NestJS/NestJS.md",
     "NestJS/NestJS Command.md",
-    "Imgs/Pasted image 20250312182359.png",
-    "Programa",
-    "Imgs/Pasted image 20250312175913.png",
-    "Imgs",
+    "_imgs/Pasted image 20250312182359.png",
+    "Backend",
+    "_imgs/Pasted image 20250312175913.png",
+    "_imgs",
     "TypeScript.md",
     "DataBase/Prisma",
     "DataBase",
