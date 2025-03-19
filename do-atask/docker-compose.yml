@@ -3,10 +3,20 @@ version: '3.8'
 services:
   dev-db:  # This is the name of your MySQL service
     image: mysql
+    ports:
+     - 4000:3306
     environment:
      MYSQL_ROOT_PASSWORD: 123
      MYSQL_DATABASE: DoATaskDB
      MYSQL_USER: david
      MYSQL_PASSWORD: 123
+
+  test-db:  # This is the name of your MySQL service
+    image: mysql
     ports:
-     - 3306:3306
+     - 4010:3306
+    environment:
+     MYSQL_ROOT_PASSWORD: 123
+     MYSQL_DATABASE: DoATaskDB
+     MYSQL_USER: david
+     MYSQL_PASSWORD: 123
