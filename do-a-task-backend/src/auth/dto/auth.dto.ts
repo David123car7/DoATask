@@ -7,7 +7,7 @@ export class AuthDtoSignup{
 
     @IsDateString()
     @IsNotEmpty()
-    dateBirth
+    birthDate
 
     @IsEmail()
     @IsNotEmpty()

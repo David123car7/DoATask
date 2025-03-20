@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Frontend/Nextjs.md",
+                "file": "Backend/Cors.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Nextjs"
+              "title": "Cors"
             }
           }
         ]
@@ -170,8 +170,11 @@
   },
   "active": "f98993af5d208211",
   "lastOpenFiles": [
-    "_imgs/Pasted image 20250319000528.png",
+    "Problemas.md",
+    "Backend/Cors.md",
+    "TypeScript.md",
     "Frontend/Nextjs.md",
+    "_imgs/Pasted image 20250319000528.png",
     "Frontend",
     "Imgs/Untitled",
     "DataBase/TearDown Logic.md",
@@ -187,7 +190,6 @@
     "Backend",
     "_imgs/Pasted image 20250312175913.png",
     "_imgs",
-    "TypeScript.md",
     "DataBase/Prisma",
     "DataBase",
     "NestJS",

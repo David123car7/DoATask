@@ -21,6 +21,8 @@ model Member {
   userId      Int
   addressId   Int
   communityId Int
+
+   @@map("member")
 }
 
 
@@ -107,20 +109,6 @@ model MemberTask {
 
   volunteerId Int
   taskId      Int
-}
-
-model User {
-  id            Int    @id @default(autoincrement())
-  createdAt     DateTime?
-  updatedAt     DateTime?
-  email         String? @unique
-  hash          String
-  name          String?
-  birthDate     DateTime?
-  totalCoins    Int?
-  members       Member[]
-  contacts      Contact[]
-  userCommunities UserCommunity[]
 }
 
 model Item {
