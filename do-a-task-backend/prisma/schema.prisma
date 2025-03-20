@@ -25,6 +25,21 @@ model Member {
    @@map("member")
 }
 
+model User {
+  id            Int    @id @default(autoincrement())
+  createdAt     DateTime
+  updatedAt     DateTime
+  email         String @unique
+  hash          String
+  name          String
+  birthDate     DateTime
+  totalCoins    Int
+  members       Member[]
+  contacts      Contact[]
+  userCommunities UserCommunity[]
+
+  @@map("user")
+}
 
 model Community {
   id         Int       @id @default(autoincrement())

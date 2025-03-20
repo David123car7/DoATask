@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Backend/Cors.md",
+                "file": "Frontend/Zod.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cors"
+              "title": "Zod"
             }
           }
         ]
@@ -170,10 +170,11 @@
   },
   "active": "f98993af5d208211",
   "lastOpenFiles": [
-    "Problemas.md",
-    "Backend/Cors.md",
-    "TypeScript.md",
     "Frontend/Nextjs.md",
+    "Frontend/Zod.md",
+    "Backend/Cors.md",
+    "Problemas.md",
+    "TypeScript.md",
     "_imgs/Pasted image 20250319000528.png",
     "Frontend",
     "Imgs/Untitled",

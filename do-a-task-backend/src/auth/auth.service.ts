@@ -22,7 +22,8 @@ export class AuthService{
                 data: {
                     email: dto.email,
                     name: dto.name,  
-                    birthDate: dto.birthDate,          
+                    //birthDate: dto.birthDate,        
+                    birthDate: new Date(),  
                     hash,
                     createdAt: new Date(),
                     updatedAt: new Date(),
@@ -48,8 +49,11 @@ export class AuthService{
                 }, 
             });
 
-            //returns the user token
-            return this.signToken(user.id, user.email);  
+            const acessToken = this.signToken(user.id, user.email);  
+            return {
+                acessToken,
+                message: "User Signed Up successfully"
+            }
         }
         catch(error){
             if(error instanceof PrismaClientKnownRequestError){
@@ -78,8 +82,11 @@ export class AuthService{
         if(!pwMatches)
             throw new ForbiddenException("Invalid Credentials");
 
-        //returns the user token
-        return this.signToken(user.id, user.email);  
+        const acessToken = this.signToken(user.id, user.email);  
+        return {
+            acessToken,
+            message: "User Signed In successfully"
+        }
     }
 
     async signToken( userId: number, email: string,): Promise<{ access_token: string }> {
