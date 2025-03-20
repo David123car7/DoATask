@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type SignInSchema } from '../schema/signin-form-schema';
 import { SigninUser} from './utils/signin.api'
 import { useState } from 'react';
+import styles from './page.module.css';
 
 export default function SignInForm() {
   const {
@@ -36,30 +37,52 @@ export default function SignInForm() {
   };
   
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="email"
-          {...register('email')} // Register the input field
-          placeholder="Email"
-        />
-        {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
-
-        <input
-          type="password"
-          {...register('password')} // Register the input field
-          placeholder="Password"
-        />
-        {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
-
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className='page'>
+    <header>
+        <div>
+            <h1 className={styles.logo_title}>DOATASK</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Criadores</a></li>
+                <li><a href="#">Conta</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </nav>
+    </header>
     
-      {errors.root?.serverError && (
-        <p style={{ color: 'red' }}>{errors.root.serverError.message}</p>
-      )}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-    </div>
-  );
+    <main>
+        <div className={styles.container}>
+
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                <div className={styles.inputGroup}>
+                    <label htmlFor="email" className={styles.label}>Email</label>
+                    <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
+                    {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
+                </div>
+                <div className={styles.inputGroup}>
+                    <label htmlFor="password" className={styles.label}>Password</label>
+                    <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
+                    {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+                </div>
+                    <button type="submit" className={styles.submitButton}>Submeter</button>
+
+                {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
+                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            </form>
+        </div>
+        
+    </main>
+
+        <footer>
+            <div>
+                <p>DOATASK</p>
+            </div>
+
+        </footer>
+
+   
+</div>
+);
 }
