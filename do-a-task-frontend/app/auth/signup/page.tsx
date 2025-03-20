@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type SignUpSchema } from '../schema/signup-form-schema';
 import { SignupUser} from './utils/signup.api'
 import { useState } from 'react';
+import styles from './page.module.css';
 
 export default function SignUpForm() {
   const {
@@ -37,7 +38,77 @@ export default function SignUpForm() {
   };
   
   return (
-    <div>
+        <div className='page'>
+            <header>
+                <div>
+                    <h1 className={styles.logo_title}>DOATASK</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="#">Criadores</a></li>
+                        <li><a href="#">Conta</a></li>
+                        <li><a href="#">Login</a></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <main>
+                <div className={styles.container}>
+
+                    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="name" className={styles.label}>Nome Completo</label>
+                            <input type="text" id="name" className={styles.input} {...register('name')} placeholder="Nome Completo"/>
+                            {errors.name && <p style={{ color: 'red' }}>{errors.name.message}</p>}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="contact" className={styles.label}>Contacto</label>
+                            <input type="text" id="contact" className={styles.input} placeholder="Contacto"/>{/*Tornar Opcional */}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="localidade" className={styles.label}>Localidade</label>
+                            <input type="text" id="localidade" className={styles.input} placeholder="Localidade"/>{/*Tornar Opcional */}
+                        </div>  
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="email" className={styles.label}>Email</label>
+                            <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
+                            {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="password" className={styles.label}>Password</label>
+                            <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
+                            {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="birthDate" className={styles.label}>Data de Nascimento</label>
+                            <input type="date" id="birthDate" className={styles.input} {...register('birthDate')} placeholder="BirthDate"/>
+                            {errors.birthDate && <p style={{ color: 'red' }}>{errors.birthDate.message}</p>}
+                        </div>
+                            <button type="submit" className={styles.submitButton}>Submeter</button>
+
+                        {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
+                        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                    </form>
+                </div>
+                
+            </main>
+
+                <footer>
+                    <div>
+                        <p>DOATASK</p>
+                    </div>
+
+                </footer>
+
+           
+        </div>
+  );
+}
+
+/*
+<div>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -76,5 +147,4 @@ export default function SignUpForm() {
       )}
       {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
     </div>
-  );
-}
+*/
