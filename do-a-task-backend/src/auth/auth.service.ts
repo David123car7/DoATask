@@ -5,6 +5,8 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthDtoSignup, AuthDtoSignin } from "./dto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ConfigService } from "@nestjs/config";
+import { Response } from 'express';
+import { Console } from "console";
 
 @Injectable({})
 export class AuthService{
@@ -66,7 +68,7 @@ export class AuthService{
         
     }
 
-    async sighin(dto: AuthDtoSignin){
+    async sighin(dto: AuthDtoSignin, response: Response){
         //find the user
         const user = await this.prisma.user.findUnique({
             where: {
@@ -82,11 +84,20 @@ export class AuthService{
         if(!pwMatches)
             throw new ForbiddenException("Invalid Credentials");
 
-        const acessToken = this.signToken(user.id, user.email);  
+        const acessToken = await this.signToken(user.id, user.email);  
+
+        response.cookie('Authentication', acessToken, {
+            secure: true,
+            httpOnly: true,
+        });
+
+        /*
         return {
             acessToken,
             message: "User Signed In successfully"
-        }
+        }*/
+
+        return acessToken;
     }
 
     async signToken( userId: number, email: string,): Promise<{ access_token: string }> {
@@ -99,7 +110,7 @@ export class AuthService{
         const token = await this.jwt.signAsync(
           payload,
           {
-            expiresIn: '15m',
+            expiresIn: '1m',
             secret: secret,
           },
         );

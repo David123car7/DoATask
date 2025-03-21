@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Frontend/Zod.md",
+                "file": "TypeScript.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Zod"
+              "title": "TypeScript"
             }
           }
         ]
@@ -170,21 +170,22 @@
   },
   "active": "f98993af5d208211",
   "lastOpenFiles": [
-    "Frontend/Nextjs.md",
-    "Frontend/Zod.md",
-    "Backend/Cors.md",
     "Problemas.md",
+    "Frontend/Zod.md",
+    "Frontend/Nextjs.md",
+    "Backend/Cookies.md",
+    "Backend/Cors.md",
+    "Backend/Custom route decorators.md",
+    "Backend/Data Transfer Object (DTO).md",
+    "Backend/Dependencias.md",
+    "Backend/DotEnv.md",
+    "Backend/Guard.md",
     "TypeScript.md",
     "_imgs/Pasted image 20250319000528.png",
     "Frontend",
     "Imgs/Untitled",
     "DataBase/TearDown Logic.md",
     "DataBase/Prisma.md",
-    "Backend/DotEnv.md",
-    "Backend/Guard.md",
-    "Backend/Dependencias.md",
-    "Backend/Data Transfer Object (DTO).md",
-    "Backend/Custom route decorators.md",
     "NestJS/NestJS.md",
     "NestJS/NestJS Command.md",
     "_imgs/Pasted image 20250312182359.png",

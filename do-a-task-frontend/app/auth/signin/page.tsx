@@ -6,6 +6,7 @@ import { signInSchema, type SignInSchema } from '../schema/signin-form-schema';
 import { SigninUser} from './utils/signin.api'
 import { useState } from 'react';
 import styles from './page.module.css';
+import { useRouter } from 'next/navigation';  // Import useRouter
 
 export default function SignInForm() {
   const {
@@ -18,6 +19,7 @@ export default function SignInForm() {
   });
   
   const [successMessage, setSuccessMessage] = useState('');
+  const router = useRouter();  
 
   const onSubmit = async (data: SignInSchema) => {
     try {
@@ -25,6 +27,7 @@ export default function SignInForm() {
       const responseData = await SigninUser(data);
       console.log('Success:', responseData.message);
       setSuccessMessage(responseData.message);
+      router.push("/message");  // Redirect to /message route
     } catch (error: any) {
       console.error('Error signing up:', error);
 

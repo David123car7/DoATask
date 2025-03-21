@@ -6,6 +6,8 @@ import { signUpSchema, type SignUpSchema } from '../schema/signup-form-schema';
 import { SignupUser} from './utils/signup.api'
 import { useState } from 'react';
 import styles from './page.module.css';
+import { redirect } from "next/navigation";
+
 
 export default function SignUpForm() {
   const {
