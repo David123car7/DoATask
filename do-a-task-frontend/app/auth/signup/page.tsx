@@ -48,42 +48,48 @@ export default function SignUpForm() {
                         <li><a href="#">Sobre</a></li>
                         <li><a href="#">Criadores</a></li>
                         <li><a href="#">Conta</a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="#"><div className={styles.loginBox}>Login</div></a></li>
                     </ul>
                 </nav>
             </header>
             
             <main>
+
+              
+              <div className={styles.formBox}>
+              <div className={styles.titleBox}>
+                <div className={styles.mainTitle}>Registo Novo Membro</div>
+              </div>
                 <div className={styles.container}>
 
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
                         <div className={styles.inputGroup}>
                             <label htmlFor="name" className={styles.label}>Nome Completo</label>
-                            <input type="text" id="name" className={styles.input} {...register('name')} placeholder="Nome Completo"/>
+                            <input type="text" id="name" className={styles.input} {...register('name')}/>
                             {errors.name && <p style={{ color: 'red' }}>{errors.name.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="contact" className={styles.label}>Contacto</label>
-                            <input type="text" id="contact" className={styles.input} placeholder="Contacto"/>{/*Tornar Opcional */}
+                            <input type="text" id="contact" className={styles.input} />{/*Tornar Opcional */}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="localidade" className={styles.label}>Localidade</label>
-                            <input type="text" id="localidade" className={styles.input} placeholder="Localidade"/>{/*Tornar Opcional */}
+                            <input type="text" id="localidade" className={styles.input} />{/*Tornar Opcional */}
                         </div>  
                         <div className={styles.inputGroup}>
                             <label htmlFor="email" className={styles.label}>Email</label>
-                            <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
+                            <input type="email" id="email" className={styles.input} {...register('email')} />
                             {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="password" className={styles.label}>Password</label>
-                            <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
+                            <input type="password" id="password" className={styles.input} {...register('password')} />
                             {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="birthDate" className={styles.label}>Data de Nascimento</label>
-                            <input type="date" id="birthDate" className={styles.input} {...register('birthDate')} placeholder="BirthDate"/>
+                            <input type="date" id="birthDate" className={styles.input} {...register('birthDate')} />
                             {errors.birthDate && <p style={{ color: 'red' }}>{errors.birthDate.message}</p>}
                         </div>
                             <button type="submit" className={styles.submitButton}>Submeter</button>
@@ -92,7 +98,7 @@ export default function SignUpForm() {
                         {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
                     </form>
                 </div>
-                
+              </div>
             </main>
 
                 <footer>

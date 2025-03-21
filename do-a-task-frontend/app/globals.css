@@ -1,10 +1,12 @@
+
 .page{
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: rgb(63,170,238);
-  background: radial-gradient(circle, rgba(63,170,238,1) 35%, rgba(63,94,251,1) 84%);
+  background: rgb(106,187,255);
+  background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
 }
+
 header{
   display: flex;
   justify-content: space-between;
@@ -12,7 +14,7 @@ header{
   padding: 10x 40px;
   background-color: #fdfdfd;
   color: black;
-  height: 150px;
+  height: 130px;
 }
 
 footer{
@@ -30,6 +32,7 @@ footer p{
   font-weight: bold;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
 nav ul{
   list-style-type: none;
   margin-right: 20px; 
@@ -37,15 +40,19 @@ nav ul{
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+  align-items: center;
+  font-size: 13px
 }
 
 nav ul li{
   display: inline;
+  
 }
 
 nav ul li a{
   text-decoration: none;
   color: black;
+
 }
 
 button{
@@ -56,12 +63,14 @@ button{
   border-radius: 4px;
   font-size: 15px;
 }
+
 main{
   display: flex;
   margin-right: 20px;
   margin-left: 20px;
   height: 100vh;
-
+  justify-content: center;
+  align-items: center;
 }
 
 
