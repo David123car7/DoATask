@@ -12,4 +12,13 @@ export class UserController {
     getMe(@GetUser() user: User){
         return user;
     }
+
+    @Post('message') 
+     receiveMessage(@Body() body: { message: string }) {
+     const receivedMessage = body.message; // Extract the message from the request body
+     console.log('Received message:', receivedMessage); // Log the message to the console
+ 
+     // Send a response back to the frontend
+     return { message: `Backend received: ${receivedMessage}` };
+     }
 }

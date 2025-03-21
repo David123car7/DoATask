@@ -5,6 +5,8 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthDtoSignup, AuthDtoSignin } from "./dto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ConfigService } from "@nestjs/config";
+import { Response } from 'express';
+import { Console } from "console";
 
 @Injectable({})
 export class AuthService{
@@ -63,10 +65,29 @@ export class AuthService{
             }
             throw error;
         }
-        
     }
 
-    async sighin(dto: AuthDtoSignin){
+    /**
+     * User Sign-In Service Function
+     *
+     * @param {AuthDtoSignin} dto - Object containing user credentials:
+     *   - email: User's registered email address.
+     *   - password: User's password.
+     * @param {Response} response - Express response object for setting authentication cookies.
+     * @returns {Promise<string>} - A JWT access token if authentication is successful.
+     *
+     * @throws {ForbiddenException}
+     *   - Thrown if the user does not exist.
+     *   - Thrown if the provided password does not match the stored hash.
+     *
+     * This function handles user authentication:
+     * - Finds the user by their email in the database.
+     * - Verifies the provided password against the stored hash.
+     * - If valid, generates a signed JWT access token.
+     * - Sets the token as an HTTP-only secure cookie.
+     * - Returns the generated access token.
+     */
+    async sighin(dto: AuthDtoSignin, response: Response){
         //find the user
         const user = await this.prisma.user.findUnique({
             where: {
@@ -82,7 +103,14 @@ export class AuthService{
         if(!pwMatches)
             throw new ForbiddenException("Invalid Credentials");
 
-        const acessToken = this.signToken(user.id, user.email);  
+        const acessToken = await this.signToken(user.id, user.email);  
+
+        response.cookie('Authentication', acessToken, {
+            secure: true,
+            httpOnly: true,
+        });
+
+        
         return {
             acessToken,
             message: "User Signed In successfully"
@@ -99,7 +127,7 @@ export class AuthService{
         const token = await this.jwt.signAsync(
           payload,
           {
-            expiresIn: '15m',
+            expiresIn: '1m',
             secret: secret,
           },
         );
