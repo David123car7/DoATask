@@ -7,6 +7,7 @@ import { SigninUser} from './utils/signin.api'
 import { useState } from 'react';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';  // Import useRouter
+import { ROUTES } from "@/constants/links"
 
 export default function SignInForm() {
   const {
@@ -23,11 +24,11 @@ export default function SignInForm() {
 
   const onSubmit = async (data: SignInSchema) => {
     try {
-      setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
+      setSuccessMessage("") 
       const responseData = await SigninUser(data);
       console.log('Success:', responseData.message);
       setSuccessMessage(responseData.message);
-      router.push("/message");  // Redirect to /message route
+      router.push(ROUTES.MESSAGE); 
     } catch (error: any) {
       console.error('Error signing up:', error);
 

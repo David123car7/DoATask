@@ -65,9 +65,28 @@ export class AuthService{
             }
             throw error;
         }
-        
     }
 
+    /**
+     * User Sign-In Service Function
+     *
+     * @param {AuthDtoSignin} dto - Object containing user credentials:
+     *   - email: User's registered email address.
+     *   - password: User's password.
+     * @param {Response} response - Express response object for setting authentication cookies.
+     * @returns {Promise<string>} - A JWT access token if authentication is successful.
+     *
+     * @throws {ForbiddenException}
+     *   - Thrown if the user does not exist.
+     *   - Thrown if the provided password does not match the stored hash.
+     *
+     * This function handles user authentication:
+     * - Finds the user by their email in the database.
+     * - Verifies the provided password against the stored hash.
+     * - If valid, generates a signed JWT access token.
+     * - Sets the token as an HTTP-only secure cookie.
+     * - Returns the generated access token.
+     */
     async sighin(dto: AuthDtoSignin, response: Response){
         //find the user
         const user = await this.prisma.user.findUnique({
@@ -91,13 +110,11 @@ export class AuthService{
             httpOnly: true,
         });
 
-        /*
+        
         return {
             acessToken,
             message: "User Signed In successfully"
-        }*/
-
-        return acessToken;
+        }
     }
 
     async signToken( userId: number, email: string,): Promise<{ access_token: string }> {
