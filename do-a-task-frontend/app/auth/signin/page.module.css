@@ -6,6 +6,17 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.loginBox{
+    width: 60px;
+    height: 40px;
+    background-color:black;
+    color: white;
+    padding: 3px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 35px;    
+}
+
 .title{
     margin-top: 20px;
     font-size: 24px;
@@ -27,9 +38,25 @@
     justify-content: center;
     align-items: center;  
 }
+
+/*Caixa de  fundo do form*/
+.formBox{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    /*background: rgb(217,249,255);
+    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);*/
+    
+}
+
 .form{
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -67,4 +94,33 @@
 
 .information {
     text-align: center;
+}
+
+.mainTitle{
+    color: black;
+    padding: 10px 40px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.titleBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.error_message{
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: start;
+}
+
+.container_main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }

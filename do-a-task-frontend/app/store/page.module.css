@@ -1,0 +1,46 @@
+.titlte_store{
+    display: flex;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    height: fit-content ;
+    color: black;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.container_items{
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-left: 22px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+    place-items: center;
+}
+
+.item{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-color: white;
+    border-radius: 10px;
+    max-width: 250px;
+    max-height: 300px;
+
+}
+
+.container_items p{
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: center;
+    color: black;
+}
+.container_main{
+    display: flex;
+    display: flex;
+    margin-right: 20px;
+    margin-left: 20px;
+    height: fit-content;
+}

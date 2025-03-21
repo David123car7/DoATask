@@ -6,6 +6,7 @@ import { signUpSchema, type SignUpSchema } from '../schema/signup-form-schema';
 import { SignupUser} from './utils/signup.api'
 import { useState } from 'react';
 import styles from './page.module.css';
+import Image from 'next/image';
 
 export default function SignUpForm() {
   const {
@@ -41,7 +42,7 @@ export default function SignUpForm() {
         <div className='page'>
             <header>
                 <div>
-                    <h1 className={styles.logo_title}>DOATASK</h1>
+                    <h1 className="logo_title">DOATASK</h1>
                 </div>
                 <nav>
                     <ul>
@@ -67,7 +68,7 @@ export default function SignUpForm() {
                         <div className={styles.inputGroup}>
                             <label htmlFor="name" className={styles.label}>Nome Completo</label>
                             <input type="text" id="name" className={styles.input} {...register('name')}/>
-                            {errors.name && <p style={{ color: 'red' }}>{errors.name.message}</p>}
+                            {errors.name && <p className={styles.error_message}>{errors.name.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="contact" className={styles.label}>Contacto</label>
@@ -80,22 +81,22 @@ export default function SignUpForm() {
                         <div className={styles.inputGroup}>
                             <label htmlFor="email" className={styles.label}>Email</label>
                             <input type="email" id="email" className={styles.input} {...register('email')} />
-                            {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
+                            {errors.email && <p className={styles.error_message}>{errors.email.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="password" className={styles.label}>Password</label>
                             <input type="password" id="password" className={styles.input} {...register('password')} />
-                            {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+                            {errors.password && <p className={styles.error_message}>{errors.password.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="birthDate" className={styles.label}>Data de Nascimento</label>
                             <input type="date" id="birthDate" className={styles.input} {...register('birthDate')} />
-                            {errors.birthDate && <p style={{ color: 'red' }}>{errors.birthDate.message}</p>}
+                            {errors.birthDate && <p className={styles.error_message}>{errors.birthDate.message}</p>}
                         </div>
                             <button type="submit" className={styles.submitButton}>Submeter</button>
 
                         {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
-                        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                        {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
                     </form>
                 </div>
               </div>
@@ -104,6 +105,9 @@ export default function SignUpForm() {
                 <footer>
                     <div>
                         <p>DOATASK</p>
+                        <ul>
+
+                        </ul>
                     </div>
 
                 </footer>
