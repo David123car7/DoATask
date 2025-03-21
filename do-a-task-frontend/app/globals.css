@@ -2,7 +2,7 @@
 .page{
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: auto;
   background: rgb(106,187,255);
   background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
 }
@@ -69,8 +69,6 @@ main{
   margin-right: 20px;
   margin-left: 20px;
   height: 100vh;
-  justify-content: center;
-  align-items: center;
 }
 
 
