@@ -9,13 +9,20 @@
     line-height: 35px;    
 }
 .formBox{
-    width: 600px;
-    height: 600px;
+    width: fit-content;
+    height: fit-content;
     background-color:transparent;
     border-radius: 20px;
-    padding: 20px;
+    padding: 50px;
     background: rgb(217,249,255);
     background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.container_form{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
 .title{
@@ -100,4 +107,11 @@
     align-items: center;
     margin-top: 10px;
     margin-bottom: 20px;
+}
+
+.error_message{
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: start;
 }

@@ -39,7 +39,7 @@ export default function SignUpForm() {
   };
   
   return (
-        <div className='page'>
+        <div className='page-auth'>
             <header>
                 <div>
                     <h1 className="logo_title">DOATASK</h1>
@@ -56,12 +56,13 @@ export default function SignUpForm() {
             
             <main>
 
-              
-              <div className={styles.formBox}>
-              <div className={styles.titleBox}>
-                <div className={styles.mainTitle}>Registo Novo Membro</div>
-              </div>
-                <div className={styles.container}>
+            <div className={styles.titleBox}>
+                  <div className={styles.mainTitle}>Registo Novo Membro</div>
+            </div>
+
+              <div className={styles.container_form}>
+                <div className={styles.formBox}>
+                  <div className={styles.container}>
 
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
@@ -98,8 +99,10 @@ export default function SignUpForm() {
                         {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
                         {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
                     </form>
-                </div>
+                  </div>
               </div>
+              </div>
+              
             </main>
 
                 <footer>

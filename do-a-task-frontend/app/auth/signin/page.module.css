@@ -33,6 +33,14 @@
     margin-bottom: 20px;
 }
 
+.container_form{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
 .container{
     display: flex;
     justify-content: center;
@@ -41,17 +49,13 @@
 
 /*Caixa de  fundo do form*/
 .formBox{
-    display: flex;
     width: fit-content;
     height: fit-content;
+    background-color:transparent;
     border-radius: 20px;
-    padding: 20px;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-    /*background: rgb(217,249,255);
-    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);*/
-    
+    padding: 50px;
+    background: rgb(217,249,255);
+    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
 }
 
 .form{

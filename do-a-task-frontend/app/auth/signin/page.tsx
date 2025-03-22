@@ -59,8 +59,9 @@ export default function SignInForm() {
       <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Sign In</div>
       </div>
-        <div className={styles.container_main}>
-          <div className={styles.formBox}>
+
+        <div className={styles.container_form}>
+            <div className={styles.formBox}>
                 <div className={styles.container}>
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                         <div className={styles.inputGroup}>
@@ -81,6 +82,7 @@ export default function SignInForm() {
                   </div>    
             </div>
         </div>
+        
     </main>
     
         <footer>
