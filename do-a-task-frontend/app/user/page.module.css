@@ -1,0 +1,130 @@
+.main_title{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    margin-top: 20px;
+    padding: 5px 30px;
+    color: rgb(255, 255, 255);
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.link_fim{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    padding: 3px 40px;
+    color:rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.user_li{
+    list-style-type: none;
+}
+.user_options{
+    display: flex;
+    padding: 20px 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    flex-shrink: 0;
+    height: fit-content;
+    font-size: 20px;
+    margin-left: 60px;
+    margin-top: 10px;
+    background-color: rgb(247, 99, 0);
+    border-radius: 20px;
+    border: 2px solid black;
+}
+
+.user_li li{
+    margin-bottom: 10px;
+}
+.user_li li :hover{
+    color: grey;
+}
+
+.container_options{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza os elementos */
+    align-items: flex-start;
+    gap: 50px; /* Espaço entre os blocos */
+
+    
+}
+
+.container_data{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    margin: 0 auto;
+}
+
+.form_userData{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.formBox{
+    display: flex;
+    margin-left: 1px;
+    gap: 50px;
+    margin-bottom: 10px;
+
+}
+
+.forms{
+    background-color: rgb(6, 127, 241);
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 5px;
+    border: 3px solid black;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.forms p{
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.form_userData input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: black;
+}
+
+.inputGroup{
+    flex: 1;
+    min-width: 360px;
+}
+
+.label{
+    display: block;
+    font-size: 16px;
+    color: black;
+    margin-left: 5px;
+}
+
+.submitButton{
+    width: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #050505;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}

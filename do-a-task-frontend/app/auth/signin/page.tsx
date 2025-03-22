@@ -41,7 +41,7 @@ export default function SignInForm() {
     <div className="page-auth">
     <header>
         <div>
-            <h1 className={styles.logo_title}>DOATASK</h1>
+            <h1 className="logo_title">DOATASK</h1>
         </div>
         <nav>
             <ul>
@@ -101,7 +101,7 @@ export default function SignInForm() {
                   </nav>
                 </div>
             </div>
-
+          
         </footer>
 
    

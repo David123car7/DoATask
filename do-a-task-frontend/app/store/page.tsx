@@ -6,15 +6,17 @@ import Pagination from "../paginaçao";
 import { getStoreItems } from "./utils/store.api";
 
 
-type StoreProps = {
+/*type StoreProps = {
     searchParams?: {page?: string; limit?: string};
-};
+};*/
 
-export default async function store({searchParams}: StoreProps) {
+/*export default async function store({searchParams}: StoreProps) {
     const page = Number(searchParams?.page) || 1;
     const limit = Number(searchParams?.limit) || 10;
 
-    const {data, metadata} = await getStoreItems({page, limit});
+    const {data, metadata} = await getStoreItems({page, limit});*/
+
+export default function store(){
 
     return (
       <div className="page">
@@ -48,72 +50,63 @@ export default async function store({searchParams}: StoreProps) {
                 </div>
             </div>
 
-                <div className={styles.container_items}>
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
+            <div className={styles.container_items}>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
                     </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
                         <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
-
-                    <div>
-                        <div className={styles.item}>
-                            <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
-                        </div>
-                        <p>ola</p>
-                    </div>
                 </div>
-
-            <Pagination page={page} limit={limit} total={metadata.pagination.total} />
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+                <div>
+                    <div className={styles.item}>
+                        <Image src="/assets/linkdinlogo.png" alt="ShopCart" width={200} height={200}/>
+                    </div>
+                        <p>ola</p>
+                </div>
+            </div>
+            {/*<Pagination page={page} limit={limit} total={metadata.pagination.total} />*/}
         </main>
     
         <footer>
