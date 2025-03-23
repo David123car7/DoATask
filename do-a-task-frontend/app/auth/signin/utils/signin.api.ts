@@ -18,7 +18,7 @@ export async function SigninUser(data: SignInSchema) {
         if (!response.ok) {
             const errorData = await response.json();
             console.log('Backend Error:', errorData); 
-            throw errorData;
+            throw new Error(errorData.message || 'An unexpected error occurred');
         }
         
         const setCookieHeader = response.headers.get("Set-Cookie");

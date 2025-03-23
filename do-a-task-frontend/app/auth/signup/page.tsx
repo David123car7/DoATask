@@ -6,7 +6,8 @@ import { signUpSchema, type SignUpSchema } from '../schema/signup-form-schema';
 import { SignupUser} from './utils/signup.api'
 import { useState } from 'react';
 import styles from './page.module.css';
-import Image from 'next/image';
+import { ROUTES } from "@/constants/links"
+import { useRouter } from 'next/navigation';
 
 export default function SignUpForm() {
   const {
@@ -19,17 +20,15 @@ export default function SignUpForm() {
   });
   
   const [successMessage, setSuccessMessage] = useState('');
+  const router = useRouter(); // Initialize router from next/navigation
 
   const onSubmit = async (data: SignUpSchema) => {
     try {
       setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
       const responseData = await SignupUser(data);
-      console.log('Success:', responseData.message);
       setSuccessMessage(responseData.message);
+      router.push(ROUTES.SIGNIN)
     } catch (error: any) {
-      console.error('Error signing up:', error);
-      // If the backend provides an error field, use it to set a field-specific error;
-      // otherwise, assign a general form error.
       if (error.field) {
         setError(error.field, { type: 'manual', message: error.message });
       } else {
@@ -49,7 +48,7 @@ export default function SignUpForm() {
                         <li><a href="#">Sobre</a></li>
                         <li><a href="#">Criadores</a></li>
                         <li><a href="#">Conta</a></li>
-                        <li><a href="#"><div className={styles.loginBox}>Login</div></a></li>
+                        <li><a href={ROUTES.SIGNIN}><div className={styles.loginBox}>Login</div></a></li>
                     </ul>
                 </nav>
             </header>

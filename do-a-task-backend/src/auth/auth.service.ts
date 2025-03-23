@@ -88,7 +88,6 @@ export class AuthService{
      * - Returns the generated access token.
      */
     async sighin(dto: AuthDtoSignin, response: Response){
-        //find the user
         const user = await this.prisma.user.findUnique({
             where: {
                 email: dto.email
@@ -110,7 +109,6 @@ export class AuthService{
             httpOnly: true,
         });
 
-        
         return {
             acessToken,
             message: "User Signed In successfully"

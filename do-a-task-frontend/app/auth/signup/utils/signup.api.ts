@@ -1,3 +1,5 @@
+"use server"
+
 import {SignUpSchema} from '@/app/auth/schema/signup-form-schema';
 
 export async function SignupUser(data: SignUpSchema) {
@@ -14,7 +16,7 @@ export async function SignupUser(data: SignUpSchema) {
         if (!response.ok) {
             const errorData = await response.json();
             console.log('Backend Error:', errorData); // Log the full error response
-            throw errorData;
+            throw new Error(errorData.message || 'An unexpected error occurred');
         }
         return response.json();
     } catch (error) {

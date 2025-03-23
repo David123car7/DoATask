@@ -7,6 +7,8 @@ import { SigninUser} from './utils/signin.api'
 import { useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
+import { ROUTES } from "@/constants/links"
+import { useRouter } from 'next/navigation';
 
 export default function SignInForm() {
   const {
@@ -19,16 +21,14 @@ export default function SignInForm() {
   });
   
   const [successMessage, setSuccessMessage] = useState('');
-
+  const router = useRouter(); // Initialize router from next/navigation
+  
   const onSubmit = async (data: SignInSchema) => {
     try {
       setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
       const responseData = await SigninUser(data);
-      console.log('Success:', responseData.message);
       setSuccessMessage(responseData.message);
     } catch (error: any) {
-      console.error('Error signing up:', error);
-
       if (error.field) {
         setError(error.field, { type: 'manual', message: error.message });
       } else {
@@ -48,7 +48,7 @@ export default function SignInForm() {
                 <li><a href="#">Sobre</a></li>
                 <li><a href="#">Criadores</a></li>
                 <li><a href="#">Conta</a></li>
-                <li><a href="#"><div className={styles.loginBox}>Login</div></a></li>
+                <li><a href={ROUTES.SIGNUP}><div className={styles.loginBox}>Registar</div></a></li>
             </ul>
         </nav>
     </header>
@@ -75,9 +75,9 @@ export default function SignInForm() {
                             {errors.password && <p className="error_message">{errors.password.message}</p>}
                         </div>
                             <button type="submit" className={styles.submitButton}>Submeter</button>
-
-                        {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
-                        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                            
+                            {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
+                            {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
                     </form>
                   </div>    
             </div>
