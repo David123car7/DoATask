@@ -72,12 +72,9 @@ export default function SignUpForm() {
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="contact" className={styles.label}>Contacto</label>
-                            <input type="text" id="contact" className={styles.input} />{/*Tornar Opcional */}
+                            <input type="number" id="name" className={styles.input}  {...register('contactNumber', { setValueAs: (value) => Number(value) || 0 })}/>
+                            {errors.contactNumber && <p className={styles.error_message}>{errors.contactNumber.message}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label htmlFor="localidade" className={styles.label}>Localidade</label>
-                            <input type="text" id="localidade" className={styles.input} />{/*Tornar Opcional */}
-                        </div>  
                         <div className={styles.inputGroup}>
                             <label htmlFor="email" className={styles.label}>Email</label>
                             <input type="email" id="email" className={styles.input} {...register('email')} />

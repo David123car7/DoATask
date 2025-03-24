@@ -19,6 +19,12 @@ export class AuthService{
         const hash = await argon.hash(dto.password);
 
         try{
+            const contact = await this.prisma.contact.create({
+                data:{
+                    number: dto.contactNumber,
+                },
+            });
+
             //save the new user in the db
             const user = await this.prisma.user.create({
                 data: {
@@ -30,6 +36,7 @@ export class AuthService{
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     totalCoins: 0,
+                    contactId: contact.id
                 }, 
             });
 

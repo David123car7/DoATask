@@ -1,4 +1,4 @@
-import { IsDate, IsDateString, IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class AuthDtoSignup{
     @IsString()
@@ -7,7 +7,11 @@ export class AuthDtoSignup{
 
     @IsDateString()
     @IsNotEmpty()
-    birthDate
+    birthDate: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    contactNumber: number
 
     @IsEmail()
     @IsNotEmpty()
