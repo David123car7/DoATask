@@ -1,7 +1,7 @@
 import { z } from 'zod'; 
 
 const contactSchema = z.object({
-    number: z.number()
+    number: z.string().min(9).max(9),
   });
   
   export const userDataSchema = z.object({

@@ -45,6 +45,7 @@ export default function SignInForm() {
         </div>
         <nav>
             <ul>
+                <li><a href={ROUTES.HOME}>Home</a></li>
                 <li><a href="#">Sobre</a></li>
                 <li><a href="#">Criadores</a></li>
                 <li><a href="#">Conta</a></li>

@@ -9,9 +9,9 @@ export class AuthDtoSignup{
     @IsNotEmpty()
     birthDate: string;
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    contactNumber: number
+    contactNumber: string
 
     @IsEmail()
     @IsNotEmpty()

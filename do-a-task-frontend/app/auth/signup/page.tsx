@@ -45,6 +45,7 @@ export default function SignUpForm() {
                 </div>
                 <nav>
                     <ul>
+                      <li><a href={ROUTES.HOME}>Home</a></li>
                         <li><a href="#">Sobre</a></li>
                         <li><a href="#">Criadores</a></li>
                         <li><a href="#">Conta</a></li>
@@ -72,7 +73,7 @@ export default function SignUpForm() {
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="contact" className={styles.label}>Contacto</label>
-                            <input type="number" id="name" className={styles.input}  {...register('contactNumber', { setValueAs: (value) => Number(value) || 0 })}/>
+                            <input type="text" id="name" className={styles.input}  {...register('contactNumber')}/>
                             {errors.contactNumber && <p className={styles.error_message}>{errors.contactNumber.message}</p>}
                         </div>
                         <div className={styles.inputGroup}>

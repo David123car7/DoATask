@@ -68,7 +68,7 @@ model Address {
 
 model Contact {
   id     Int      @id @default(autoincrement())
-  number Int
+  number String
   users User[]
 }
 

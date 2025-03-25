@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { GetUserData } from "./utils/userMain.api";
 import { z } from "zod";
 import { userDataSchema, UserDataSchema } from "../schema/user-data-schema";
+import { ROUTES } from "@/constants/links"
 
 export default function UserMainPage() {
     const [data, setData] = useState<UserDataSchema | null>(null);
@@ -46,14 +47,13 @@ export default function UserMainPage() {
 
     return (
         <div className="page">
-            {/* Header remains the same */}
             <header>
                 <h1 className="logo_title">DOATASK</h1>
                 <nav>
                     <ul>
-                        <li><Link href="#">Sobre</Link></li>
-                        <li><Link href="#">Criadores</Link></li>
-                        <li><Link href="#">Tarefas</Link></li>
+                    <li><a href={ROUTES.HOME}>Home</a></li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Criadores</a></li>
                     </ul>
                 </nav>
             </header>
