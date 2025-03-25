@@ -1,7 +1,8 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Res} from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Post, Res, Get, Session, Req} from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthDtoSignup, AuthDtoSignin} from "./dto";
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { LOADIPHLPAPI } from "dns";
 
 @Controller("auth")
 export class AuthController{
@@ -14,8 +15,16 @@ export class AuthController{
 
     @HttpCode(HttpStatus.OK)
     @Post("signin")
-    sighin(@Body() dto: AuthDtoSignin, @Res({ passthrough: true }) response: Response)
+    sighin(@Body() dto: AuthDtoSignin, @Res({ passthrough: true }) response: Response, @Req() req: Request)
     {
-        return this.authService.sighin(dto, response);
+        return this.authService.sighin(dto, response, req);
     }
+
+    @Get('')
+    async getAuthSession(@Session() session: Record<string, any>){
+        console.log(session.user);
+        console.log(session.id);
+        return session.user;
+    }
+    
 }

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 import { ROUTES } from "@/constants/links"
-import { useRouter } from 'next/navigation';
+import {useRouter } from 'next/navigation';
 
 export default function SignInForm() {
   const {
@@ -28,6 +28,7 @@ export default function SignInForm() {
       setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
       const responseData = await SigninUser(data);
       setSuccessMessage(responseData.message);
+      router.push(ROUTES.CREATETASK)
     } catch (error: any) {
       if (error.field) {
         setError(error.field, { type: 'manual', message: error.message });
