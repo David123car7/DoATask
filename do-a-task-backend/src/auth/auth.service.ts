@@ -5,9 +5,8 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthDtoSignup, AuthDtoSignin } from "./dto";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ConfigService } from "@nestjs/config";
-import { Response, Request} from 'express';
+import { Response } from 'express';
 import { Console } from "console";
-import { session } from "passport";
 
 @Injectable({})
 export class AuthService{
@@ -95,7 +94,7 @@ export class AuthService{
      * - Sets the token as an HTTP-only secure cookie.
      * - Returns the generated access token.
      */
-    async sighin(dto: AuthDtoSignin, response: Response, req: Request){
+    async sighin(dto: AuthDtoSignin, response: Response){
         const user = await this.prisma.user.findUnique({
             where: {
                 email: dto.email
@@ -112,11 +111,10 @@ export class AuthService{
 
         const acessToken = await this.signToken(user.id, user.email);  
 
-        req.cookies.name = "Authentication"
-        req.session.user = {
-            id: user.id,
-            email: user.email,
-        };
+        response.cookie('Authentication', acessToken, {
+            secure: true,
+            httpOnly: true,
+        });
 
         return {
             acessToken,
