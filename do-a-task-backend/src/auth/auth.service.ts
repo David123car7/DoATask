@@ -1,10 +1,7 @@
-
 import {Injectable } from "@nestjs/common";
 import { AuthDtoSignup, AuthDtoSignin } from "./dto";
 import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
-import { ConfigService } from "@nestjs/config";
-
 
 @Injectable({})
 export class AuthService{

@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { PassportStrategy } from '@nestjs/passport'
-import { ExtractJwt, Strategy } from 'passport-jwt'
-import { ConfigService } from '@nestjs/config'
+import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(Strategy) {
@@ -10,14 +10,12 @@ export class SupabaseStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET'),
-    })
+    });
   }
 
-  async validate(payload: any): Promise<any> {
-    return payload
-  }
-
-  authenticate(req) {
-    super.authenticate(req)
+  async validate(payload: any) {
+    console.log('JWT Payload:', payload);
+    // Optionally, add more debug checks here.
+    return { userId: payload.id };
   }
 }
