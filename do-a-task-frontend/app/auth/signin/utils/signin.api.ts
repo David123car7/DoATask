@@ -1,5 +1,3 @@
-"use server";
-
 import {SignInSchema} from '@/app/auth/schema/signin-form-schema';
 
 export async function SigninUser(data: SignInSchema) {
@@ -10,8 +8,8 @@ export async function SigninUser(data: SignInSchema) {
             headers: {
             'Content-Type': 'application/json',
             },
-            credentials: 'include', 
             body: JSON.stringify(data),
+            credentials: 'include', 
         });
 
         if (!response.ok) {

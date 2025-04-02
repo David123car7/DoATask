@@ -2,9 +2,10 @@
 
 import styles from './page.module.css';
 import Image from 'next/image';
-import { ROUTES } from "@/constants/links"
+import { ROUTES } from "../lib/constants/routes"
 
-export default function SignInForm() {
+export default function Home() {
+  
   return (
     <div className="page-auth">
     <header>

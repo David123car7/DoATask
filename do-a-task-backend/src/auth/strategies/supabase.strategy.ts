@@ -15,7 +15,6 @@ export class SupabaseStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     console.log('JWT Payload:', payload);
-    // Optionally, add more debug checks here.
     return { userId: payload.id };
   }
 }
