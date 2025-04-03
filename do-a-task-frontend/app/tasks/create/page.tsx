@@ -17,7 +17,7 @@ export default function PublishTask() {
     phone: "",
   });
 
-  const handleImageUpload = (
+  /*const handleImageUpload = (
     index: number,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -27,7 +27,7 @@ export default function PublishTask() {
       newImages[index] = URL.createObjectURL(files[0]); // Temporary preview
       setFormData({ ...formData, images: newImages });
     }
-  };
+  };*/
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,7 +140,7 @@ export default function PublishTask() {
                         type="file"
                         style={{ display: "none" }}
                         accept="image/*"
-                        onChange={(e) => handleImageUpload(index, e)}
+                        //onChange={(e) => handleImageUpload(index, e)}
                       />
                     </label>
                   )}

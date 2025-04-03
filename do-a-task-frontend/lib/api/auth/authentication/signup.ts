@@ -11,11 +11,12 @@ export async function SignupUser(data: SignUpSchema) {
             'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
+            credentials: 'include', 
         });
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.log('Backend Error:', errorData); // Log the full error response
+            console.log('Backend Error:', errorData); 
             throw new Error(errorData.message || 'An unexpected error occurred');
         }
         return response.json();

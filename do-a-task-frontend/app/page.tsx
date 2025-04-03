@@ -1,11 +1,14 @@
-'use client'; // Mark this as a Client Component
+"use server"
 
 import styles from './page.module.css';
 import Image from 'next/image';
-import { ROUTES } from "../lib/constants/routes"
+import { ROUTES, API_ROUTES} from "../lib/constants/routes"
+import { GetUser } from '../lib/utils/user/get-user'
+import { SignoutPage } from '../components/authentication/signout';
 
-export default function Home() {
-  
+export default async function Home() {
+  const data = await GetUser()
+
   return (
     <div className="page-auth">
     <header>
@@ -17,7 +20,17 @@ export default function Home() {
                 <li><a href="#">Sobre</a></li>
                 <li><a href="#">Criadores</a></li>
                 <li><a href="#">Conta</a></li>
-                <li><a href={ROUTES.SIGNIN}><div className={styles.loginBox}>Login</div></a></li>
+                {!data ? (
+                  <li>
+                      <a href={ROUTES.SIGNIN}>
+                        <div className={styles.loginBox}>Login</div>
+                      </a>
+                    </li>
+                ) : (
+                  <a href={"#"}>
+                      <div className={styles.loginBox}>Signout</div>
+                    </a>
+                )}
             </ul>
         </nav>
     </header>
@@ -46,8 +59,6 @@ export default function Home() {
             </div>
           
         </footer>
-
-   
 </div>
 );
 }

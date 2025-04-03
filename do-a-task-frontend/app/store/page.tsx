@@ -3,7 +3,7 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import Pagination from "../paginaçao";
-import { getStoreItems } from "./utils/store.api";
+import { getStoreItems } from "../../lib/api/store/get-items";
 
 
 /*type StoreProps = {

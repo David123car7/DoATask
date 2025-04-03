@@ -1,13 +1,14 @@
 export const ROUTES = {
   HOME: '/',
-  HOME_AUTHENTICATED: '/home',
   SIGNIN: '/auth/signin',
   SIGNUP: '/auth/signup',
-  MESSAGE: '/message' //just for testing
+  PRIVATE: '/private' //just for testing
+};
+
+export const API_ROUTES = {
+  SIGNOUT: '/lib/api/auth/authentication/signout',
 };
 
 export const PROTECTED_ROUTES = new Set([
-  '/home',
   '/auth/test',
-  '/message'
 ]);

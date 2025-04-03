@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import styles from './page.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GetUserData } from "./utils/userMain.api";
+import { GetUserData } from "../../../lib/api/user/get-user-data";
 import { z } from "zod";
 import { userDataSchema, UserDataSchema } from "../schema/user-data-schema";
-import { ROUTES } from "@/constants/links"
+import { ROUTES } from "../../../lib/constants/routes"
 
 export default function UserMainPage() {
     const [data, setData] = useState<UserDataSchema | null>(null);

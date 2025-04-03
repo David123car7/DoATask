@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type SignInSchema } from '../schema/signin-form-schema';
-import { SigninUser} from './utils/signin.api'
+import { SigninUser} from '../../../lib/api/auth/authentication/signin'
 import { useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
@@ -28,7 +28,7 @@ export default function SignInForm() {
       setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
       const responseData = await SigninUser(data);
       setSuccessMessage(responseData.message);
-      router.push(ROUTES.HOME_AUTHENTICATED)
+      router.push(ROUTES.HOME)
     } catch (error: any) {
       if (error.field) {
         setError(error.field, { type: 'manual', message: error.message });

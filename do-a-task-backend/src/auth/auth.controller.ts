@@ -4,6 +4,7 @@ import { AuthService } from "./auth.service";
 import { AuthDtoSignup, AuthDtoSignin} from "./dto";
 import { JwtAuthGuard} from "./guard/jwt.auth.guard";
 import {RequestWithUser} from './types/jwt-payload.type'
+import {AUTH_COOKIES} from "../constants/auth/cookies";
 
 @Controller("auth")
 export class AuthController{
@@ -26,25 +27,39 @@ export class AuthController{
       };
     }
   
-    @UseGuards(JwtAuthGuard)
-    @Get("test")
-    hello(){
-        return "ola";
-    }
-
     @HttpCode(HttpStatus.OK)
     @Post("signin")
     async sighin(@Body() dto: AuthDtoSignin, @Res() res: Response)
     {
-        const loginData = await this.authService.sighin(dto);
+        const data = await this.authService.sighin(dto);
 
-        res.cookie('accessToken', loginData.session.access_token, {
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none', // Allows cross-origin cookies
-            path: '/', // Important!
-            maxAge: 60 * 60 * 1000, // 1 hour
+        res.cookie(AUTH_COOKIES.ACCESS_TOKEN, data.session.access_token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: data.session.expires_in * 1000,
+        });
+      
+        res.cookie(AUTH_COOKIES.REFRESH_TOKEN, data.session.refresh_token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
-        return res.json({ message: 'Signin successful', user: loginData.user, session: loginData.session});
+        return res.json({ message: 'Signin successful', user: data.user, session: data.session});
+    }
+
+    @Post('logout')
+    @UseGuards(JwtAuthGuard) 
+    async logout(@Res() res: Response) {
+      await this.authService.signout();
+      // Clear auth tokens in cookies
+      res.clearCookie(AUTH_COOKIES.ACCESS_TOKEN);
+      res.clearCookie(AUTH_COOKIES.REFRESH_TOKEN);
+      
+      return res.json({ message: 'Logged out successfully' });
     }
 }

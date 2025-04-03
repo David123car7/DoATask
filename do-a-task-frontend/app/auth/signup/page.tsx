@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type SignUpSchema } from '../schema/signup-form-schema';
-import { SignupUser} from './utils/signup.api'
+import { SignupUser} from '../../../lib/api/auth/authentication/signup'
 import { useState } from 'react';
 import styles from './page.module.css';
 import { ROUTES } from "../../../lib/constants/routes"

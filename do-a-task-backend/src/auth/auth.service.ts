@@ -76,4 +76,12 @@ export class AuthService{
             session: data.session,
         };
     }
+
+    async signout(){
+        const { error } = await this.supabaseService.supabase.auth.signOut();
+        if (error) {
+            throw new Error(`Signout error: ${error.message}`);
+        }
+        return { message: "Signout successful" };
+    }
 }
