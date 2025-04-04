@@ -3,11 +3,11 @@ import { IsDate, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString } from "c
 export class AuthDtoSignup{
     @IsString()
     @IsNotEmpty()
-    name: string
+    name: string;
 
     @IsDateString()
     @IsNotEmpty()
-    birthDate: string
+    birthDate: string;
 
     @IsString()
     @IsNotEmpty()
@@ -15,19 +15,19 @@ export class AuthDtoSignup{
 
     @IsEmail()
     @IsNotEmpty()
-    email: string
+    email: string;
 
     @IsString()
     @IsNotEmpty()
-    password: string
+    password: string;
 }
 
 export class AuthDtoSignin{
     @IsEmail()
     @IsNotEmpty()
-    email: string
+    email: string;
 
     @IsString()
     @IsNotEmpty()
-    password: string
+    password: string;
 }

@@ -90,10 +90,10 @@ model PostalCode {
 
 model Task {
   id         Int          @id @default(autoincrement())
-  title      String
-  difficulty String?
-  coins      String?
-  points     String?
+  title      String?
+  difficulty Int?
+  coins      Int?
+  points     Int?
   creator    Member       @relation(fields: [creatorId], references: [id], name: "MemberTasks")
   members    MemberTask[]
 
@@ -102,10 +102,9 @@ model Task {
 
 model MemberTask {
   id          Int       @id @default(autoincrement())
-  status      String
-  assignedAt  DateTime
+  status      String?
+  assignedAt  DateTime?
   completedAt DateTime?
-  score       Int
   volunteer   Member    @relation(fields: [volunteerId], references: [id])
   task        Task      @relation(fields: [taskId], references: [id])
 
