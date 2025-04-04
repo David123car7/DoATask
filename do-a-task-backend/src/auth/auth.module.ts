@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { SupabaseModule } from 'src/supabase/supabase.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { SupabaseStrategy } from './strategies/supabase.strategy';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { SupabaseService } from 'src/supabase/supabase.service';
 
 @Module({
     imports: [
@@ -25,10 +25,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
           inject: [ConfigService],
         }),
         SupabaseModule,
-        PrismaModule,
+         PrismaModule,
     ],
     controllers: [AuthController],
-    providers: [AuthService, JwtAuthGuard, SupabaseStrategy, PrismaService],
+    providers: [AuthService, JwtAuthGuard, SupabaseStrategy],
     exports: [JwtAuthGuard, JwtModule]
 })
 export class AuthModule {}
