@@ -1,5 +1,4 @@
-export class SessionService {
-  static async verifySession(authToken: string | null){
+export async function verifySession(authToken: string | null){
     if (!authToken) {
       return { valid: false, error: 'NO_TOKEN' };
     }
@@ -30,4 +29,3 @@ export class SessionService {
       };
     }
   }
-}
