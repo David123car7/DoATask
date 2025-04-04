@@ -77,6 +77,15 @@ export class AuthService{
         };
     }
 
+    
+    async refreshSession(refreshToken: string){
+        const { data, error } = await this.supabaseService.supabase.auth.refreshSession({refresh_token: refreshToken,});
+        if (error) {
+            throw new Error(`Signout error: ${error.message}`);
+        }
+        return { user: data.user, session: data.session, };
+    }
+
     async signout(){
         const { error } = await this.supabaseService.supabase.auth.signOut();
         if (error) {
