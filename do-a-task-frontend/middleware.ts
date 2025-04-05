@@ -1,13 +1,9 @@
 // src/app/middleware.ts
 import { NextResponse, type NextRequest } from 'next/server';
 import { ROUTES, PROTECTED_ROUTES } from "./lib/constants/routes"
-import {verifySession} from './lib/api/auth/session/veryfy-session';
+import {verifySession, refreshSession} from './lib/api/auth/session/index';
+import { SetCookies, GetCookies, DeleteCookies} from './lib/utils/cookies/index';
 
-import { AUTH_COOKIES, ACESS_TOKEN_OPTIONS} from './lib/constants/auth/cookies';
-import { refreshSession } from './lib/api/auth/session/refresh-session';
-import { GetCookies } from './lib/utils/cookies/get.cookies';
-import { SetCookies } from './lib/utils/cookies/set.cookies';
-import { set } from 'zod';
 //https://nextjs.org/docs/app/building-your-application/routing/middleware#matching-paths <-- To do here
 
 export async function middleware(request: NextRequest) {
@@ -22,10 +18,14 @@ export async function middleware(request: NextRequest) {
   if(!accessToken && refreshToken) {
     try{
       const setCookies = new SetCookies()
+      const deleteCookies = new DeleteCookies()
       const response = NextResponse.next();
       const data = await refreshSession(refreshToken);
-      console.log("New Access Token:", data.session.access_token);
-      console.log("New Refresh Token:", data.session.refresh_token);
+      if (!data.session) {
+        console.error('No session returned from refreshSession:', data);
+        deleteCookies.deleteRefreshCookie(response, refreshToken);
+        return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
+      }
       await setCookies.setAuthCookie(response, data.session.access_token);
       await setCookies.setRefreshCookie(response, data.session.refresh_token);
       return response;

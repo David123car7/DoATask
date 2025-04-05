@@ -4,11 +4,12 @@ import { AuthService } from "./auth.service";
 import { AuthDtoSignup, AuthDtoSignin} from "./dto";
 import { JwtAuthGuard} from "./guard/jwt.auth.guard";
 import {RequestWithUser} from './types/jwt-payload.type'
-import {AUTH_COOKIES} from "../constants/auth/cookies";
+import {AUTH_COOKIES} from "../lib/constants/auth/cookies";
+import { SetAuthCookies } from "./cookies/set.cookies";
 
 @Controller("auth")
 export class AuthController{
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private setCookies: SetAuthCookies) {}
 
     @Post("signup")
     signup(@Body() dto: AuthDtoSignup){
@@ -33,22 +34,8 @@ export class AuthController{
     {
         const data = await this.authService.sighin(dto);
 
-        res.cookie(AUTH_COOKIES.ACCESS_TOKEN, data.session.access_token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          path: '/',
-          maxAge: 10 * 1000, // 10 seconds
-          //maxAge: data.session.expires_in * 1000,
-        });
-      
-        res.cookie(AUTH_COOKIES.REFRESH_TOKEN, data.session.refresh_token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          path: '/',
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
+        this.setCookies.setAuthCookie(res, data.session.access_token);
+        this.setCookies.setRefreshCookie(res, data.session.refresh_token);
 
         console.log("AcessToken SignIN: ",data.session.access_token);
         console.log("RefreshToken: SignIN",data.session.refresh_token);
@@ -71,21 +58,9 @@ export class AuthController{
     async refreshSession(@Body("refreshToken") refreshToken: string, @Res() res: Response,){
       const data = await this.authService.refreshSession(refreshToken);
 
-      res.cookie(AUTH_COOKIES.ACCESS_TOKEN, data.session.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 10 * 1000, // 10 seconds in milliseconds
-      });
-    
-      res.cookie(AUTH_COOKIES.REFRESH_TOKEN, data.session.refresh_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 1 * 60 * 60 * 1000, // 1 hour in milliseconds
-      });
+      this.setCookies.setAuthCookie(res, data.session.access_token);
+      this.setCookies.setRefreshCookie(res, data.session.refresh_token);
+
       console.log("AcessToken Refresh: ",data.session.access_token);
       console.log("RefreshToken Refresh: ",data.session.refresh_token);
 
