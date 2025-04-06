@@ -2,14 +2,14 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { ROUTES, PROTECTED_ROUTES } from "./lib/constants/routes"
 import {verifySession, refreshSession} from './lib/api/auth/session/index';
-import { SetCookies, GetCookies, DeleteCookies} from './lib/utils/cookies/index';
+import { setRefreshCookie, setAccessCookie, getCookie, deleteAuthCookie} from './lib/utils/cookies/auth/index';
+import { AUTH_COOKIES } from './lib/constants/auth/cookies';
 
 //https://nextjs.org/docs/app/building-your-application/routing/middleware#matching-paths <-- To do here
 
 export async function middleware(request: NextRequest) {
-  const getCookies = new GetCookies()
-  const accessToken = await getCookies.getAuthCookie(request);
-  const refreshToken = await getCookies.getRefreshCookie(request);
+  const accessToken = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
+  const refreshToken = await getCookie(AUTH_COOKIES.REFRESH_TOKEN);
   const isProtectedRoute = PROTECTED_ROUTES.has(request.nextUrl.pathname);
   console.log('Access Token:', accessToken); 
   console.log('Refresh Token:', refreshToken); 
@@ -17,21 +17,18 @@ export async function middleware(request: NextRequest) {
 
   if(!accessToken && refreshToken) {
     try{
-      const setCookies = new SetCookies()
-      const deleteCookies = new DeleteCookies()
-      const response = NextResponse.next();
       const data = await refreshSession(refreshToken);
       if (!data.session) {
-        console.error('No session returned from refreshSession:', data);
-        deleteCookies.deleteRefreshCookie(response, refreshToken);
+        console.error('No session returned from refreshSession');
+        await deleteAuthCookie(AUTH_COOKIES.REFRESH_TOKEN);
         return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
       }
-      await setCookies.setAuthCookie(response, data.session.access_token);
-      await setCookies.setRefreshCookie(response, data.session.refresh_token);
-      return response;
+      await setAccessCookie(data.session.access_token);
+      await setRefreshCookie(data.session.refresh_token);
+      return NextResponse.redirect(request.nextUrl);
     }
     catch (error) {
-      console.error('Error refreshing session:', error);
+      throw new Error(typeof error === 'string' ? error : 'An unknown error occurred');
     }
   }
 

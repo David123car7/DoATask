@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "../server"
-import {checkAuthCookie} from "@/lib/utils/cookies/check.cookie"
+import {checkAuthCookie} from "@/lib/utils/cookies/auth/check.cookie"
 
 
 export async function GetUser(){
@@ -12,9 +12,13 @@ export async function GetUser(){
     }
     const supabase = await createClient()
     const {error, data} = await supabase.auth.getUser()
-    if(error) {
-        throw error;
-    }
+    if (error) {
+        if (error.message.includes("Auth session missing")) {
+          console.log(error.message);
+          return null;
+        }
+        throw error; 
+      }
     if(!data?.user) {
         return null; //the token is invalid, so the user is not authenticated
     }

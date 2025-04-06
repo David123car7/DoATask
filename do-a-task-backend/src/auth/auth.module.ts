@@ -10,6 +10,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { SupabaseStrategy } from './strategies/supabase.strategy';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SetAuthCookies } from './cookies/set.cookies';
+import { DeleteAuthCookies } from './cookies/delete.cookies';
 
 @Module({
     imports: [
@@ -29,7 +30,7 @@ import { SetAuthCookies } from './cookies/set.cookies';
         PrismaModule,
     ],
     controllers: [AuthController],
-    providers: [AuthService, JwtAuthGuard, SupabaseStrategy, PrismaService, SetAuthCookies],
+    providers: [AuthService, JwtAuthGuard, SupabaseStrategy, PrismaService, SetAuthCookies, DeleteAuthCookies],
     exports: [JwtAuthGuard, JwtModule]
 })
 export class AuthModule {}

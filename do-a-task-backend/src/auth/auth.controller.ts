@@ -5,11 +5,17 @@ import { AuthDtoSignup, AuthDtoSignin} from "./dto";
 import { JwtAuthGuard} from "./guard/jwt.auth.guard";
 import {RequestWithUser} from './types/jwt-payload.type'
 import {AUTH_COOKIES} from "../lib/constants/auth/cookies";
-import { SetAuthCookies } from "./cookies/set.cookies";
+import { SetAuthCookies, DeleteAuthCookies} from "./cookies";
 
 @Controller("auth")
 export class AuthController{
-    constructor(private authService: AuthService, private setCookies: SetAuthCookies) {}
+    constructor(private authService: AuthService, private setCookies: SetAuthCookies, private deleteCookies: DeleteAuthCookies) {}
+
+    @Post("test")
+    @UseGuards(JwtAuthGuard)
+    test(){
+        return { message: "Hello from auth controller" };
+    }
 
     @Post("signup")
     signup(@Body() dto: AuthDtoSignup){
@@ -37,33 +43,32 @@ export class AuthController{
         this.setCookies.setAuthCookie(res, data.session.access_token);
         this.setCookies.setRefreshCookie(res, data.session.refresh_token);
 
-        console.log("AcessToken SignIN: ",data.session.access_token);
-        console.log("RefreshToken: SignIN",data.session.refresh_token);
-
         return res.json({ message: 'Signin successful', user: data.user, session: data.session});
     }
 
-    @Post('logout')
-    @UseGuards(JwtAuthGuard) 
+    @UseGuards(JwtAuthGuard)
+    @Post('signout')
     async logout(@Res() res: Response) {
-      await this.authService.signout();
-      // Clear auth tokens in cookies
-      res.clearCookie(AUTH_COOKIES.ACCESS_TOKEN);
-      res.clearCookie(AUTH_COOKIES.REFRESH_TOKEN);
-      
-      return res.json({ message: 'Logged out successfully' });
+      try {
+        await this.authService.signout();
+        return res.json({ message: 'Logged out successfully' });
+      } catch (error) {
+        throw new Error(error.message);
+      }
     }
 
     @Post('refreshSession')
     async refreshSession(@Body("refreshToken") refreshToken: string, @Res() res: Response,){
-      const data = await this.authService.refreshSession(refreshToken);
-
-      this.setCookies.setAuthCookie(res, data.session.access_token);
-      this.setCookies.setRefreshCookie(res, data.session.refresh_token);
-
-      console.log("AcessToken Refresh: ",data.session.access_token);
-      console.log("RefreshToken Refresh: ",data.session.refresh_token);
-
-      return res.json({ session: data.session});
+      try{
+        const data = await this.authService.refreshSession(refreshToken);
+        if(!data.error){
+          this.setCookies.setAuthCookie(res, data.session.access_token);
+          this.setCookies.setRefreshCookie(res, data.session.refresh_token);
+          return res.json({ session: data.session});
+        }
+      }
+      catch(error){
+        throw new Error(error.message);
+      }
     }
 }
