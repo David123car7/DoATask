@@ -6,7 +6,7 @@ export const ROUTES = {
 };
 
 export const API_ROUTES = {
-  SIGNOUT: '/lib/api/auth/authentication/signout',
+  SIGNOUT: '/auth/signout',
 };
 
 export const PROTECTED_ROUTES = new Set([

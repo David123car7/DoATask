@@ -1,16 +1,22 @@
 "use server"
 
+import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
+import { getCookie, deleteAuthCookie} from "@/lib/utils/cookies/auth/index";
+
 export async function SignoutUser() {
     try {
-        // Send the data to the backend
+        const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
+        if(!access_token)
+            throw new Error("Access token not found");
+        
+        
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signout`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${access_token}`,
             },
-            credentials: 'include', 
         });
-
         if (!response.ok) {
             const errorData = await response.json();
             console.log('Backend Error:', errorData); 

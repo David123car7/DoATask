@@ -3,8 +3,9 @@
 import styles from './page.module.css';
 import Image from 'next/image';
 import { ROUTES, API_ROUTES} from "../lib/constants/routes"
-import { GetUser } from '../lib/utils/user/get-user'
-import { SignoutPage } from '../components/authentication/signout';
+import { GetUser } from '../lib/utils/supabase/user/get-user'
+import {NextRequest } from 'next/server';
+
 
 export default async function Home() {
   const data = await GetUser()
@@ -27,7 +28,7 @@ export default async function Home() {
                       </a>
                     </li>
                 ) : (
-                  <a href={"#"}>
+                  <a href={API_ROUTES.SIGNOUT}>
                       <div className={styles.loginBox}>Signout</div>
                     </a>
                 )}

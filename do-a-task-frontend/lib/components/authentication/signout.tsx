@@ -1,8 +1,8 @@
 "use server"
 
-import { SignoutUser } from "../../lib/api/auth/authentication/signout";
+import { SignoutUser } from "../../api/auth/authentication/signout";
 import { NextResponse } from 'next/server';
-import { ROUTES } from "../../lib/constants/routes";
+import { ROUTES } from "../../constants/routes";
 
 
 export async function SignoutPage(){
