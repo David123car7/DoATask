@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { SupabaseService } from "src/supabase/supabase.service";
 import { CreateTasksDto } from "./dto/tasks.dto";
-import { baseReward } from "src/utils/tasks.constants";
+import { baseReward } from "src/lib/constants/tasks/tasks.constants";
 import { EvaluateTaskDto } from "./dto/tasks.dto";
-import e from "express";
-import { calculateReward } from "src/utils/reward-calculation";
+
+
 
 @Injectable({})
 export class TasksService{
@@ -16,8 +16,7 @@ export class TasksService{
         if (!['easy', 'medium', 'hard'].includes(dto.difficulty)) {
             throw new Error('Dificuldade inválida.');
         }
-        console.log("Kazzio"); // Logar o criador
-        // Calcular a recompensa com base na dificuldade
+        
         const reward = baseReward[dto.difficulty];
     
         if (!reward) {
@@ -160,7 +159,7 @@ export class TasksService{
             throw new Error('Não foi possível calcular as recompensas. Verifique a dificuldade.');
         }
     
-        const { totalCoins, totalPoints } = calculateReward(volunteerTask.task.difficulty, 5);
+        const { totalCoins, totalPoints } = this.calculateReward(volunteerTask.task.difficulty, 5);
     
         // Atualiza as moedas do voluntário
         const updatedCoins = await this.prisma.member.update({
@@ -219,7 +218,30 @@ export class TasksService{
     }
     
 
+
+    private  calculateReward(
+        difficulty: string,
+        score: number,
+    ){
+    
+    
+        const diff = difficulty.toLowerCase();
+        const reward = baseReward[diff] || {coins: 5, points:10}; // Default reward if difficulty is not recognized
+    
+        const performanceFactor = (score -1) /4;
+        const bonusMultiplier = 0.2; // 20% bonus for performance
+    
+        const bonusCoins = performanceFactor * bonusMultiplier * reward.coins;
+        const bonusPoints = performanceFactor * bonusMultiplier * reward.points;
+    
+        return {
+            totalCoins : reward.coins + bonusCoins,
+            totalPoints : reward.points + bonusPoints,
+        };
+    }
 /*
+
+
     //  FAlTA  TESTAR  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //  Volunteer is responsible for ending the task
     async endingTaskVolunteer(dto : EndingTasksDto/*, memberTaskId: number){
@@ -283,3 +305,4 @@ export class TasksService{
         return task;
     }*/
 }
+
