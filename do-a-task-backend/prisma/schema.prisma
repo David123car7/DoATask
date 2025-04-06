@@ -10,45 +10,56 @@ datasource db {
 
 model Member {
   id           Int            @id @default(autoincrement())
-  user         User           @relation(fields: [userId], references: [id])
+  userId       Int
+  addressId    Int
+  communityId  Int
+  tasks        MemberTask[]
+  points       PointsMember[]
+  purchases    Purchase[]
+  createdTasks Task[]         @relation("MemberTasks")
   address      Address        @relation(fields: [addressId], references: [id])
   community    Community      @relation(fields: [communityId], references: [id])
-  tasks        MemberTask[]
-  purchases    Purchase[]
-  points       PointsMember[]
-  createdTasks Task[]         @relation("MemberTasks")
-
-  userId      Int
-  addressId   Int
-  communityId Int
+  user         User           @relation(fields: [userId], references: [id])
 
   @@map("member")
 }
 
 model User {
   id              Int             @id @default(autoincrement())
+  email           String          @unique @default("default@example.com")
   createdAt       DateTime
   updatedAt       DateTime
   name            String
   birthDate       DateTime
   totalCoins      Int
-  contact      Contact       @relation(fields: [contactId], references: [id])
-  members         Member[]
+  contactId       Int
   userCommunities UserCommunity[]
+  members         Member[]
+  contact         Contact         @relation(fields: [contactId], references: [id])
 
-  contactId   Int
   @@map("user")
+  Notification Notification[]
 }
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  title       String
+  message     String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  recipientId Int
+  recipient   User     @relation(fields: [recipientId], references: [id])
+}
+
 
 model Community {
   id              Int             @id @default(autoincrement())
   name            String?
+  localityId      Int
   locality        Locality        @relation(fields: [localityId], references: [id])
-  members         Member[]
-  userCommunities UserCommunity[]
   stores          Store[]
-
-  localityId Int
+  userCommunities UserCommunity[]
+  members         Member[]
 }
 
 model Locality {
@@ -66,38 +77,35 @@ model Address {
 }
 
 model Contact {
-  id     Int      @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
   number String
-  users User[]
+  users  User[]
 }
 
 model Store {
-  id        Int         @id @default(autoincrement())
-  name      String
-  community Community   @relation(fields: [communityId], references: [id])
-  items     StoreItem[]
-
+  id          Int         @id @default(autoincrement())
+  name        String
   communityId Int
+  community   Community   @relation(fields: [communityId], references: [id])
+  items       StoreItem[]
 }
 
 model PostalCode {
   id           Int      @id @default(autoincrement())
   neighborhood String?
+  localityId   Int
   locality     Locality @relation(fields: [localityId], references: [id])
-
-  localityId Int
 }
 
 model Task {
   id         Int          @id @default(autoincrement())
   title      String
   difficulty String?
-  coins      String?
-  points     String?
-  creator    Member       @relation(fields: [creatorId], references: [id], name: "MemberTasks")
+  coins      Int?
+  points     Int?
+  creatorId  Int
   members    MemberTask[]
-
-  creatorId Int
+  creator    Member       @relation("MemberTasks", fields: [creatorId], references: [id])
 }
 
 model MemberTask {
@@ -105,66 +113,60 @@ model MemberTask {
   status      String
   assignedAt  DateTime
   completedAt DateTime?
-  score       Int
-  volunteer   Member    @relation(fields: [volunteerId], references: [id])
-  task        Task      @relation(fields: [taskId], references: [id])
-
   volunteerId Int
   taskId      Int
+  score       Int
+  task        Task      @relation(fields: [taskId], references: [id])
+  volunteer   Member    @relation(fields: [volunteerId], references: [id])
 }
 
 model Item {
   id            Int            @id @default(autoincrement())
   name          String?
   price         Int?
-  storeItems    StoreItem[]
   purchaseItems PurchaseItem[]
+  storeItems    StoreItem[]
 }
 
 model Purchase {
-  id         Int       @id @default(autoincrement())
-  member     Member    @relation(fields: [memberId], references: [id])
+  id         Int            @id @default(autoincrement())
   date       DateTime?
   totalPrice Int?
-
-  memberId Int
-  items    PurchaseItem[]
+  memberId   Int
+  member     Member         @relation(fields: [memberId], references: [id])
+  items      PurchaseItem[]
 }
 
 model StoreItem {
-  id    Int   @id @default(autoincrement())
-  store Store @relation(fields: [storeId], references: [id])
-  item  Item  @relation(fields: [itemId], references: [id])
-
+  id      Int   @id @default(autoincrement())
   storeId Int
   itemId  Int
+  item    Item  @relation(fields: [itemId], references: [id])
+  store   Store @relation(fields: [storeId], references: [id])
 }
 
 model PurchaseItem {
   id              Int      @id @default(autoincrement())
-  purchase        Purchase @relation(fields: [purchaseId], references: [id])
-  item            Item     @relation(fields: [itemId], references: [id])
   quantity        Int?
   priceAtPurchase Int?
-
-  purchaseId Int
-  itemId     Int
+  purchaseId      Int
+  itemId          Int
+  item            Item     @relation(fields: [itemId], references: [id])
+  purchase        Purchase @relation(fields: [purchaseId], references: [id])
 }
 
 model UserCommunity {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id])
-  community Community @relation(fields: [communityId], references: [id])
-  joinedAt  DateTime?
-
+  id          Int       @id @default(autoincrement())
+  joinedAt    DateTime?
   userId      Int
   communityId Int
+  community   Community @relation(fields: [communityId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model PointsMember {
-  id     Int    @id @default(autoincrement())
-  points Int?
-  member Member @relation(fields: [memberId], references: [id])
-
+  id       Int    @id @default(autoincrement())
+  points   Int?
   memberId Int
+  member   Member @relation(fields: [memberId], references: [id])
 }

@@ -1,50 +1,24 @@
-import { Value } from "@prisma/client/runtime/library";
-import { IsArray, IsDate, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
-import internal from "stream";
+
+import { Transform } from "class-transformer";
+import { IsInt, IsNotEmpty, IsString, Max, Min } from "class-validator";
+
 
 export class CreateTasksDto{
 
     @IsString()
     @IsNotEmpty()
-    tittle: string
-
-    /*@IsString()
-    @IsNotEmpty()
-    description: string*/
-
-    
-    /*@IsString()
-    @IsNotEmpty()
-    name: string
-
-    @IsEmail()
-    @IsNotEmpty()
-    email: string*/
-
-    /*@IsString()
-    @IsNotEmpty()
-    contactNumber: string*/
+    title: string
 
     @IsString()
     @IsNotEmpty()
-    difficulty: string
-
-    @IsString()
-    @IsNotEmpty()
-    coins: string
-
-    @IsString()
-    @IsNotEmpty()
-    points: string
+    difficulty: 'easy' | 'medium' | 'hard'
 }
 
-export class EndingTasksDto{
+export class EvaluateTaskDto{
 
-    @IsString()
-    @IsNotEmpty()
-    status: string
-
-    @IsNumber()
-    @IsNotEmpty()
-    score: number
+    @IsInt()
+    @Min(1)
+    @Max(5)
+    @Transform(({ value}) => parseInt(value, 10))
+    score: number;
 }

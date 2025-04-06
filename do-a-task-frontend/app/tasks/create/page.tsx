@@ -5,37 +5,43 @@ import { FaCoins, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
+import { createTaskSchema, type CreateTaskSchema } from "../schema/createTask-form-schema";
+import { title } from "process";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
+import { CreateTask } from "../../../lib/api/tasks/createTask"; // Import your API function
 
 export default function PublishTask() {
-  const [formData, setFormData] = useState({
-    title: "",
-    difficulty: "Easy",
-    images: [null, null, null],
-    description: "",
-    name: "",
-    email: "",
-    phone: "",
+
+  const{
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateTaskSchema>({
+    resolver: zodResolver(createTaskSchema), // Use Zod for validation
   });
 
-  /*const handleImageUpload = (
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = event.target.files;
-    if (files && files[0]) {
-      const newImages: (string | null)[] = [...formData.images];
-      newImages[index] = URL.createObjectURL(files[0]); // Temporary preview
-      setFormData({ ...formData, images: newImages });
-    }
-  };*/
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+  const onSubmit = async (data: CreateTaskSchema) => {
+    try {
+      setSuccessMessage('');
+      const responseData = await CreateTask(data);
+      setSuccessMessage('Task criada com sucesso!');
+      //router.push(ROUTES.HOME)///Trocar para a pagina inicial das tasks
+    }catch (error: any) {
+      if (error.field) {
+        setError(error.field, { type: 'manual', message: error.message });
+      } else {
+        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
+      }
+    }
   };
 
   return (
-    <div className="page-create-task">
+    <div className="page">
       <header>
         <div>
           <h1 className="logo_title">DOATASK</h1>
@@ -69,21 +75,14 @@ export default function PublishTask() {
       <div className={styles.formBox}>
         <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           {/* Title Input */}
           <div className={styles.inputGroup}>
             <label className={styles.label}>Título da tarefa</label>
-            <input
-              type="text"
-              className={styles.input}
-              placeholder="Escreva o título..."
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-            />
+            <input type= "text" {...register('title')} placeholder="titulo"/>
           </div>
           {/* Difficulty Dropdown */}
+          {/* 
           <div className={styles.inputGroup}>
             <label className={styles.label}>Dificuldade</label>
             <select
@@ -102,8 +101,10 @@ export default function PublishTask() {
               <option value="Hard">Difícil</option>
             </select>
           </div>
-          <br />
+          <br />*/}
           {/* Image Upload */}
+
+          {/* 
           <div className={styles.inputGroup}>
             <label className={styles.label}>Imagens</label>
             <div className={styles.container}>
@@ -147,21 +148,16 @@ export default function PublishTask() {
                 </div>
               ))}
             </div>
-          </div>
+          </div>*/}
           {/* Description */}
           <div className={styles.inputGroup}>
             <label className={styles.label}>Descrição</label>
-            <textarea
-              className={styles.input}
-              placeholder="Esta tarefa..."
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
+            <input type="text" {...register('difficulty')} />  
           </div>
+
+          {/*  
           <br /> <br />
-          {/* Contact Info */}
+          {/* Contact Info 
           <div className={styles.inputGroup}>
             <label className={styles.label}>Dados de contacto</label>
             <div className={styles.container}>
@@ -194,7 +190,7 @@ export default function PublishTask() {
               />
             </div>
           </div>
-          <br />
+          <br />*/}
           {/* Submit Button */}
           <button type="submit" className={styles.createButton}>
             Partilhar
