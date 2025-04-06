@@ -1,9 +1,10 @@
+import { HttpException, HttpStatus } from "@nestjs/common";
 import {Response} from "express";
 
 export class DeleteAuthCookies{
     async deleteCookie(res: Response, cookieName: string){
         if(!cookieName)
-            throw new Error("Cookie name is required to delete the cookie.");
+            throw new HttpException("Cookie name was not found", HttpStatus.BAD_REQUEST)
         res.clearCookie(cookieName)
         return res;
     }

@@ -1,11 +1,12 @@
 import { AUTH_COOKIES} from "../../lib/constants/auth/cookies";
 import {Response} from "express";
+import { HttpException, HttpStatus } from "@nestjs/common";
 //MUST ADD CHECKS BEFORE SETTING COOKIES TO AVOID PROBLEMS
 
 export class SetAuthCookies{
     async setAuthCookie(res: Response, acess_token: string){
         if(!acess_token)
-            throw new Error("Access token is required to set the cookie.");
+            throw new HttpException("Access token is required to set the cookie", HttpStatus.BAD_REQUEST)
           
         res.cookie(AUTH_COOKIES.ACCESS_TOKEN, acess_token, {
             httpOnly: true,
@@ -19,7 +20,7 @@ export class SetAuthCookies{
 
     async setRefreshCookie(res: Response, refresh_token: string){
         if(!refresh_token)
-            throw new Error("Refresh token is required to set the cookie.");
+            throw new HttpException("Refresh token is required to set the cookie", HttpStatus.BAD_REQUEST)
 
         res.cookie(AUTH_COOKIES.REFRESH_TOKEN, refresh_token, {
             httpOnly: true,

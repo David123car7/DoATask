@@ -11,14 +11,9 @@ import { SetAuthCookies, DeleteAuthCookies} from "./cookies";
 export class AuthController{
     constructor(private authService: AuthService, private setCookies: SetAuthCookies, private deleteCookies: DeleteAuthCookies) {}
 
-    @Post("test")
-    test(){
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    }
-
     @Post("signup")
     signup(@Body() dto: AuthDtoSignup){
-        return this.authService.signup(dto);
+      return this.authService.signup(dto);
     }
 
     @Post('verify')
@@ -37,37 +32,24 @@ export class AuthController{
     @Post("signin")
     async sighin(@Body() dto: AuthDtoSignin, @Res() res: Response)
     {
-        const data = await this.authService.sighin(dto);
-
-        this.setCookies.setAuthCookie(res, data.session.access_token);
-        this.setCookies.setRefreshCookie(res, data.session.refresh_token);
-
-        return res.json({ message: 'Signin successful', user: data.user, session: data.session});
+      const data = await this.authService.sighin(dto);
+      this.setCookies.setAuthCookie(res, data.session.access_token);
+      this.setCookies.setRefreshCookie(res, data.session.refresh_token);
+      return res.json({ message: 'Signin successful', user: data.user, session: data.session});
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('signout')
     async logout(@Res() res: Response) {
-      try {
-        await this.authService.signout();
-        return res.json({ message: 'Logged out successfully' });
-      } catch (error) {
-        throw new Error(error.message);
-      }
+      await this.authService.signout();
+      return res.json({ message: 'Logged out successfully' });
     }
 
     @Post('refreshSession')
     async refreshSession(@Body("refreshToken") refreshToken: string, @Res() res: Response,){
-      try{
-        const data = await this.authService.refreshSession(refreshToken);
-        if(!data.error){
-          this.setCookies.setAuthCookie(res, data.session.access_token);
-          this.setCookies.setRefreshCookie(res, data.session.refresh_token);
-          return res.json({ session: data.session});
-        }
-      }
-      catch(error){
-        throw new Error(error.message);
-      }
+      const data = await this.authService.refreshSession(refreshToken);
+      this.setCookies.setAuthCookie(res, data.session.access_token);
+      this.setCookies.setRefreshCookie(res, data.session.refresh_token);
+      return res.json({ session: data.session});
     }
 }

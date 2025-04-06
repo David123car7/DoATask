@@ -9,7 +9,7 @@ import { resolve } from "url";
 export default async function SignoutPage(){
     const res = await SignoutUser();
     if(!res)
-      throw new Error(res.message || 'An unexpected error occurred');
+      return 'An unexpected error occurred'
 
     redirect(ROUTES.HOME)
 }
