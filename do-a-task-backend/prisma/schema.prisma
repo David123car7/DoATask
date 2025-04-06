@@ -48,11 +48,12 @@ model Locality {
 
 model MemberTask {
   id          Int       @id @default(autoincrement())
-  status      String?
-  assignedAt  DateTime?
+  status      String
+  assignedAt  DateTime
   completedAt DateTime?
   volunteerId Int
   taskId      Int
+  score       Int
   Task        Task      @relation(fields: [taskId], references: [id])
   member      member    @relation(fields: [volunteerId], references: [id])
 }
@@ -108,11 +109,11 @@ model StoreItem {
 
 model Task {
   id         Int          @id @default(autoincrement())
-  title      String?
-  difficulty Int?
+  title      String
+  difficulty String?
+  creatorId  Int
   coins      Int?
   points     Int?
-  creatorId  Int
   MemberTask MemberTask[]
   member     member       @relation(fields: [creatorId], references: [id])
 }
@@ -148,7 +149,19 @@ model user {
   birthDate     DateTime
   totalCoins    Int
   contactId     Int
+  email         String          @unique @default("default@example.com")
+  Notification  Notification[]
   UserCommunity UserCommunity[]
   member        member[]
   Contact       Contact         @relation(fields: [contactId], references: [id])
+}
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  title       String
+  message     String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  recipientId Int
+  user        user     @relation(fields: [recipientId], references: [id])
 }

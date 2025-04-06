@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Res, Get, UseGuards, Req} from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Post, Res, Get, UseGuards, Req, HttpException, NotFoundException} from "@nestjs/common";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthDtoSignup, AuthDtoSignin} from "./dto";
@@ -12,9 +12,8 @@ export class AuthController{
     constructor(private authService: AuthService, private setCookies: SetAuthCookies, private deleteCookies: DeleteAuthCookies) {}
 
     @Post("test")
-    @UseGuards(JwtAuthGuard)
     test(){
-        return { message: "Hello from auth controller" };
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
     @Post("signup")
