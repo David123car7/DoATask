@@ -28,10 +28,16 @@ export default async function Home() {
                       </a>
                     </li>
                 ) : (
+              <div>
                   <a href={API_ROUTES.SIGNOUT}>
                       <div className={styles.loginBox}>Signout</div>
-                    </a>
-                )}
+                  </a>
+                  <a href={ROUTES.USER_MAIN}>
+                      <div className={styles.loginBox}>UserData</div> 
+                  </a>
+              </div>
+                )
+                }
             </ul>
         </nav>
     </header>
