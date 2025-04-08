@@ -19,7 +19,7 @@ export class AuthService{
             this.supabaseService.handleSupabaseError(error, "SignUp User")
         }
 
-        try {
+        
             const result = await this.prisma.$transaction(async (prisma) => {
                 const contact = await prisma.contact.create({
                     data: { number: dto.contactNumber },
@@ -55,9 +55,7 @@ export class AuthService{
             });
         
             return { message: "Signup successful", user: data.user };
-          } catch (error) {
-            this.prisma.handlePrismaError(error, "Signup User");
-          }
+
     }
     
     async sighin(dto: AuthDtoSignin){

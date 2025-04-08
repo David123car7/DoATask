@@ -6,7 +6,10 @@ export async function refreshSession(refreshToken: string) {
       body: JSON.stringify({ refreshToken }),
     });
     if (!res.ok) {
-      throw new Error(`Session refresh failed: ${res.status}`);
+      return {
+        message: `Session refresh failed: ${res.status}`,
+        state: false
+      }
     }
     else return res.json();
   } catch (error) {

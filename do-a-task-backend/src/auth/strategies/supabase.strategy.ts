@@ -15,6 +15,11 @@ export class SupabaseStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     console.log('JWT Payload:', payload);
-    return { userId: payload.id };
+    return { 
+      sub: payload.sub, 
+      email: payload.email, 
+      iat: payload.iat,
+      exp: payload.exp,
+    };
   }
 }
