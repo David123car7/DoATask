@@ -8,7 +8,7 @@ import { Prisma } from "@prisma/client";
 export class AuthService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-
+//Create a user
     async signup(dto: AuthDtoSignup) {
         const email = dto.email;
         const password = dto.password;
@@ -50,7 +50,7 @@ export class AuthService{
         } catch (error) {
             this.prisma.handlePrismaError(error, "Creating User")
         }
-
+/*
         let address
         try{
             address = await this.prisma.address.create({});
@@ -75,11 +75,13 @@ export class AuthService{
                 }
             });
         }
+            
         catch(error){
             this.prisma.handlePrismaError(error, "Creating Community")
         }
+        */
 
-        let member
+        /*let member
         try{
             member = await this.prisma.member.create({
                 data: {
@@ -91,7 +93,7 @@ export class AuthService{
         }
         catch(error){
             this.prisma.handlePrismaError(error, "Creating Member")
-        }
+        }*/
 
         return { message: "Signup successful", user: data.user };
       }
