@@ -2,6 +2,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { Injectable } from "@nestjs/common";
 import { CreateLocalityDto } from "./dto/locality.dto";
 import { SupabaseService } from "../supabase/supabase.service";
+import { getDefaultResultOrder } from "dns";
 
 
 @Injectable({})
@@ -16,5 +17,21 @@ export class LocalityService{
             }
         });
         return createLocality;
+    }
+
+    
+    async getLocalityData(localityId: number){
+
+        const getData  = await this.prisma.locality.findUnique({
+            where:{
+                id: localityId,
+            },
+            select:{
+                id:true,
+                name: true,
+                communities: true,
+            },
+        });
+        return getData;
     }
 }

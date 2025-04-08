@@ -7,9 +7,9 @@ export class CommunityController {
     constructor(private communityService: CommunityService) {}
 
     @Post("createCommunity")
-    async createTask(@Body() dto: CreateCommunityDto/*, localityId: number*/) {
+    async createTask(@Body() dto: CreateCommunityDto, localityId: number) {
       // Criação da tarefa usando o serviço
-      const task = await this.communityService.createCommunity(dto/*, localityId*/);
+      const task = await this.communityService.createCommunity(dto, localityId);
       
       // Retorna o status e os dados da tarefa criada
       return {
@@ -31,6 +31,7 @@ export class CommunityController {
     }
 
 
+  
     @Get(':id')
     async getCommunityData(@Param('id') id:string){
       const community = parseInt(id);

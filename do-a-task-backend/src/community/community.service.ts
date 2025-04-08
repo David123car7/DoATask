@@ -3,25 +3,22 @@ import { PrismaService } from "../prisma/prisma.service";
 import { Injectable } from "@nestjs/common";
 import { CreateCommunityDto } from "./dto/community.dto";
 import { error } from "console";
+import { LocalityService } from "src/locality/locality.service";
 
 
 @Injectable({})
 export class CommunityService{
-    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
+    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private readonly localityService: LocalityService) {}
 
-    async createCommunity(dto: CreateCommunityDto/*,locality: number*/){
+    async createCommunity(dto: CreateCommunityDto,locality: number){
 
-        const existCommunity = await this.prisma.community.findFirst({
-            where:{
-                name:dto.name
-            }
-        });
+        const existCommunity = await this.localityService.getLocalityData(locality);
 
         if(!existCommunity){
             const createCommunity = await this.prisma.community.create({
                 data:{
                     name: dto.name,
-                    localityId: 13,
+                    localityId: locality,
                 }
             });
             return createCommunity;
@@ -30,6 +27,9 @@ export class CommunityService{
         throw new Error("O nome que escolheu já existe");
     }
 
+
+
+    ///Tenho de ver se faz sentido ter esta tabela no prisma, uso a tabela de streetsCommunity e o user apenas adicona o numero de porta
     async addAdrresses(dto: CreateCommunityDto/*, localityId: number, name: string, communityId: number*/){
         
         const existCommunity = await this.prisma.community.findFirst({
@@ -70,6 +70,8 @@ export class CommunityService{
         
     }
 
+
+    ///Atraves de um id de uma comunidade devolve o id da comunidade, o nome e o id da localidade
     async getDataCommunity(communityId: number){
 
         const data = await this.prisma.community.findMany({

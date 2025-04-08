@@ -10,7 +10,6 @@ export class TasksController {
     constructor(private tasksService: TasksService) {}
 
     @Post("createtask")
-    @HttpCode(HttpStatus.CREATED)  // Garantir que o status 201 seja retornado
     async createTask(@Body() dto: CreateTasksDto) {
       // Criação da tarefa usando o serviço
       const task = await this.tasksService.createTask(dto);

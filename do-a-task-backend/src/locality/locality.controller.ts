@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Put } from '@nestjs/common';
+import { Controller, Post, Body, Put, Get, Param } from '@nestjs/common';
 import { LocalityService } from './locality.service';
 import { CreateLocalityDto } from './dto/locality.dto';
 
@@ -17,4 +17,10 @@ export class LocalityController {
         task,               // Tarefa criada
       };
     }
+
+      @Get(':id')
+      async getCommunityData(@Param('id') id:string){
+        const community = parseInt(id);
+        return this.LocalityService.getLocalityData(community);
+      }
 }

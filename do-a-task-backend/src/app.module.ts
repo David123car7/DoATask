@@ -10,15 +10,11 @@ import { AddressModule } from './addresses/addresses.module';
 import { LocalityModule } from './locality/locality.module';
 import { CommunityModule } from './community/community.module';
 import { MemberModule } from './member/member.module';
+import { StreetsCommunityModule } from './streetsCommunity/streetsCommunity.module';
 
 @Module({
-<<<<<<< Updated upstream
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, TasksModule],
-  controllers: [AppController, TasksController],
-=======
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, TasksModule, AddressModule, LocalityModule, CommunityModule,MemberModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, TasksModule, AddressModule, LocalityModule, CommunityModule,MemberModule, StreetsCommunityModule],
   controllers: [AppController],
->>>>>>> Stashed changes
   providers: [AppService, SupabaseService],
 })
 export class AppModule {}
