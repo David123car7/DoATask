@@ -9,8 +9,8 @@ const contactSchema = z.object({
       name: z.string(),
       email: z.string().email(),
       birthDate: z.string().datetime(),
-      contact: contactSchema
-    })
+    }),
+    contact: contactSchema
   });
 
 export type UserDataSchema = z.infer<typeof userDataSchema>;

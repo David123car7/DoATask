@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInSchema, type SignInSchema } from '../schema/signin-form-schema';
+import { RequestResetPasswordSchema, requestResetPasswordSchema} from '../schema/request-reset-password-form-schema';
 import { SigninUser} from '../../../lib/api/auth/authentication/signin'
 import { useState } from 'react';
 import styles from './page.module.css';
@@ -10,26 +10,26 @@ import Image from 'next/image';
 import { ROUTES } from "../../../lib/constants/routes"
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { RequestResetPassword } from '@/lib/api/auth/password/request.reset.password';
 
-export default function SignInForm() {
+export default function RequestResetPasswordPage() {
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<SignInSchema>({
-    resolver: zodResolver(signInSchema), // Use Zod for validation
+  } = useForm<RequestResetPasswordSchema>({
+    resolver: zodResolver(requestResetPasswordSchema), 
   });
   
   const [successMessage, setSuccessMessage] = useState('');
-  const router = useRouter(); // Initialize router from next/navigation
+  const router = useRouter(); 
   
-  const onSubmit = async (data: SignInSchema) => {
+  const onSubmit = async (data: RequestResetPasswordSchema) => {
     try {
-      setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
-      const responseData = await SigninUser(data);
+      setSuccessMessage("") 
+      const responseData = await RequestResetPassword(data);
       setSuccessMessage(responseData.message);
-      router.push(ROUTES.HOME)
     } catch (error: any) {
       if (error.field) {
         setError(error.field, { type: 'manual', message: error.message });
@@ -41,7 +41,7 @@ export default function SignInForm() {
   
   return (
     <div className="page-auth">
-    <header>
+<header>
         <div>
             <h1 className="logo_title">DOATASK</h1>
         </div>
@@ -58,7 +58,6 @@ export default function SignInForm() {
     
     
     <main>
-
       <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Sign In</div>
       </div>
@@ -72,18 +71,12 @@ export default function SignInForm() {
                             <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
                             {errors.email && <p className="error_message">{errors.email.message}</p>}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label htmlFor="password" className={styles.label}>Password</label>
-                            <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
-                            {errors.password && <p className="error_message">{errors.password.message}</p>}
-                        </div>
                             <button type="submit" className={styles.submitButton}>Submeter</button>
                             
                             {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
                             {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
                     </form>
                   </div>
-                  <Link href={ROUTES.RESET_PASSWORD} className={styles.reset_password}>Resetar Password</Link>    
             </div>
         </div>
         

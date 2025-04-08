@@ -14,7 +14,13 @@ export class UserService {
                     email: userEmail
                 }
             })
-            return user
+
+            const contact = await this.prisma.contact.findUnique({
+                where:{
+                    id: user.contactId
+                }
+            })
+            return {user: user, contact: contact}
         }
         catch(error) {
             this.prisma.handlePrismaError("GetUserData", error)

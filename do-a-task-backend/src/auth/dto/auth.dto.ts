@@ -31,3 +31,33 @@ export class AuthDtoSignin{
     @IsNotEmpty()
     password: string;
 }
+
+export class AuthDtoChangePassword{
+    @IsString()
+    @IsNotEmpty()
+    currentPassword: string;
+
+    @IsString()
+    @IsNotEmpty()
+    newPassword: string;
+
+    @IsString()
+    @IsNotEmpty()
+    newPassword2: string;
+}
+
+export class AuthDtoResetPassword{
+    @IsString()
+    @IsNotEmpty()
+    newPassword: string;
+
+    @IsString()
+    @IsNotEmpty()
+    newPassword2: string;
+}
+
+export class AuthDtoRequestResetPassword{
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+}

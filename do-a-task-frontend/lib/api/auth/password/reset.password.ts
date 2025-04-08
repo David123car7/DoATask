@@ -1,18 +1,17 @@
 "use server"
 
-import {SignUpSchema} from '@/app/auth/schema/signup-form-schema';
+import { ResetPasswordSchema } from '@/app/auth/schema/reset-password-form-schema';
 
-export async function SignupUser(data: SignUpSchema) {
+export async function ResetPassword(data : ResetPasswordSchema, access_token: string) {
     try {
-        
         // Send the data to the backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/resetPassword`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${access_token}`,
             },
             body: JSON.stringify(data),
-            credentials: 'include', 
         });
 
         if (!response.ok) {

@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: '/',
   SIGNIN: '/auth/signin',
   SIGNUP: '/auth/signup',
+  RESET_PASSWORD: '/auth/requestResetPassword',
   PRIVATE: '/private' //just for testing
 };
 

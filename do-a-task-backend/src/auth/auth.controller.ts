@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Res, Get, UseGuards, Req, HttpException, NotFoundException} from "@nestjs/common";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
-import { AuthDtoSignup, AuthDtoSignin} from "./dto";
+import { AuthDtoSignup, AuthDtoSignin, AuthDtoChangePassword, AuthDtoRequestResetPassword, AuthDtoResetPassword} from "./dto";
 import { JwtAuthGuard} from "./guard/jwt.auth.guard";
 import {RequestWithUser} from './types/jwt-payload.type'
 import {AUTH_COOKIES} from "../lib/constants/auth/cookies";
@@ -38,8 +38,33 @@ export class AuthController{
       return res.json({ message: 'Signin successful', user: data.user, session: data.session});
     }
 
+    @HttpCode(HttpStatus.OK)
+    @Post("changePassword")
     @UseGuards(JwtAuthGuard)
+    async changePassword(@Body() dto: AuthDtoChangePassword, @Req() req: RequestWithUser)
+    {
+      return await this.authService.changePassword(dto, req.user.email);
+    }
+
+    @Post("requestResetPassword")
+    async requestResetPassword(@Body() dto: AuthDtoRequestResetPassword, @Res() res: Response)
+    {
+      const reset = await this.authService.requestResetPassword(dto);
+      return res.json(reset)
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Post("resetPassword")
+    @UseGuards(JwtAuthGuard)
+    async resetPassword(@Body() dto: AuthDtoResetPassword, @Req() req: RequestWithUser, @Res() res: Response)
+    {
+      console.log(req.user.email)
+      const reset = await this.authService.resetPassword(dto, req.user.sub)
+      return res.json(reset)
+    }
+
     @Post('signout')
+    @UseGuards(JwtAuthGuard)
     async logout(@Res() res: Response) {
       await this.authService.signout();
       return res.json({ message: 'Logged out successfully' });
