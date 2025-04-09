@@ -15,7 +15,6 @@ export class TasksService{
         if (!['easy', 'medium', 'hard'].includes(dto.difficulty)) {
             throw new HttpException("Dificuldade inválida", HttpStatus.BAD_REQUEST)
         }
-<<<<<<< Updated upstream
         
         const reward = baseReward[dto.difficulty]
         
@@ -37,32 +36,6 @@ export class TasksService{
                                     name: true,
                                     contact: true,
                                 },
-=======
-
-        const reward = baseReward[dto.difficulty];
-    
-        if (!reward) {
-            throw new Error('Não foi possível calcular as recompensas. Verifique a dificuldade.');
-        }
-        const user = (await this.supabaseService.supabase.auth.getUser()).data;
-        const userId = parseInt(user.user.id)
-
-        const task = await this.prisma.task.create({
-            data: {
-                title: dto.title,
-                difficulty: dto.difficulty,
-                coins: reward.coins,
-                points: reward.points,
-                creatorId: userId,  // Usar o id do usuário autenticado
-            },
-            include: {
-                creator: {
-                    include: {
-                        user: {
-                            select: {
-                                name: true,
-                                contact: true,
->>>>>>> Stashed changes
                             },
                             address: true, // Incluir o endereço do criador
                             
@@ -78,18 +51,12 @@ export class TasksService{
         return { message: "Created task with sucess", taskData: task}
     }
 
-<<<<<<< Updated upstream
     //  FAlTA  TESTAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     async createMemberTask(/*, taskId: number*/ ){ 
-=======
-//  FAlTA  TESTAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    async createMemberTask( taskId: number ){
->>>>>>> Stashed changes
         
         //const user = (await this.supabaseService.supabase.auth.getUser()).data;////troca por getTask
         //const id = parseInt(user.user.id); // <------ É o Id do USER OK!!!!!
         //const idTask = taskId;// <--- É o Id da TASK OK!!!!!
-<<<<<<< Updated upstream
         let task
         try{
             task = await this.prisma.memberTask.create({
@@ -121,40 +88,6 @@ export class TasksService{
                         status: 'completed',
                         completedAt: new Date(), // Marking the task as completed
                     },
-=======
-
-        const user = (await this.supabaseService.supabase.auth.getUser()).data;
-        const userId = parseInt(user.user.id);
-
-        if(!userId){
-            throw new Error("Utilizador nao encontrado")
-        }
-        const task = await this.prisma.memberTask.create({
-            data: {
-                status: 'pending',
-                assignedAt: new Date(),
-                completedAt: new Date(1900,1,1,12,12,12,12),
-                score: 0,
-                volunteerId: userId,
-                taskId: taskId,
-            },
-        });
-        return task;
-    }
-
-    async endingTaskVolunteer(memberTaskId: number){
-        
-        const memberTask = await this.prisma.memberTask.update({
-            where: {
-                id: memberTaskId,     
-            },
-            data: {
-                status: 'completed',
-                completedAt: new Date(), // Marking the task as completed
-            },
-            include: {
-                task: {
->>>>>>> Stashed changes
                     include: {
                         task: {
                             include: {
@@ -189,7 +122,6 @@ export class TasksService{
         return {message: 'Task updated successfully'};
     }
 
-<<<<<<< Updated upstream
     async evaluateTask(/*memberTaskId: number,*/ dto:EvaluateTaskDto) {
         let memberTask
         try{
@@ -219,31 +151,6 @@ export class TasksService{
         }
 
         return {message: 'Task evaluated successfully'};
-=======
-
-
-    async evaluateTask(memberTaskId: number, dto:EvaluateTaskDto) {
-
-        const memberTask = await this.prisma.memberTask.findUnique({
-            where: {
-                id: memberTaskId,
-            },
-        });
-
-        if (!memberTask) {
-            throw new Error('Member task not found.');
-        }
-
-        const updatedMemberTask = await this.prisma.memberTask.update({
-            where: {
-                id: memberTaskId,
-            },
-            data: {
-                score: dto.score,
-            },
-        });
-        return updatedMemberTask;
->>>>>>> Stashed changes
     }
 
 
@@ -265,7 +172,6 @@ export class TasksService{
             this.prisma.handlePrismaError("Assign Bonus (Find Volunteer Task)" , error);
         }
 
-<<<<<<< Updated upstream
         const reward = baseReward[volunteerTask.task.difficulty];
         const { totalCoins, totalPoints } = this.calculateReward(volunteerTask.task.difficulty, 5);
         
@@ -319,73 +225,10 @@ export class TasksService{
                         title: 'Avaliação Concluída',
                         message: `Você recebeu ${evaluation}/5 na tarefa. Bônus: ${totalCoins} moedas e ${totalPoints} pontos`,  // Correção aqui, usando crase
                         recipientId: 7,
-=======
-        const volunteerTask = await this.prisma.memberTask.findUnique({
-            where: {
-                id: memberTaskId,
-            },
-            include: {
-                task: true,
-            },
-        });
-    
-        if (!volunteerTask) {
-            throw new Error('Volunteer task not found.');
-        }
-    
-        const reward = baseReward[volunteerTask.task.difficulty];
-    
-        if (!reward) {
-            throw new Error('Não foi possível calcular as recompensas. Verifique a dificuldade.');
-        }
-    
-        const { totalCoins, totalPoints } = calculateReward(volunteerTask.task.difficulty, 5);
-    
-        // Atualiza as moedas do voluntário
-        const updatedCoins = await this.prisma.member.update({
-            where: {
-                id: volunteerId,
-            },
-            data: {
-                user: {
-                    update: {
-                        totalCoins: {
-                            increment: totalCoins,
-                        },
-                    },
-                },
-            },
-        });
-    
-        let pointsMember = await this.prisma.pointsMember.findFirst({
-            where: {
-                memberId: volunteerId,
-            },
-        });
-    
-        // Se não houver registro de pontos, cria um novo
-        if (!pointsMember) {
-            pointsMember = await this.prisma.pointsMember.create({
-                data: {
-                    memberId: volunteerId,
-                    points: totalPoints,
-                },
-            });
-        } else {
-            // Se houver, atualiza os pontos
-            pointsMember = await this.prisma.pointsMember.update({
-                where: {
-                    id: pointsMember.id,
-                },
-                data: {
-                    points: {
-                        increment: totalPoints,
->>>>>>> Stashed changes
                     },
                 });
             });
         }
-<<<<<<< Updated upstream
         catch(error){
             this.prisma.handlePrismaError("Assign Bonus" , error);
         }
@@ -410,85 +253,5 @@ export class TasksService{
             totalPoints : reward.points + bonusPoints,
         };
     }
-/*
-
-
-    //  FAlTA  TESTAR  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //  Volunteer is responsible for ending the task
-    async endingTaskVolunteer(dto : EndingTasksDto/*, memberTaskId: number){
-        const user = (await this.supabaseService.supabase.auth.getUser()).data;
-        const task = await this.prisma.memberTask.update({
-            where: {
-                id: 6,     
-            },
-            data: {
-                status: 'completed',
-                completedAt: new Date(), // Marking the task as completed
-            },
-        });
-        
-        const taskDetails = await this.prisma.task.findUnique({
-            where: {
-                id: 26,
-            },
-            select: {
-                id: true,
-                creatorId: true,
-            },
-        });
-        
-        if (!taskDetails) {
-            throw new Error('Task not found.');
-        }
-
-        const {creatorId} = taskDetails;
-
-        const creatormember = await this.prisma.member.findUnique({
-            where:{
-                id: 1,
-            },
-            include:{
-                user:{
-                    select:{
-                        email: true,
-                    }
-                }
-            }
-        });
-
-        if (!creatormember) {
-            throw new Error('Creator not found.');
-        }
-        
-        const msg ={
-            to: creatormember.user.email, // Email do criador da tarefa
-            from: 'marquesdiogoalex@gmail.com',//falta colocar o email do remetente
-            subject: 'Tarefa Concluída - Avaliação Necessária',
-            text: 'Olá ${creatormember.user.nome},\n\nA tarefa ${memberTask.task.title} que você criou foi concluída por um voluntário. Por favor, avalie o desempenho do voluntário.\n\nObrigado!',
-        };
-
-        try {
-            await sgMail.send(msg);
-            console.log('Email enviado com sucesso para ${creatormember.user.email}');
-        } catch (error) {
-            console.error('Erro ao enviar o email:', error);
-        }
-        return task;
-    }*/
 }
 
-=======
-    
-        // Criação da notificação
-        await this.prisma.notification.create({
-            data: {
-                title: 'Avaliação Concluída',
-                message: `Você recebeu ${evaluation}/5 na tarefa. Bônus: ${totalCoins} moedas e ${totalPoints} pontos`,  // Correção aqui, usando crase
-                recipientId: volunteerId,
-            },
-        });
-    
-        return { success: true, bonus: { totalCoins, totalPoints }, evaluation };
-    }
-}
->>>>>>> Stashed changes
