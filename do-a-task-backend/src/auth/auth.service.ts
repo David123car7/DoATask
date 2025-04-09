@@ -20,42 +20,25 @@ export class AuthService{
             this.supabaseService.handleSupabaseError(error, "SignUp User")
         }
 
-        
             const result = await this.prisma.$transaction(async (prisma) => {
                 const contact = await prisma.contact.create({
                     data: { number: dto.contactNumber },
                 });
               
-                const user = await prisma.user.create({
-                    data: {
-                    name: dto.name,
-                    email: dto.email,
-                    birthDate: new Date(),
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    totalCoins: 0,
-                    contactId: contact.id,
-                    },
-                });
-              
-                const address = await prisma.address.create({});
-
-                const locality = await prisma.locality.create({});
-
-                const community = await prisma.community.create({
-                    data: { localityId: locality.id },
-                });
-                
-                const member = await prisma.member.create({
-                    data: {
-                        userId: user.id,
-                        addressId: address.id,
-                        communityId: community.id,
-                    },
-                });
+            const user = await prisma.user.create({
+                data: {
+                name: dto.name,
+                email: dto.email,
+                birthDate: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                totalCoins: 0,
+                contactId: contact.id,
+                },
             });
+        });
         
-            return { message: "Signup successful", user: data.user };
+        return { message: "Signup successful", user: data.user };
 
     }
     
