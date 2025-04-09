@@ -8,6 +8,7 @@ import { useState } from 'react';
 import styles from './page.module.css';
 import { ROUTES } from "../../../lib/constants/routes"
 import { useRouter } from 'next/navigation';
+import { FaHome} from "../../../lib/icons";
 
 export default function SignUpForm() {
   const {
@@ -45,10 +46,7 @@ export default function SignUpForm() {
                 </div>
                 <nav>
                     <ul>
-                      <li><a href={ROUTES.HOME}>Home</a></li>
-                        <li><a href="#">Sobre</a></li>
-                        <li><a href="#">Criadores</a></li>
-                        <li><a href="#">Conta</a></li>
+                        <li><a href={ROUTES.HOME}><FaHome size={28}></FaHome></a></li>
                         <li><a href={ROUTES.SIGNIN}><div className={styles.loginBox}>Login</div></a></li>
                     </ul>
                 </nav>

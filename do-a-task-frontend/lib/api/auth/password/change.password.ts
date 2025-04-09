@@ -4,7 +4,7 @@ import { ChangePasswordSchema } from '@/app/auth/schema/change-password-form-sch
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie} from "@/lib/utils/cookies/auth/index";
 
-export async function ResetPassword(data : ChangePasswordSchema) {
+export async function ChangePassword(data : ChangePasswordSchema) {
     try {
         const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
         if(!access_token)

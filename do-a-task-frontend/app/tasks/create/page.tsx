@@ -2,6 +2,7 @@
 
 import { FiShoppingCart } from "react-icons/fi"; // 🛒 Shopping Cart icon
 import { FaCoins, FaShoppingCart } from "react-icons/fa";
+import { CiUser } from "react-icons/ci";
 import { useState } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
@@ -43,9 +44,8 @@ export default function PublishTask() {
         <nav>
           <ul>
             <li>
-              <FaShoppingCart size={24} />
+              <FaShoppingCart size={28} />
             </li>
-            <a> </a>
             <li>
               <a href="#">125</a>
             </li>
@@ -54,12 +54,7 @@ export default function PublishTask() {
             </li>
             <li>
               <a href="#">
-                <Image
-                  src="/assets/userIcon.png"
-                  alt="User"
-                  width={40}
-                  height={40}
-                />
+               <CiUser size={28}/>
               </a>
             </li>
           </ul>

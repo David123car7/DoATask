@@ -10,6 +10,8 @@ import Image from 'next/image';
 import { ROUTES } from "../../../lib/constants/routes"
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { FaHome} from "../../../lib/icons";
+
 
 export default function SignInForm() {
   const {
@@ -47,10 +49,7 @@ export default function SignInForm() {
         </div>
         <nav>
             <ul>
-                <li><a href={ROUTES.HOME}>Home</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Criadores</a></li>
-                <li><a href="#">Conta</a></li>
+                <li><a href={ROUTES.HOME}><FaHome size={28}></FaHome></a></li>
                 <li><a href={ROUTES.SIGNUP}><div className={styles.loginBox}>Registar</div></a></li>
             </ul>
         </nav>
