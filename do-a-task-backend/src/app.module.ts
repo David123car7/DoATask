@@ -6,9 +6,14 @@ import { ConfigModule } from '@nestjs/config';
 import { SupabaseService } from './supabase/supabase.service';
 import { TasksModule } from './tasks/tasks.module';
 import { UserModule } from './user/user.module';
+import { MemberModule } from './member/member.module';
+import { CommunityModule } from './community/community.module';
+import { LocalityModule } from './locality/locality.module';
+import { StreetsCommunityModule } from './streetsCommunity/streetsCommunity.module';
+import { AddressModule } from './addresses/addresses.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, TasksModule, UserModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, TasksModule, UserModule, MemberModule, CommunityModule, LocalityModule, StreetsCommunityModule, AddressModule],
   controllers: [AppController],
   providers: [AppService, SupabaseService],
 })
