@@ -20,7 +20,7 @@ export class LocalityService{
     }
 
     
-    async getLocalityDatabyId(localityId: number){
+    async getLocalityDataById(localityId: number){
 
         const getData  = await this.prisma.locality.findUnique({
             where:{
@@ -35,12 +35,11 @@ export class LocalityService{
         return getData;
     }
 
-    
-    async getLocalityDataByParish(parish: string){
+    async getLocalityDataByParish(localityId: string){
 
         const getData  = await this.prisma.locality.findFirst({
             where:{
-                name: parish,
+                name:localityId,
             },
             select:{
                 id:true,

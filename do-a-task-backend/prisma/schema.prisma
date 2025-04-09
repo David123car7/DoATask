@@ -26,19 +26,19 @@ model Member {
 
 model User {
   id              Int             @id @default(autoincrement())
-  email           String          @unique @default("default@example.com")
   createdAt       DateTime
   updatedAt       DateTime
   name            String
   birthDate       DateTime
   totalCoins      Int
   contactId       Int
+  email           String          @unique @default("default@example.com")
+  Notification    Notification[]
   userCommunities UserCommunity[]
   members         Member[]
   contact         Contact         @relation(fields: [contactId], references: [id])
 
   @@map("user")
-  Notification Notification[]
 }
 
 model Notification {
@@ -51,15 +51,16 @@ model Notification {
   recipient   User     @relation(fields: [recipientId], references: [id])
 }
 
-
 model Community {
   id              Int             @id @default(autoincrement())
-  parish          String?
+  name            String?
   localityId      Int
   locality        Locality        @relation(fields: [localityId], references: [id])
   stores          Store[]
   userCommunities UserCommunity[]
   members         Member[]
+
+  StreetCommunity StreetCommunity[]
 }
 
 model Locality {
@@ -74,6 +75,13 @@ model Address {
   port    Int?
   street  String?
   members Member[]
+}
+
+model StreetCommunity {
+  id           Int       @id @default(autoincrement())
+  street       String?
+  communityId  Int
+  community    Community @relation(fields: [communityId], references: [id])
 }
 
 model Contact {
@@ -101,9 +109,9 @@ model Task {
   id         Int          @id @default(autoincrement())
   title      String
   difficulty String?
+  creatorId  Int
   coins      Int?
   points     Int?
-  creatorId  Int
   members    MemberTask[]
   creator    Member       @relation("MemberTasks", fields: [creatorId], references: [id])
 }

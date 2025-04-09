@@ -52,20 +52,6 @@ export class AddressService{
 
             return updateAddress;
         }
-    }
 
-    async existAddrress (addressId: number){
-
-        const existAddrress = await this.prisma.address.findFirst({
-            where:{
-                id: addressId,
-            },
-            select:{
-                id:true,
-                street: true,
-                port: true,
-            }
-        });
-        return existAddrress;
     }
 }

@@ -12,7 +12,7 @@ export class CommunityService{
 
     async createCommunity(dto: CreateCommunityDto,locality: number){
 
-        const existCommunity = await this.localityService.getLocalityDatabyId(locality);
+        const existCommunity = await this.localityService.getLocalityDataById(locality);
 
         if(!existCommunity){
             const createCommunity = await this.prisma.community.create({
