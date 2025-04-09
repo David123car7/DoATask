@@ -12,12 +12,12 @@ export class CommunityService{
 
     async createCommunity(dto: CreateCommunityDto,locality: number){
 
-        const existCommunity = await this.localityService.getLocalityData(locality);
+        const existCommunity = await this.localityService.getLocalityDataById(locality);
 
         if(!existCommunity){
             const createCommunity = await this.prisma.community.create({
                 data:{
-                    name: dto.name,
+                    parish: dto.name,
                     localityId: locality,
                 }
             });
@@ -74,13 +74,13 @@ export class CommunityService{
     ///Atraves de um id de uma comunidade devolve o id da comunidade, o nome e o id da localidade
     async getDataCommunity(communityId: number){
 
-        const data = await this.prisma.community.findMany({
+        const data = await this.prisma.community.findUnique({
             where:{
                 id:communityId,
             },
             select:{
                 id:true, 
-                name: true,
+                parish: true,
                 localityId: true,
             }
         });
