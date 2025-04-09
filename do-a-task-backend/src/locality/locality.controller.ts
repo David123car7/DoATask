@@ -21,6 +21,6 @@ export class LocalityController {
       @Get(':id')
       async getCommunityData(@Param('id') id:string){
         const community = parseInt(id);
-        return this.LocalityService.getLocalityData(community);
+        return this.LocalityService.getLocalityDataById(community);
       }
 }
