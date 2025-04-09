@@ -52,15 +52,14 @@ model Notification {
 }
 
 model Community {
-  id              Int             @id @default(autoincrement())
-  name            String?
+  id              Int               @id @default(autoincrement())
   localityId      Int
-  locality        Locality        @relation(fields: [localityId], references: [id])
+  parish          String?
+  locality        Locality          @relation(fields: [localityId], references: [id])
   stores          Store[]
+  StreetCommunity StreetCommunity[]
   userCommunities UserCommunity[]
   members         Member[]
-
-  StreetCommunity StreetCommunity[]
 }
 
 model Locality {
@@ -78,10 +77,10 @@ model Address {
 }
 
 model StreetCommunity {
-  id           Int       @id @default(autoincrement())
-  street       String?
-  communityId  Int
-  community    Community @relation(fields: [communityId], references: [id])
+  id          Int       @id @default(autoincrement())
+  street      String?
+  communityId Int
+  community   Community @relation(fields: [communityId], references: [id])
 }
 
 model Contact {
