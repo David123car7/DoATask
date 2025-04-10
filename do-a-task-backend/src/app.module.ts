@@ -12,6 +12,7 @@ import { LocalityModule } from './locality/locality.module';
 import { StreetsCommunityModule } from './streetsCommunity/streetsCommunity.module';
 import { AddressModule } from './addresses/addresses.module';
 import { StorageModule } from './storage/storage.module';
+import { NotificationModule } from './notifications/notifications.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), 
@@ -23,7 +24,8 @@ import { StorageModule } from './storage/storage.module';
     LocalityModule, 
     StreetsCommunityModule, 
     AddressModule,
-    StorageModule
+    StorageModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],

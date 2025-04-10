@@ -59,7 +59,7 @@ export default function RequestResetPasswordPage() {
     
     <main>
       <div className={styles.titleBox}>
-          <div className={styles.mainTitle}>Sign In</div>
+          <div className={styles.mainTitle}>Submeter pedido de resetar password</div>
       </div>
 
         <div className={styles.container_form}>

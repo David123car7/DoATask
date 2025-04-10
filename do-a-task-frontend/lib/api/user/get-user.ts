@@ -7,7 +7,7 @@ export async function GetUser() {
     try {
         const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
         if(!access_token)
-            return "Acess token not found"
+            return {message: "Acess token not found", state: false}
 
         // Send the data to the backend
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user/getUser`, {
@@ -24,7 +24,7 @@ export async function GetUser() {
             throw new Error(errorData.message || 'An unexpected error occurred');
         }
         
-        return response.json();
+        return {response: response.json(), access_token: access_token};
     } catch (error) {
       console.error('Error signing up:', error);
       throw error;
