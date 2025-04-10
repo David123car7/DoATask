@@ -224,7 +224,7 @@ export class TasksService{
                     data: {
                         title: 'Avaliação Concluída',
                         message: `Você recebeu ${evaluation}/5 na tarefa. Bônus: ${totalCoins} moedas e ${totalPoints} pontos`,  // Correção aqui, usando crase
-                        recipientId: 7,
+                        recipientId: "7", 
                     },
                 });
             });

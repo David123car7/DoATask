@@ -12,7 +12,7 @@ export class MemberService{
         private readonly communityService: CommunityService,
     ) {}
 
-    async createMember(userId: number, addressId: number, parish: string){
+    async createMember(userId: string, addressId: number, parish: string){
 
 
         const locality = await this.localityService.getLocalityDataByParish(parish);
@@ -24,7 +24,7 @@ export class MemberService{
         
             const createMember = await this.prisma.member.create({
                 data:{
-                    userId:userId, 
+                    userId: userId, 
                     addressId: addressId, 
                     communityId: existCommunity.id,
                 }

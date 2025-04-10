@@ -10,7 +10,7 @@ datasource db {
 
 model Member {
   id           Int            @id @default(autoincrement())
-  userId       Int
+  userId       String
   addressId    Int
   communityId  Int
   tasks        MemberTask[]
@@ -25,7 +25,7 @@ model Member {
 }
 
 model User {
-  id              Int             @id @default(autoincrement())
+  id              String             @id
   createdAt       DateTime
   updatedAt       DateTime
   name            String
@@ -47,7 +47,7 @@ model Notification {
   message     String
   read        Boolean  @default(false)
   createdAt   DateTime @default(now())
-  recipientId Int
+  recipientId String
   recipient   User     @relation(fields: [recipientId], references: [id])
 }
 
@@ -165,7 +165,7 @@ model PurchaseItem {
 model UserCommunity {
   id          Int       @id @default(autoincrement())
   joinedAt    DateTime?
-  userId      Int
+  userId      String
   communityId Int
   community   Community @relation(fields: [communityId], references: [id])
   user        User      @relation(fields: [userId], references: [id])

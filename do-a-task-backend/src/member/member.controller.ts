@@ -7,7 +7,7 @@ export class MemberController {
     constructor(private memberService: MemberService) {}
 
     @Post("createMember")
-    async createAdrress(userId: number, addressId: number, parish: string){
+    async createAdrress(userId: string, addressId: number, parish: string){
 
         const createAdrress = await this.memberService.createMember(userId,addressId,parish)
 

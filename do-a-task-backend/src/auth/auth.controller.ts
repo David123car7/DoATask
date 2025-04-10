@@ -11,6 +11,11 @@ import { SetAuthCookies, DeleteAuthCookies} from "./cookies";
 export class AuthController{
     constructor(private authService: AuthService, private setCookies: SetAuthCookies, private deleteCookies: DeleteAuthCookies) {}
 
+    @Post("testNotifications")
+    async testNotifications(@Body() body: {userId: string, tittle: string ,message: string}){
+     const data = await this.authService.testNotifications(body.userId, body.tittle, body.message)
+    }
+
     @Post("signup")
     signup(@Body() dto: AuthDtoSignup){
       return this.authService.signup(dto);

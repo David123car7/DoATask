@@ -3,10 +3,15 @@ import { AuthDtoSignup, AuthDtoSignin, AuthDtoChangePassword, AuthDtoResetPasswo
 import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { FRONTEND_ROUTES } from "src/lib/constants/routes/frontend";
+import { NotificationsService } from "src/notifications/notifications.service";
 
 @Injectable({})
 export class AuthService{
-    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
+    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private notifications: NotificationsService) {}
+
+    async testNotifications(userId: string, tittle: string, message: string){
+        const not = await this.notifications.sendNotification(userId, tittle, message)
+    }
 
     async signup(dto: AuthDtoSignup) {
         const email = dto.email;
@@ -27,6 +32,7 @@ export class AuthService{
               
             const user = await prisma.user.create({
                 data: {
+                id: data.user.id,
                 name: dto.name,
                 email: dto.email,
                 birthDate: new Date(),
