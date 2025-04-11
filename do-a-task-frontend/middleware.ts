@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
       const data = await refreshSession(refreshToken);
       if (!data.state) {
         console.error('No session returned from refreshSession');
+        await deleteAuthCookie(AUTH_COOKIES.ACCESS_TOKEN);
         await deleteAuthCookie(AUTH_COOKIES.REFRESH_TOKEN);
         return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
       }
