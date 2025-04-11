@@ -13,5 +13,4 @@ export const API_ROUTES = {
 
 export const PROTECTED_ROUTES = new Set([
   '/auth/test',
-  '/user/main'
 ]);

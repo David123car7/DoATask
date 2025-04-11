@@ -11,9 +11,8 @@ import { ROUTES } from "../../../lib/constants/routes";
 export default async function UserMainPage() {
   try {
     const result = await GetUser();
-    const user = await result.response
     // Validate and parse the response
-    const validatedData = userDataSchema.parse(user);
+    const validatedData = userDataSchema.parse(result);
     
     // Format birth date for display
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
