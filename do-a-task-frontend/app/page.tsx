@@ -8,7 +8,7 @@ import { CiUser, CiCircleInfo, BiBell, FaCoins} from "../lib/icons";
 
 export default async function Home() {
   const data = await GetUser();
-
+  
   return (
     <div className="page-auth">
       <header>
