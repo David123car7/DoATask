@@ -11,8 +11,6 @@ import { SupabaseStrategy } from './strategies/supabase.strategy';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SetAuthCookies } from './cookies/set.cookies';
 import { DeleteAuthCookies } from './cookies/delete.cookies';
-import { NotificationModule } from 'src/notifications/notifications.module';
-import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Module({
     imports: [
@@ -30,10 +28,9 @@ import { NotificationsService } from 'src/notifications/notifications.service';
         }),
         SupabaseModule,
         PrismaModule,
-        NotificationModule,
     ],
     controllers: [AuthController],
-    providers: [AuthService, JwtAuthGuard, SupabaseStrategy, PrismaService, SetAuthCookies, DeleteAuthCookies, NotificationsService],
+    providers: [AuthService, JwtAuthGuard, SupabaseStrategy, PrismaService, SetAuthCookies, DeleteAuthCookies],
     exports: [JwtAuthGuard, JwtModule]
 })
 export class AuthModule {}
