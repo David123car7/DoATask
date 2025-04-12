@@ -17,7 +17,6 @@ export default function ChangePasswordForm() {
   
   const onSubmit = async (data: ChangePasswordSchema) => {
     try {
-      setSuccessMessage("") 
       const responseData = await ChangePassword(data);
       setSuccessMessage(responseData.message);
     } catch (error: any) {

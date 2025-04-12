@@ -66,7 +66,6 @@ export class UserService {
         }
         catch(error){
             this.prisma.handlePrismaError("GetUserData", error)
-            return null;
         }
     }
 }
