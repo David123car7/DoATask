@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { ChangeUserDataSchema, changeUserDataSchema } from '@/app/user/schema/user-data-change-form-schema';
 import { UserDataSchema } from '@/app/user/schema/user-data-schema';
 import { ChangeUserData } from '@/lib/api/user/change.user.data';
-import { Toaster } from "@/lib/components/ui/toaster";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 
 export default function ChangeUserDataForm({ schemaForm }: { schemaForm: UserDataSchema }) {

@@ -10,7 +10,6 @@ export async function ChangeUserData(data: ChangeUserDataSchema) {
         if(!access_token)
             return {message: "Acess token not found", state: false}
 
-        // Send the data to the backend
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user/changeUserData`, {
             method: 'POST',
             headers: {

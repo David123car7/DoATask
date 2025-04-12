@@ -5,12 +5,9 @@ import { FaCoins } from "react-icons/fa6";
 import Menu from "../lateralMenu/page";
 import styles from "./page.module.css";
 import { ROUTES } from "@/lib/constants/routes";
+import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 
-interface HeaderProps {
-  user: any;
-}
-
-const Header: React.FC<HeaderProps> = ({ user }) => {
+export function Header({ userData }: { userData: UserDataSchema | null }) {
   return (
     <header className={styles.header}>
       <div>
@@ -18,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
       </div>
       <nav className={styles.nav}>
         <ul>
-          {!user ? (
+          {!userData ? (
             <li>
               <a href={ROUTES.SIGNIN}>
                 <div className={styles.loginBox}>Login</div>
@@ -28,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
             <>
               <li><CiCircleInfo size={28} /></li>
               <li><FaCoins size={28} /></li>
-              <li><p>25</p></li>
+              <li><p>{userData.user.totalCoins}</p></li>
               <li><Menu /></li>
             </>
           )}
@@ -37,5 +34,3 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
     </header>
   );
 };
-
-export default Header;

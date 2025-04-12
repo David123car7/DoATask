@@ -4,17 +4,17 @@ import React from "react";
 import styles from './page.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GetUser } from "../../../lib/api/user/get-user";
+import { GetUserData } from "../../../lib/api/user/get-user";
 import { userDataSchema} from "../schema/user-data-schema";
 import { ROUTES } from "../../../lib/constants/routes";
-import ChangePasswordForm from "@/lib/components/ui/forms/change.password.form"
-import ChangeUserDataForm from "@/lib/components/ui/forms/change.user.data.form";
+import ChangePasswordForm from "@/lib/components/layouts/forms/change.password.form"
+import ChangeUserDataForm from "@/lib/components/layouts/forms/change.user.data.form";
 
 
 
 export default async function UserMainPage() {
   try {
-    const result = await GetUser();
+    const result = await GetUserData();
     const user = await result.response
     const validatedData = userDataSchema.parse(user);
     

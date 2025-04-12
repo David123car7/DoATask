@@ -3,7 +3,7 @@
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie} from "@/lib/utils/cookies/auth/index";
 
-export async function GetUser() {
+export async function GetUserData() {
     try {
         const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
         if(!access_token)
@@ -24,7 +24,7 @@ export async function GetUser() {
             throw new Error(errorData.message || 'An unexpected error occurred');
         }
         
-        return {response: response.json(), access_token: access_token};
+        return response.json()
     } catch (error) {
       console.error('Error signing up:', error);
       throw error;
