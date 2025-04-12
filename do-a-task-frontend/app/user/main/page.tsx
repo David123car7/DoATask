@@ -9,29 +9,19 @@ import { userDataSchema} from "../schema/user-data-schema";
 import { ROUTES } from "../../../lib/constants/routes";
 import ChangePasswordForm from "@/lib/components/layouts/forms/change.password.form"
 import ChangeUserDataForm from "@/lib/components/layouts/forms/change.user.data.form";
-
-
+import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
+import Footer from "@/lib/components/layouts/footer/page";
 
 export default async function UserMainPage() {
   try {
-    const result = await GetUserData();
-    const user = await result.response
+    const user = await GetUserData();
     const validatedData = userDataSchema.parse(user);
     
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
 
     return (
       <div className="page">
-        <header>
-          <h1 className="logo_title">DOATASK</h1>
-          <nav>
-            <ul>
-              <li><Link href={ROUTES.HOME}>Home</Link></li>
-              <li><Link href="#">Sobre</Link></li>
-              <li><Link href="#">Criadores</Link></li>
-            </ul>
-          </nav>
-        </header>
+        <HeaderWrapper/>
         <main>
           <div className={styles.container_options}>
             <div>
@@ -55,23 +45,7 @@ export default async function UserMainPage() {
             <ChangePasswordForm></ChangePasswordForm>
           </div>
         </main>
-        <footer>
-          <div>
-            <p>DOATASK</p>
-            <div className='footerlogo'>
-              <nav className='footerNav'>
-                <ul>
-                  <li>
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     );
   } catch (err) {

@@ -4,12 +4,17 @@ import styles from "./page.module.css";
 import { CiUser } from "react-icons/ci";
 import { FaRegUserCircle,FaTasks } from "react-icons/fa";
 import { MdOutlineSupport } from "react-icons/md";
+import { UserDataSchema } from "@/app/user/schema/user-data-schema";
+import { useRouter } from 'next/navigation';
+import { ROUTES } from "@/lib/constants/routes";
 
-const Menu: React.FC = () => {
+export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  const router = useRouter(); // Initialize router from next/navigation
+  
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,27 +39,40 @@ const Menu: React.FC = () => {
       <button className={styles.logoButton} onClick={toggleMenu}>
         <CiUser size={28} />
       </button>
-      
+  
       {isOpen && (
         <nav className={styles.navbar}>
-        {/*falta fazer para quando estiver logado*/}
-        <div className={styles.loginBox}>
-          <div className={styles.loginTitle}>
-            Ainda não fazes parte de uma comunidade?
+          {/* Header content */}
+          <div className={styles.loginBox}>
+            <div className={styles.loginTitle}>
+              {userData ? (
+                <>Olá {userData?.user.name}</>
+              ) : (
+                <>Junta-te a nós</>
+              )}
+            </div>
+            {!userData && (
+              <div className={styles.navbarButtons}>
+                <div className={styles.buttonLogin}>
+                  <a href={ROUTES.SIGNIN}>Iniciar sessão</a>
+                </div>
+                <div className={styles.buttonRegister}>
+                  <a href={ROUTES.SIGNUP}>Registar</a>
+                </div>
+              </div>
+            )}
           </div>
-          <div className={styles.navbarButtons}>
-            <button>
-              Iniciar Sessão
-            </button>
-            <button>
-              Registar
-            </button>
-          </div>
-        </div>
+          {/* Navigation options */}
           <ul className={styles.options}>
-            <li><FaRegUserCircle />Dados Pessoais</li>
-            <li><FaTasks />As Minhas Tarefas</li>
-            <li><MdOutlineSupport />Centro de Apoio</li>
+            <li>
+              <FaRegUserCircle /> <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
+            </li>
+            <li>
+              <FaTasks /> As Minhas Tarefas
+            </li>
+            <li>
+              <MdOutlineSupport /> Centro de Apoio
+            </li>
           </ul>
           <div className={styles.logoutBox}>
             <button className={styles.logoutButton}>Terminar Sessão</button>
@@ -62,7 +80,5 @@ const Menu: React.FC = () => {
         </nav>
       )}
     </div>
-  );
-};
-
-export default Menu;
+  )
+}

@@ -8,17 +8,10 @@ import { useState } from 'react';
 import styles from './page.module.css';
 import { ROUTES } from "../../../lib/constants/routes"
 import { useRouter } from 'next/navigation';
-import { FaHome} from "../../../lib/icons";
+import { Header } from '@/lib/components/layouts/header/header';
 
 export default function SignUpForm() {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<SignUpSchema>({
-    resolver: zodResolver(signUpSchema), // Use Zod for validation
-  });
+  const {register, handleSubmit, setError, formState: { errors }} = useForm<SignUpSchema>({resolver: zodResolver(signUpSchema)});
   
   const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter(); // Initialize router from next/navigation
@@ -40,17 +33,7 @@ export default function SignUpForm() {
   
   return (
         <div className='page-auth'>
-            <header>
-                <div>
-                    <h1 className="logo_title">DOATASK</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href={ROUTES.HOME}><FaHome size={28}></FaHome></a></li>
-                        <li><a href={ROUTES.SIGNIN}><div className={styles.loginBox}>Login</div></a></li>
-                    </ul>
-                </nav>
-            </header>
+            <Header userData={null}/>
             
             <main>
 
