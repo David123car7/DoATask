@@ -1,6 +1,5 @@
 'use client'
 import { GetUser } from "@/lib/api/user/get-user";
-import Header from "@/lib/components/header/header";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
@@ -10,8 +9,6 @@ import { useState } from "react";
 export default function ConnectToCommunity(){
 
     const [showBlur, setShowBlur] = useState(true); // Controle do efeito de blur
-
-
 
     return(
         <div className="page">

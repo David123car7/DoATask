@@ -25,7 +25,7 @@ model Member {
 }
 
 model User {
-  id              String             @id
+  id              String          @id
   createdAt       DateTime
   updatedAt       DateTime
   name            String

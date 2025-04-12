@@ -6,6 +6,7 @@ import { CiUser } from "react-icons/ci";
 import { useState } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
+import Footer from "@/lib/components/layouts/footer/page";
 
 export default function PublishTask() {
   const [formData, setFormData] = useState({
@@ -36,7 +37,7 @@ export default function PublishTask() {
   };
 
   return (
-    <div className="page-create-task">
+    <div className="page">
       <header>
         <div>
           <h1 className="logo_title">DOATASK</h1>
@@ -61,6 +62,7 @@ export default function PublishTask() {
         </nav>
       </header>
 
+<main>
       <div className={styles.formBox}>
         <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
 
@@ -196,6 +198,14 @@ export default function PublishTask() {
           </button>
         </form>
       </div>
-    </div>
+  </main>
+
+  <Footer/>
+
+  </div>
+
+
+  
+
   );
 }
