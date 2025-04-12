@@ -48,6 +48,7 @@ export class AuthController{
     @UseGuards(JwtAuthGuard)
     async changePassword(@Body() dto: AuthDtoChangePassword, @Req() req: RequestWithUser)
     {
+      console.log("Change Password")
       return await this.authService.changePassword(dto, req.user.email);
     }
 

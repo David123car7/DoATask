@@ -128,3 +128,10 @@
     font-size: 16px;
     cursor: pointer;
 }
+
+.error_message{
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: start;
+}

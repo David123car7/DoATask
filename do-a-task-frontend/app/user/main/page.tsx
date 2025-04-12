@@ -7,15 +7,17 @@ import Image from 'next/image';
 import { GetUser } from "../../../lib/api/user/get-user";
 import { userDataSchema} from "../schema/user-data-schema";
 import { ROUTES } from "../../../lib/constants/routes";
+import ChangePasswordForm from "@/lib/components/ui/forms/change.password.form"
+import ChangeUserDataForm from "@/lib/components/ui/forms/change.user.data.form";
+
+
 
 export default async function UserMainPage() {
   try {
     const result = await GetUser();
     const user = await result.response
-    // Validate and parse the response
     const validatedData = userDataSchema.parse(user);
     
-    // Format birth date for display
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
 
     return (
@@ -48,65 +50,9 @@ export default async function UserMainPage() {
               </div>
             </div>
             {/* Personal Data Forms */}
-            <div className={styles.forms}>
-              <p>Dados Pessoais</p>
-              <div className={styles.formBox}>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Nome</label>
-                    <input type="text" defaultValue={validatedData.user.name} />
-                  </div>
-                </form>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Contacto</label>
-                    <input type="text" defaultValue={validatedData.contact.number} />
-                  </div>
-                </form>
-              </div>
-              <div className={styles.formBox}>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Email</label>
-                    <input type="text" defaultValue={validatedData.user.email} />
-                  </div>
-                </form>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Data Nascimento</label>
-                    <input type="date" defaultValue={formattedBirthDate} />
-                  </div>
-                </form>
-              </div>
-              <button type="submit" className={styles.submitButton}>Guardar</button>
-            </div>
+            <ChangeUserDataForm schemaForm={validatedData}/>
             {/* Password Change Forms */}
-            <div className={styles.forms}>
-              <p>Alterar Password</p>
-              <div className={styles.formBox}>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Nova Password</label>
-                    <input type="password" />
-                  </div>
-                </form>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Confirmar Password</label>
-                    <input type="password" />
-                  </div>
-                </form>
-              </div>
-              <div className={styles.formBox}>
-                <form className={styles.form_userData}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Password Atual</label>
-                    <input type="password" />
-                  </div>
-                </form>
-              </div>
-              <button type="submit" className={styles.submitButton}>Guardar</button>
-            </div>
+            <ChangePasswordForm></ChangePasswordForm>
           </div>
         </main>
         <footer>

@@ -1,8 +1,9 @@
-import { Controller, Get, Post, UseGuards, Res, Req} from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Res, Req, Body} from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard} from "../auth/guard/jwt.auth.guard";
 import { Response } from "express";
 import {RequestWithUser} from '../auth/types/jwt-payload.type'
+import {ChangeUserDataDto} from './dto/user.dto'
 
 @Controller("user")
 export class UserController {
@@ -22,5 +23,12 @@ export class UserController {
         number: userData.contact.number
       }
     });
+  }
+
+  @Post("changeUserData")
+  @UseGuards(JwtAuthGuard)
+  async changeUserData(@Body() dto: ChangeUserDataDto, @Req() req: RequestWithUser, @Res() res: Response){
+    const userData = await this.userService.changeUserData(dto, req.user.sub)
+    return res.json({ message: 'User updated'})
   }
 }
