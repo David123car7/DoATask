@@ -20,7 +20,19 @@ export class UserService {
                     id: user.contactId
                 }
             })
-            return {user: user, contact: contact}
+            console.log({user: user, contact: contact})
+            return {
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  birthDate: user.birthDate,
+                  totalCoins: user.totalCoins,
+                },
+                contact: {
+                  number: contact.number,
+                }
+              }
         }
         catch(error) {
             this.prisma.handlePrismaError("GetUserData", error)
@@ -68,4 +80,5 @@ export class UserService {
             this.prisma.handlePrismaError("GetUserData", error)
         }
     }
+
 }

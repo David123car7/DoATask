@@ -3,7 +3,7 @@ export const ROUTES = {
   SIGNIN: '/auth/signin',
   SIGNUP: '/auth/signup',
   RESET_PASSWORD: '/auth/requestResetPassword',
-  USER_MAIN: 'user/main',
+  USER_MAIN: '/user/main',
   PRIVATE: '/private' //just for testing
 };
 

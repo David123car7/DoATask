@@ -73,7 +73,11 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
                     recipientId: userId,
                     read: false, 
                 },
+                include:{
+                  recipient: true,
+                }
             });
+            console.log(notifications)
             return notifications;
         }
         catch(error){

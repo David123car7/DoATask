@@ -74,9 +74,11 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
               <MdOutlineSupport /> Centro de Apoio
             </li>
           </ul>
+          {userData ? (
           <div className={styles.logoutBox}>
-            <button className={styles.logoutButton}>Terminar Sessão</button>
+              <button className={styles.logoutButton}>Terminar Sessão</button>
           </div>
+          ) : null}
         </nav>
       )}
     </div>
