@@ -4,15 +4,12 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import Header from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
-import { GetUser } from "@/lib/api/user/get-user";
 
 export default async function store(){
-    const data = await GetUser();
     return (
       <div className="page">
 
        <Header/> 
-
         <main> 
             <div className={styles.container_main}>
                 <div className={styles.titlte_store}>

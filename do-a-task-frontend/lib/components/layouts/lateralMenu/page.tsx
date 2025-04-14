@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
 import { CiUser } from "react-icons/ci";
@@ -11,9 +12,8 @@ import { ROUTES } from "@/lib/constants/routes";
 export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
   const toggleMenu = () => setIsOpen(!isOpen);
-  const router = useRouter(); // Initialize router from next/navigation
+  const router = useRouter(); 
   
 
   useEffect(() => {

@@ -9,55 +9,30 @@ import Image from 'next/image';
 import { ROUTES } from "../../../lib/constants/routes";
 import { useRouter } from 'next/navigation';
 import { ChangePassword } from '@/lib/api/auth/password/change.password';
+import { Header } from '@/lib/components/layouts/header/header';
+import Footer from '@/lib/components/layouts/footer/page';
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { toast } from 'react-toastify';
 
 export default function RequestResetPasswordPage() {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<ChangePasswordSchema>({
-    resolver: zodResolver(changePasswordSchema),
-  });
-
-  const [successMessage, setSuccessMessage] = useState('');
+  const {register, handleSubmit, setError, formState: { errors }} = useForm<ChangePasswordSchema>({resolver: zodResolver(changePasswordSchema)});
   const router = useRouter();
 
   const onSubmit = async (data: ChangePasswordSchema) => {
     try {
-      setSuccessMessage("");
-
-
       const responseData = await ChangePassword(data)
-      setSuccessMessage(responseData.message);
+      toast.success(responseData.message)
       router.push(ROUTES.SIGNIN)
     } catch (error: any) {
-      if (error.field) {
-        setError(error.field, { type: 'manual', message: error.message });
-      } else {
-        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
-      }
+      toast.error(error.message)
     }
   };
 
   return (
     <div className="page-auth">
-      <header>
-        <div>
-          <h1 className="logo_title">DOATASK</h1>
-        </div>
-        <nav>
-          <ul>
-            <li><a href={ROUTES.HOME}>Home</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Criadores</a></li>
-            <li><a href="#">Conta</a></li>
-            <li><a href={ROUTES.SIGNUP}><div className={styles.loginBox}>Registar</div></a></li>
-          </ul>
-        </nav>
-      </header>
-
+      <Header userData={null}/>
       <main>
+        <Toaster/>
         <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Sign In</div>
         </div>
@@ -84,30 +59,12 @@ export default function RequestResetPasswordPage() {
                 <button type="submit" className={styles.submitButton}>Submeter</button>
 
                 {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
-                {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
               </form>
             </div>
           </div>
         </div>
       </main>
-
-      <footer>
-        <div>
-          <p>DOATASK</p>
-          <div className='footerlogo'>
-            <nav className='footerNav'>
-              <ul>
-                <li>
-                  <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                  <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                  <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                  <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }

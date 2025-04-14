@@ -22,5 +22,5 @@ export async function GetUser(){
     if(!data?.user) {
         return null; //the token is invalid, so the user is not authenticated
     }
-    return data.user
+    return {user: data.user}
 }

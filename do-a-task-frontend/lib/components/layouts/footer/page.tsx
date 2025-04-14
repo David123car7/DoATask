@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css"
 
-const Footer: React.FC = () =>{
+export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div>
@@ -22,6 +22,5 @@ const Footer: React.FC = () =>{
             </div>
         </footer>
     );
-  };
+};
   
-  export default Footer;
