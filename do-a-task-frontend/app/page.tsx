@@ -9,6 +9,8 @@ import HeaderWrapper from '@/lib/components/layouts/header/HeaderWrapper';
 import{MdOutlineVolunteerActivism} from "@/lib/icons/index";
 import { FiBookOpen } from "@/lib/icons/index";
 import { RiHandCoinLine } from "@/lib/icons/index";
+import { IoPersonOutline } from "@/lib/icons/index";
+import { BiTask } from "@/lib/icons/index";
 
 export default async function Home() {
 
@@ -41,6 +43,8 @@ export default async function Home() {
         <img src="/assets/logo.png" alt="DOATASK logo"/>
       </section>
 
+      <div className={styles.space}></div>
+
       {/* Features Section */}
       <section className={styles.container}>
         <div>
@@ -60,61 +64,88 @@ export default async function Home() {
         </div>
       </section>
 
+      <div className={styles.space}></div>
+
       {/* Advantages */}
-      <section className="px-6 py-10 text-center">
-        <h2 className="text-xl font-bold mb-4">Vantagens</h2>
-        <p className="mb-2 font-semibold">Bom samaritano</p>
-        <p className="mb-4">Sê uma boa pessoa, um bom samaritano!</p>
-        <p className="mb-2 font-semibold">Ganho de Altruísmo</p>
-        <p>Preocupa-te mais com os outros!</p>
+      <section className={styles.container2}>
+        <div className={styles.textContent}>
+          <h2>Vantagens</h2>
+          <div className={styles.advantage}>
+            <h4>Bom samaritano</h4>
+            <p>Sê uma boa pessoa, um bom samaritano!</p>
+          </div>
+          <div className={styles.advantage}>
+            <h4>Ganho de Altruísmo</h4>
+            <p>Preocupa-te mais com os outros!</p>
+          </div>
+        </div>
+
+        <div className={styles.imageContainer}>
+          <IoPersonOutline size={250} /> 
+        </div>
       </section>
 
+      <div className={styles.space}></div>
+
       {/* Escolha */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 py-10 text-center">
+      <section className={styles.container}>
         <div>
-          <img src="/tarefas-icon.png" alt="Tarefas" className="mx-auto mb-2 w-12" />
-          <h3 className="font-bold">Tarefador</h3>
+          <BiTask size={250}/>
+          <h3>Tarefador</h3>
           <p>Cria tarefas à tua escolha e disponibiliza recompensas!</p>
         </div>
         <div>
-          <img src="/ajudante-icon.png" alt="Ajudante" className="mx-auto mb-2 w-12" />
-          <h3 className="font-bold">Ajudante</h3>
+          <BiTask size={250}/>
+          <h3>Ajudante</h3>
           <p>Participa em quantas tarefas tu quiseres, e recebe recompensas por isso!</p>
         </div>
       </section>
 
-      <p className="text-center italic">O melhor de tudo... podes fazer os 2!!!!</p>
+      <p className={styles.container}>O melhor de tudo... podes fazer os 2!!!!</p>
+      <div className={styles.space}></div>
 
       {/* Testimonials */}
-      <section className="px-6 py-10 text-center">
-        <h2 className="text-xl font-bold mb-4">Experiências...</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white text-black p-4 rounded shadow">
-            <p>"Adorei ajudar e receber por isso"</p>
-            <p className="text-sm mt-2 font-bold">- João, DoaTask user</p>
+      <section className={styles.section}>
+        <h2 className={styles.letter}>Experiências...</h2>
+        
+        <div className={styles.container3}>
+          {/* Citação 1 */}
+          <div className={styles.box}>
+            <p className={styles.quote}>"Adorei ajudar e receber por isso"</p>
+            <p className={styles.author}>João</p>
+            <p className={styles.details}>DoAtask User</p>
           </div>
-          <div className="bg-white text-black p-4 rounded shadow">
-            <p>"Já comprei um telemóvel com as recompensas!"</p>
-            <p className="text-sm mt-2 font-bold">- Luísa, 2 meses de Curitiba</p>
+
+          {/* Citação 2 */}
+          <div className={styles.box}>
+            <p className={styles.quote}>"Já comprei um telemóvel com as recompensas!!"</p>
+            <p className={styles.author}>Luísa</p>
+            <p className={styles.details}>3 anos de Conta!</p>
           </div>
-          <div className="bg-white text-black p-4 rounded shadow">
-            <p>"Ajudar é uma sensação incrível!"</p>
-            <p className="text-sm mt-2 font-bold">- Ricardo, DoaTask user</p>
+
+          {/* Citação 3 */}
+          <div className={styles.box}>
+            <p className={styles.quote}>"Ajudar é uma sensação incrível"</p>
+            <p className={styles.author}>Ricardo</p>
+            <p className={styles.details}>DoAtask User</p>
           </div>
         </div>
       </section>
 
+      <div className={styles.space}></div>
+
       {/* Call to Action */}
-      <section className="bg-white text-black px-6 py-10 text-center">
-        <h2 className="text-2xl font-bold mb-4">Participa!</h2>
-        <div className="space-x-4">
-          <button className="bg-black text-white px-4 py-2 rounded">Realiza uma tarefa</button>
-          <button className="border border-black px-4 py-2 rounded">Cria uma tarefa!</button>
-        </div>
+      <section className={styles.fundo}>
+        <div className={styles.content}>
+          <h2>Participa!</h2>
+            <div className={styles.buttons}>
+              <a href={ROUTES.HOME}>Realiza uma tarefa</a>
+              <a href={ROUTES.HOME}>Cria uma tarefa!</a>
+            </div>
+          </div>
       </section>
       </main>
 
-      
       <Footer/>
     </div>
   );
