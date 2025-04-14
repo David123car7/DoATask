@@ -8,10 +8,10 @@ import { Menu } from "../lateralMenu/page";
 import { FaHome } from "@/lib/icons";
 import {ROUTES} from "@/lib/constants/routes"
 import { Notifications } from "../notifications/notifications";
-import { NotificationDataSchema } from "@/lib/components/layouts/notifications/notification-data-schema";
+import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
 
 
-export function Header({userData, notifications }: {userData: UserDataSchema | null; notifications: NotificationDataSchema }) {
+export function Header({userData}: {userData: UserDataSchema | null}) {
   return (
     <header className={styles.header}>
       <div>
@@ -29,7 +29,7 @@ export function Header({userData, notifications }: {userData: UserDataSchema | n
               <p>{userData.user.totalCoins}</p>
             </li>
             <li>
-              <Notifications userData={notifications}/>
+              <Notifications/>
             </li>
           </>
         )}

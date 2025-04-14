@@ -30,7 +30,7 @@ export default function RequestResetPasswordPage() {
 
   return (
     <div className="page-auth">
-      <Header userData={null} notifications={{ notifications: [] }}/>
+      <Header userData={null}/>
       <main>
         <Toaster/>
         <div className={styles.titleBox}>

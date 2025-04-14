@@ -20,6 +20,13 @@ export class NotificationsController {
     return res.json({message: "Notifications found", notifications: data})
   }
 
+  @Get("getAllNotifications")
+  @UseGuards(JwtAuthGuard)
+  async getAllNotifications(@Req() req: RequestWithUser, @Res() res: Response){
+    const data = await this.notificationsService.getAllNotifications(req.user.sub)
+    return res.json({message: "Notifications found", notifications: data})
+  }
+
   
   @Post("setNotifications")
   @UseGuards(JwtAuthGuard)

@@ -71,11 +71,8 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
             const notifications = await this.prisma.notification.findMany({
                 where: { 
                     recipientId: userId,
-                    /*read: false,*/ 
+                    read: false,
                 },
-                include:{
-                  recipient: true,
-                }
             });
             return notifications;
         }
@@ -83,6 +80,20 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
             this.prisma.handlePrismaError("Get Notifications",error)
         }
     }
+
+    async getAllNotifications(userId: string){
+      try{
+          const notifications = await this.prisma.notification.findMany({
+              where: { 
+                  recipientId: userId,
+              },
+          });
+          return notifications;
+      }
+      catch(error){
+          this.prisma.handlePrismaError("Get Notifications",error)
+      }
+  }
 
     async setNotifications(userId: string) {
         try {

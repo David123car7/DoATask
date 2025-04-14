@@ -11,18 +11,16 @@ const recipientSchema = z.object({
   updatedAt: z.string().datetime(),
 });
 
-const notificationSchema = z.object({
-  id: z.number(),
+export const notificationSchema = z.object({
   title: z.string(),
   message: z.string(),
   read: z.boolean(),
   createdAt: z.string().datetime(),
-  recipientId: z.string(),
-  recipient: recipientSchema,
 });
 
-export const notificationDataSchema = z.object({
-  notifications: z.array(notificationSchema),
-});
+export const notificationDataSchema = z.array(notificationSchema)
+
+
+
 
 export type NotificationDataSchema = z.infer<typeof notificationDataSchema>;
