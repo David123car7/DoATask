@@ -31,7 +31,7 @@ export default function SignInForm() {
   
   return (
     <div className="page-auth">
-      <Header userData={null} />
+      <Header userData={null} notifications={{ notifications: [] }}/>
       <main>
         <Toaster />
         <div className={styles.titleBox}>

@@ -1,13 +1,12 @@
 "use server"
 
 import { createClient } from "../server"
-import {checkAuthCookie} from "@/lib/utils/cookies/auth/check.cookie"
-
+import { getCookie } from "../../cookies/auth"; 
+import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 
 export async function GetUser(){
-    const hasAccessToken = await checkAuthCookie();
-    console.log("hasAccessToken", hasAccessToken);
-    if(!hasAccessToken) {
+    const cookie = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
+    if(!cookie) {
         return null; //the token does not exist, so the user is not authenticated
     }
     const supabase = await createClient()
@@ -22,5 +21,5 @@ export async function GetUser(){
     if(!data?.user) {
         return null; //the token is invalid, so the user is not authenticated
     }
-    return {user: data.user}
+    return {user: data.user, access_token: cookie}
 }

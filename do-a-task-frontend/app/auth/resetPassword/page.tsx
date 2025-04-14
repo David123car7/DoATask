@@ -45,7 +45,7 @@ export default function RequestResetPasswordPage() {
 
   return (
     <div className="page-auth">
-      <Header userData={null} />
+      <Header userData={null} notifications={{ notifications: [] }}/>
   
       <main>
         <Toaster/>
