@@ -2,10 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { UserDataSchema, userDataSchema} from "@/app/user/schema/user-data-schema";
-import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
-import { useRouter } from 'next/navigation';
 import { IoCheckmark } from "react-icons/io5";
 import { ROUTES } from "@/lib/constants/routes";
 import { io } from 'socket.io-client';
@@ -13,15 +9,26 @@ import { GetUser } from '@/lib/utils/supabase/user/get-user';
 import { URLS } from '@/lib/constants/links';
 import { GetNotifications } from '@/lib/api/notifications/get.notifications';
 import { setNotifications } from '@/lib/api/notifications/set.notification';
+import { CountNotifications } from "@/lib/api/notifications/count.notifications";
+import {MdNotificationsActive} from "@/lib/icons"
+import { IoIosNotificationsOutline } from "@/lib/icons"
 
 export function Notifications() {
   const [isOpen, setIsOpen] = useState(false);
   const notifiMenu = useRef<HTMLDivElement>(null);
   const toggleMenu = () => setIsOpen(!isOpen);
+  const [notificationCount, setNotificationCount] = useState(false);
   const [notifications, setNotificationsMsg] = useState<string[]>([]);
 
-
   useEffect(() => {
+    const countNotifications = async () => {      
+      const countNotifications = await CountNotifications()
+      if(countNotifications)
+        setNotificationCount(true)
+      else
+        setNotificationCount(false)
+    }
+
     const loadNotifications = async () => {
       try {
         const data = await GetNotifications();
@@ -70,6 +77,7 @@ export function Notifications() {
       };
     };
 
+    countNotifications()
     loadNotifications();
     const cleanupSocket = connectSocket();
     const handleClickOutside = (event: MouseEvent) => {
@@ -112,9 +120,12 @@ export function Notifications() {
   return (
     <div className={styles.menuContainer} ref={notifiMenu}>
       <button className={styles.notiButton} onClick={toggleMenu}>
-      <IoIosNotificationsOutline size={28} />
+        {notificationCount ? (
+          <MdNotificationsActive size={28}/>
+        ) : (
+          <IoIosNotificationsOutline size={28} />
+        )}
       </button>
-
       {isOpen &&(
         <nav className={styles.navbar}>
           <div className={styles.title}>
@@ -139,7 +150,6 @@ export function Notifications() {
           </div>
         </nav>
       )}
-
     </div>
   )
 }

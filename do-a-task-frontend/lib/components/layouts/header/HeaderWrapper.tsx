@@ -5,8 +5,11 @@ import { GetNotifications } from "@/lib/api/notifications/get.notifications";
 import { Header } from "./header";
 import { userDataSchema } from "@/app/user/schema/user-data-schema";
 import { notificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
+import { CountNotifications } from "@/lib/api/notifications/count.notifications";
 
 export default async function HeaderWrapper() {
-  const resultUser = await GetUserData();
-  return <Header userData={resultUser}/>;
+  const result = await GetUserData();
+  const parseResult = userDataSchema.safeParse(result);
+  const validatedData = parseResult.success ? parseResult.data : null;
+  return <Header userData={validatedData} />;
 }

@@ -24,7 +24,7 @@ export async function GetUserData() {
             throw new Error(errorData.message || 'An unexpected error occurred');
         }
         
-        return response.json()
+        return await response.json()
     } catch (error) {
       console.error('Error signing up:', error);
       throw error;

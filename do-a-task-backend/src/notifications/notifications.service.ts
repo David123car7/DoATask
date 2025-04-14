@@ -66,6 +66,20 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
         this.sendToUser(userId, message)
     }
 
+    async countNotifications(userId: string){
+      try {
+        const notifications = await this.prisma.notification.count({
+          where: { 
+            recipientId: userId,
+            read: false,
+          },
+        });
+        return notifications;
+      } catch (error) {
+        this.prisma.handlePrismaError("Count Notifications", error);
+      }
+    }
+
     async getNotifications(userId: string){
         try{
             const notifications = await this.prisma.notification.findMany({
