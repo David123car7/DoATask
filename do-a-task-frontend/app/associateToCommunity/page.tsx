@@ -1,9 +1,10 @@
 'use client'
-import { GetUser } from "@/lib/api/user/get-user";
+
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useState } from "react";
+import Footer from "@/lib/components/layouts/footer/page";
 
 
 export default function ConnectToCommunity(){
@@ -138,9 +139,6 @@ export default function ConnectToCommunity(){
                 
 
             </div>
-            <footer>
-
-            </footer> 
             {showBlur && (
                 <Link href="#"> {/* Substitua com o caminho para a página de associação */}
                     <button className={styles.associateButton}>
@@ -148,7 +146,7 @@ export default function ConnectToCommunity(){
                     </button>
                 </Link>
             )}
-
+    <Footer/>
         </div>
     );
 }

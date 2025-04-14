@@ -19,32 +19,6 @@
     font-weight: bold;
 }
 
-.user_li{
-    list-style-type: none;
-}
-.user_options{
-    display: flex;
-    padding: 20px 20px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 250px;
-    flex-shrink: 0;
-    height: fit-content;
-    font-size: 20px;
-    margin-left: 60px;
-    margin-top: 10px;
-    background-color: rgb(247, 99, 0);
-    border-radius: 20px;
-    border: 2px solid black;
-}
-
-.user_li li{
-    margin-bottom: 10px;
-}
-.user_li li :hover{
-    color: grey;
-}
 
 .container_options{
     display: flex;
@@ -52,7 +26,6 @@
     justify-content: center; /* Centraliza os elementos */
     align-items: flex-start;
     gap: 50px; /* Espaço entre os blocos */
-
     
 }
 
@@ -73,10 +46,7 @@
 
 .formBox{
     display: flex;
-    margin-left: 1px;
     gap: 50px;
-    margin-bottom: 10px;
-
 }
 
 .forms{
@@ -87,6 +57,7 @@
     border: 3px solid black;
     border-radius: 10px;
     width: 100%;
+    min-height: 200px;
 }
 
 .forms p{
@@ -134,4 +105,25 @@
     font-size: 14px;
     margin-top: 5px;
     text-align: start;
+}
+
+.containerForms{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 5px;
+    gap: 15px;
+}
+.addAdressButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    font-size: 25px;
+}
+
+.addAdressButton svg{
+    color: black;
 }

@@ -2,6 +2,7 @@ import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { Injectable } from "@nestjs/common";
 import { CreateAddressDto } from "./dto/addresses.dto";
+import { error } from "console";
 
 
 @Injectable({})
@@ -53,5 +54,27 @@ export class AddressService{
             return updateAddress;
         }
 
+    }
+
+    async getAllAddresses(userId:string){
+
+        try{
+            const findUser = await this.prisma.user.findUnique({
+                where:{
+                    id: userId
+                },
+                include:{
+                    members:{
+                        include:{
+                            address:true,
+                        }
+                    }
+                }
+            });
+            return findUser?.members || [];
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Getting All Adresses", error);
+        }
     }
 }

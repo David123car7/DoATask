@@ -6,6 +6,7 @@ export const ROUTES = {
   USER_MAIN: '/user/main',
   PRIVATE: '/private', //just for testing
   NOTIFICATION_LIST: '/notificationList',
+  COMMUNITIES:'/associateToCommunity'
 };
 
 export const API_ROUTES = {

@@ -11,7 +11,13 @@ import ChangePasswordForm from "@/lib/components/layouts/forms/change.password.f
 import ChangeUserDataForm from "@/lib/components/layouts/forms/change.user.data.form";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
+import { AddAdress } from "@/lib/components/layouts/addAdressForm/page";
+import { GetAllAddresses } from "@/lib/api/address/get-allAddresses";
+import {AddressSchema} from '@/lib/components/layouts/addAdressForm/Schema/address.schema'
+import { addressSchemaData } from "@/lib/components/layouts/addAdressForm/Schema/address.schema";
 import { API_ROUTES } from "../../../lib/constants/routes";
+
+
 
 export default async function UserMainPage() {
   try {
@@ -19,6 +25,10 @@ export default async function UserMainPage() {
     const validatedData = userDataSchema.parse(user);
     
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
+    const data = await GetAllAddresses();
+    console.log("main1",data);
+    const validatedAddress = addressSchemaData.parse(data);
+    console.log("main2:",validatedAddress);
 
     return (
       <div className="page">
@@ -32,18 +42,16 @@ export default async function UserMainPage() {
               <div className={styles.link_fim}>
                 <Link href={API_ROUTES.SIGNOUT}> Terminar Sessão</Link>
               </div>
-              <div className={styles.user_options}>
-                <ul className={styles.user_li}>
-                  <li><Link href="#">Dados Pessoais</Link></li>
-                  <li><Link href="#">Tarefas</Link></li>
-                  <li><Link href="#">Centro de Apoio</Link></li>
-                </ul>
-              </div>
             </div>
+          </div>
+          <div className={styles.containerForms}>
             {/* Personal Data Forms */}
             <ChangeUserDataForm schemaForm={validatedData}/>
             {/* Password Change Forms */}
             <ChangePasswordForm></ChangePasswordForm>
+            {/* Add Adresses */}
+            <AddAdress allAddresses={validatedAddress} />
+            
           </div>
         </main>
         <Footer/>

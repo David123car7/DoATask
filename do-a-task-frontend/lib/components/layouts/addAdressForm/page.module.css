@@ -1,0 +1,122 @@
+.addressBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 90%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 252, 0.95);
+    padding-top: 0;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    gap: 15px;
+  }
+  
+  .form input {
+    background-color: white;
+    color: black;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgb(187, 187, 187);
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxTitle{
+    display: flex;
+    padding: 20px;
+    background-color: black;
+    align-items: center;
+    justify-content: center;
+}
+
+.button{
+    display: flex;
+    padding: 15px;
+    margin: 60px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.button p{
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.addButton{
+    margin-top: auto;
+    justify-content: center;
+    align-items: center;
+    background:none;
+    color: black;
+}
+
+.boxAddress {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #6db1ff;
+  }
+  
+  .forms {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(6, 127, 241);
+    max-width: 800px;
+    margin: 20px auto; 
+    padding: 20px;
+    border: 3px solid black;
+    border-radius: 10px;
+    width: 100%;
+    min-height: 300px;
+  }
+  
+  .forms p {
+    font-size: 16px; 
+    font-weight: bold;
+    color: white; 
+    margin-bottom: 15px; 
+  }
+  
+  .boxAddress div {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+  }
+  
+  .boxAddress p {
+    margin: 0; 
+    font-size: 14px; 
+    color: #333; 
+  }

@@ -73,6 +73,9 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
             <li>
               <MdOutlineSupport /> Centro de Apoio
             </li>
+            <li>
+              <a href={ROUTES.COMMUNITIES}>As Suas Comunidades</a>
+            </li>
           </ul>
           {userData ? (
           <div className={styles.logoutBox}>
