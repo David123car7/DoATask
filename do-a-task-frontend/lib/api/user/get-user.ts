@@ -2,19 +2,21 @@
 
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie} from "@/lib/utils/cookies/auth/index";
+import { GetUser } from "@/lib/utils/supabase/user/get-user";
 
 export async function GetUserData() {
     try {
-        const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
-        if(!access_token)
-            return {message: "Acess token not found", state: false}
-
+        const user = await GetUser()
+        if(!user) {
+            return null; //the token does not exist, so the user is not authenticated
+        }
+            
         // Send the data to the backend
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user/getUser`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${access_token}`,
+            Authorization: `Bearer ${user.access_token}`,
             },
         });
 

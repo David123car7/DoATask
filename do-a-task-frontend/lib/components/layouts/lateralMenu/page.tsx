@@ -7,7 +7,7 @@ import { FaRegUserCircle,FaTasks } from "react-icons/fa";
 import { MdOutlineSupport } from "react-icons/md";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { useRouter } from 'next/navigation';
-import { ROUTES } from "@/lib/constants/routes";
+import { ROUTES, API_ROUTES} from "@/lib/constants/routes";
 
 export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,7 +76,7 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
           </ul>
           {userData ? (
           <div className={styles.logoutBox}>
-              <button className={styles.logoutButton}>Terminar Sessão</button>
+            <a href={API_ROUTES.SIGNOUT}>Terminar Sessao</a>
           </div>
           ) : null}
         </nav>

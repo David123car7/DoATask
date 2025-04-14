@@ -1,6 +1,9 @@
-import { Controller, Post, Body, Put, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Put, Get, Param, Req, UseGuards, Res} from '@nestjs/common';
 import { CommunityService } from './community.service';
 import { CreateCommunityDto } from './dto/community.dto';
+import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
+import { Response } from 'express';
 
 @Controller('community')
 export class CommunityController {
@@ -18,6 +21,13 @@ export class CommunityController {
       };
     }
 
+    @Get("getUserCommunities")
+    @UseGuards(JwtAuthGuard)
+    async GetUserCommunity(@Req() req: RequestWithUser, @Res() res: Response){
+      const communities = await this.communityService.GetUserCommunities(req.user.sub)
+      return res.json({ message: 'Communities get sucessufel', communities: communities});
+    }
+
     @Post("addStreetCommunity")
     async addStreet(@Body() dto: CreateCommunityDto/*, localityId: number*/) {
       // Criação da tarefa usando o serviço
@@ -30,8 +40,6 @@ export class CommunityController {
       };
     }
 
-
-  
     @Get(':id')
     async getCommunityData(@Param('id') id:string){
       const community = parseInt(id);

@@ -4,29 +4,25 @@ import { SupabaseService } from "src/supabase/supabase.service";
 import { CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "src/lib/constants/tasks/tasks.constants";
 import { EvaluateTaskDto } from "./dto/tasks.dto";
-import { HttpException, HttpStatus } from "@nestjs/common";
-
 
 @Injectable({})
 export class TasksService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-    async createTask(dto: CreateTasksDto) {
-        if (!['easy', 'medium', 'hard'].includes(dto.difficulty)) {
-            throw new HttpException("Dificuldade inválida", HttpStatus.BAD_REQUEST)
-        }
-        
+    async createTask(dto: CreateTasksDto, userId: string) {
         const reward = baseReward[dto.difficulty]
-        
+        const memberId = (await this.getMemberByParish(userId,dto.parish)).id
+        console.log("MemberID", memberId)
         let task
         try{
             task = await this.prisma.task.create({
                 data: {
-                    title: dto.title,
-                    difficulty: dto.difficulty,
-                    coins: reward.coins,
-                    points: reward.points,
-                    creatorId: 1,  // Usar o id do usuário autenticado
+                    title: dto.tittle,
+                    difficulty: parseInt(dto.difficulty),
+                    location: dto.location,
+                    coins: 1,
+                    points: 2,
+                    creatorId: memberId,  // Usar o id do usuário autenticado
                 },
                 include: {
                     creator: {
@@ -38,7 +34,6 @@ export class TasksService{
                                 },
                             },
                             address: true, // Incluir o endereço do criador
-                            
                         },
                     },
                 },
@@ -49,6 +44,26 @@ export class TasksService{
         }
     
         return { message: "Created task with sucess", taskData: task}
+    }
+
+    async getMemberByParish(userId: string, parish: string){
+        try{
+            const community = await this.prisma.community.findFirst({
+                where:{
+                    parish: parish
+                }
+            })
+
+            const member = await this.prisma.member.findFirst({
+                where:{
+                    communityId: community.id
+                }
+            })
+            return member
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Getting Member" ,error)
+        }
     }
 
     //  FAlTA  TESTAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!

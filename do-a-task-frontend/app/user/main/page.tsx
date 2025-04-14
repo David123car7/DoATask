@@ -11,6 +11,7 @@ import ChangePasswordForm from "@/lib/components/layouts/forms/change.password.f
 import ChangeUserDataForm from "@/lib/components/layouts/forms/change.user.data.form";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
+import { API_ROUTES } from "../../../lib/constants/routes";
 
 export default async function UserMainPage() {
   try {
@@ -29,7 +30,7 @@ export default async function UserMainPage() {
                 Olá, {validatedData.user.name}
               </div>
               <div className={styles.link_fim}>
-                <Link href="#"> Terminar Sessão</Link>
+                <Link href={API_ROUTES.SIGNOUT}> Terminar Sessão</Link>
               </div>
               <div className={styles.user_options}>
                 <ul className={styles.user_li}>

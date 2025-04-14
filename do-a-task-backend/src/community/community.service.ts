@@ -2,9 +2,8 @@ import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { Injectable } from "@nestjs/common";
 import { CreateCommunityDto } from "./dto/community.dto";
-import { error } from "console";
 import { LocalityService } from "src/locality/locality.service";
-
+import { RequestWithUser } from "src/auth/types/jwt-payload.type";
 
 @Injectable({})
 export class CommunityService{
@@ -25,6 +24,33 @@ export class CommunityService{
         }
 
         throw new Error("O nome que escolheu já existe");
+    }
+
+    async GetUserCommunities(userId: string){
+        try{
+            const communitys = await this.prisma.userCommunity.findMany({
+                where:{
+                    userId: userId
+                }
+            });
+
+            const communities = await this.prisma.community.findMany({
+                where:{
+                    id: {
+                        in: communitys.map(c => c.communityId)
+                    } 
+                },
+                select:{
+                    parish: true
+                }
+            });
+            console.log("dwnujadnbhwabnda")
+
+            return communities;
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Get User Communities",error)
+        }
     }
 
 

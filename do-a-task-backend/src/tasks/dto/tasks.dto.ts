@@ -1,17 +1,28 @@
 
 import { Transform } from "class-transformer";
-import { IsInt, IsNotEmpty, IsString, Max, Min } from "class-validator";
+import { IsInt, IsNotEmpty, IsNumber, IsString, Max, Min } from "class-validator";
 
 
 export class CreateTasksDto{
 
     @IsString()
     @IsNotEmpty()
-    title: string
+    tittle: string
 
     @IsString()
     @IsNotEmpty()
-    difficulty: 'easy' | 'medium' | 'hard'
+    description: string
+
+    @IsString()
+    difficulty: "1" | "2" | "3"
+
+    @IsString()
+    @IsNotEmpty()
+    location: string
+
+    @IsString()
+    @IsNotEmpty()
+    parish: string
 }
 
 export class EvaluateTaskDto{

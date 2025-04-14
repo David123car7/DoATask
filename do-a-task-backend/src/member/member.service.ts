@@ -30,7 +30,6 @@ export class MemberService{
                 }
             });
             return createMember;
- 
     }
 }
 

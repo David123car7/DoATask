@@ -13,9 +13,8 @@ export class StorageController {
 
   @Post("uploadImage")
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FilesInterceptor("image"))
+  @UseInterceptors(FilesInterceptor("images"))
   async uploadImage(@Body() dto: UploadDeleteFile, @UploadedFiles() files: Express.Multer.File[],@Req() req: RequestWithUser, @Res() res: Response){
-    console.log(dto.folderName)
     files.map((file) => {
         if (!file) {
           throw new HttpException(`File invalid: ${file.originalname}`, HttpStatus.BAD_REQUEST);
