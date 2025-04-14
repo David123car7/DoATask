@@ -156,7 +156,7 @@ a.secondary {
   }
 
   .ctas a {
-    font-size: 14px;
+    font-size: 140px;
     height: 40px;
     padding: 0 16px;
   }
@@ -177,3 +177,45 @@ a.secondary {
     filter: invert();
   }
 }
+
+  .letter {
+    font-size: 25px;
+    color: black;
+    line-height: 1.2;
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+
+  .lis{
+    font-size: 25px;
+    color: black;
+    line-height: 1.2;
+    margin: 20px;
+  }
+
+  .buttons a{
+    background-color: #000000; 
+    color: #ffffff;
+    border-radius: 15px;
+    padding: 20px 35px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+  .image{
+    max-width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;          /* Torna o elemento bloco */
+    margin-left: auto;       /* Centraliza horizontalmente */
+    margin-right: auto;
+  }
+
+  .container{
+    font-size: 25px;
+    color: black;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }

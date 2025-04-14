@@ -28,7 +28,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.15",
     "@nestjs/platform-socket.io": "^11.0.15",
-    "@nestjs/websockets": "^11.0.15",
+    "@nestjs/websockets": "^11.0.17",
     "@prisma/client": "^6.5.0",
     "@supabase/supabase-js": "^2.49.3",
     "cache-manager": "^6.4.2",
