@@ -1,0 +1,133 @@
+.menuContainer {
+  position: relative; /* Isso é essencial para conter o absolute */
+  display: inline-block;
+  z-index: 1000; /* Garante que fique acima de outros elementos */
+}
+
+.notiButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  padding: 8px;
+}
+
+.navbar {
+  position: absolute;
+  top: calc(100% + 5px); 
+  right: 0;
+  width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: white; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001; 
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  opacity: 1; 
+  visibility: visible;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar {
+  animation: slideDown 0.3s ease-out;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-size: 1.5rem;
+}
+
+.title button{
+  background: none;
+  color: black;
+}
+
+.options {
+  list-style: none;
+  padding: 20px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.options li{
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  border: 2px solid black;
+
+}
+
+.notificationItem {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #ffffff; 
+  transition: background-color 0.2s;
+}
+
+.notificationItem:hover {
+  background-color: #e9e9e9; 
+}
+
+.notification span {
+  font-weight: bold; 
+  color: #000000;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+
+}
+
+.notification p {
+  font-size: 1rem;
+  color: #000000;
+  margin-top: 0.2rem; 
+  text-transform: uppercase;
+}
+
+.emptyNotification {
+  padding: 16px;
+  text-align: center;
+  color: #777;
+  background-color: white; 
+}
+
+.allNotifi{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.allNotifi a{
+  font-size: 1rem;
+  padding: .5rem;
+}
+
+.allNotifi a:hover{
+  color: rgb(87, 86, 86)
+}
+
+.withoutNoti{
+  padding: 1rem;
+  font-size: 1rem;
+}

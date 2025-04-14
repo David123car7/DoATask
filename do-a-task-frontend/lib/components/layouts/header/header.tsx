@@ -7,8 +7,11 @@ import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { Menu } from "../lateralMenu/page";
 import { FaHome } from "@/lib/icons";
 import {ROUTES} from "@/lib/constants/routes"
+import { Notifications } from "../notifications/notifications";
+import { NotificationDataSchema } from "@/lib/components/layouts/notifications/notification-data-schema";
 
-export function Header({userData }: {userData: UserDataSchema | null }) {
+
+export function Header({userData, notifications }: {userData: UserDataSchema | null; notifications: NotificationDataSchema }) {
   return (
     <header className={styles.header}>
       <div>
@@ -19,8 +22,15 @@ export function Header({userData }: {userData: UserDataSchema | null }) {
         <li><a href={ROUTES.HOME}><FaHome size={28}></FaHome></a></li>
         {userData && (
           <>
-            <li><FaCoins size={28} /></li>
-            <li><p>{userData.user.totalCoins}</p></li>
+            <li>
+              <a href=""><FaCoins size={28} /></a>
+            </li>
+            <li>
+              <p>{userData.user.totalCoins}</p>
+            </li>
+            <li>
+              <Notifications userData={notifications}/>
+            </li>
           </>
         )}
           <>
