@@ -1,15 +1,35 @@
-import { Controller, Get, UseGuards, Req, Post, Body} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { User } from '@prisma/client';
-import { GetUser } from '../auth/decorator/get-user-decorator';
-import { JwtGuard } from '../auth/guard';
+import { Controller, Get, Post, UseGuards, Res, Req, Body} from '@nestjs/common';
+import { UserService } from './user.service';
+import { JwtAuthGuard} from "../auth/guard/jwt.auth.guard";
+import { Response } from "express";
+import {RequestWithUser} from '../auth/types/jwt-payload.type'
+import {ChangeUserDataDto} from './dto/user.dto'
 
-@UseGuards(JwtGuard)
-@Controller('user')
+@Controller("user")
 export class UserController {
+  constructor(private readonly userService: UserService) {}
+  
+  @Get('getUser')
+  @UseGuards(JwtAuthGuard)
+  async getUserData(@Req() req: RequestWithUser, @Res() res: Response) {
+    const userData = await this.userService.getUserData(req.user.email)
+    return res.json({ message: 'User was found', 
+      user: {
+        name: userData.user.name,
+        email: userData.user.email,
+        birthDate: userData.user.birthDate,
+        totalCoins: userData.user.totalCoins
+      },
+      contact: { 
+        number: userData.contact.number
+      }
+    });
+  }
 
-    @Get("me")
-    getMe(@GetUser() user: User){
-        return user;
-    }
+  @Post("changeUserData")
+  @UseGuards(JwtAuthGuard)
+  async changeUserData(@Body() dto: ChangeUserDataDto, @Req() req: RequestWithUser, @Res() res: Response){
+    const userData = await this.userService.changeUserData(dto, req.user.sub)
+    return res.json({ message: 'User updated'})
+  }
 }

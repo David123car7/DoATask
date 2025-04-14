@@ -1,12 +1,28 @@
 
+.page-auth{
+  display: flex;
+  flex-direction: column;
+  background: rgb(106,187,255);
+  background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
+  overflow: hidden; /* Remove a barra de rolagem */
+  min-height: 100vh;
+}
+
 .page{
   display: flex;
   flex-direction: column;
-  height: auto;
   background: rgb(106,187,255);
   background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
+  min-height: 100vh;
+  margin: 0;
 }
 
+.logo_title{
+  margin-left: 40px;
+  font-size: 60px;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 header{
   display: flex;
   justify-content: space-between;
@@ -46,7 +62,8 @@ nav ul{
 
 nav ul li{
   display: inline;
-  
+  color: black;
+  font-size: 20;
 }
 
 nav ul li a{
@@ -66,11 +83,41 @@ button{
 
 main{
   display: flex;
-  margin-right: 20px;
-  margin-left: 20px;
-  height: 100vh;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 40px;
 }
 
+
+.sucess_message{
+  color: rgb(5, 241, 190);
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.error_message{
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: start;
+}
+.footerNav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerNav li{
+  display: inline;
+}
+
+.footerlogo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 40px;
+}
 
 :root {
   --background: #ffffff;
@@ -89,7 +136,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 body {

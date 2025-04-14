@@ -1,111 +1,133 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { AuthDtoSignup, AuthDtoSignin, AuthDtoChangePassword, AuthDtoResetPassword, AuthDtoRequestResetPassword} from "./dto";
+import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
-import * as argon from "argon2";
-import { JwtService } from "@nestjs/jwt";
-import { AuthDtoSignup, AuthDtoSignin } from "./dto";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ConfigService } from "@nestjs/config";
+import { FRONTEND_ROUTES } from "src/lib/constants/routes/frontend";
+import { NotificationsService } from "src/notifications/notifications.service";
 
 @Injectable({})
 export class AuthService{
-    constructor(private prisma: PrismaService, private jwt: JwtService, private config: ConfigService){
+    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private notifications: NotificationsService) {}
 
+    async testNotifications(userId: string, tittle: string, message: string){
+        const not = await this.notifications.sendNotification(userId, tittle, message)
     }
 
-    async signup(dto: AuthDtoSignup){
-        //generate a hash password
-        const hash = await argon.hash(dto.password);
+    async signup(dto: AuthDtoSignup) {
+        const email = dto.email;
+        const password = dto.password;
 
-        try{
-            //save the new user in the db
-            const user = await this.prisma.user.create({
-                data: {
-                    email: dto.email,
-                    name: dto.name,  
-                    //birthDate: dto.birthDate,        
-                    birthDate: new Date(),  
-                    hash,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    totalCoins: 0,
-                }, 
-            });
-
-            const address = await this.prisma.address.create({});
-
-            const locality = await this.prisma.locality.create({});
-
-            const community = await this.prisma.community.create({
-                data:{
-                    localityId: locality.id,
-                }
-            });
-
-            const member = await this.prisma.member.create({
-                data: {
-                    userId: user.id,
-                    addressId: address.id,
-                    communityId: community.id,
-                }, 
-            });
-
-            const acessToken = this.signToken(user.id, user.email);  
-            return {
-                acessToken,
-                message: "User Signed Up successfully"
-            }
+        const { data, error } = await this.supabaseService.getPublicClient().auth.signUp({
+            email,
+            password
+        });
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "SignUp User")
         }
-        catch(error){
-            if(error instanceof PrismaClientKnownRequestError){
-                if(error.code === "P2002"){
-                    throw new ForbiddenException("Credentials Taken");
-                }
-            }
-            throw error;
-        }
+
+            const result = await this.prisma.$transaction(async (prisma) => {
+                const contact = await prisma.contact.create({
+                    data: { number: dto.contactNumber },
+                });
+              
+            const user = await prisma.user.create({
+                data: {
+                id: data.user.id,
+                name: dto.name,
+                email: dto.email,
+                birthDate: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                totalCoins: 0,
+                contactId: contact.id,
+                },
+            });
+        });
         
-    }
+        return { message: "Signup successful", user: data.user };
 
+    }
+    
     async sighin(dto: AuthDtoSignin){
-        //find the user
-        const user = await this.prisma.user.findUnique({
-            where: {
-                email: dto.email
-            }
+        const email = dto.email;
+        const password = dto.password;
+
+        const { data, error } = await this.supabaseService.getPublicClient().auth.signInWithPassword({
+            email,
+            password
         });
 
-        if(!user)
-            throw new ForbiddenException("Invalid Credentials");
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "SignIn User");
+        }
 
-        //Compares the password
-        const pwMatches = await argon.verify(user.hash, dto.password);
-        if(!pwMatches)
-            throw new ForbiddenException("Invalid Credentials");
+        return { 
+            user: data.user,
+            session: data.session,
+        };
+    }
 
-        const acessToken = this.signToken(user.id, user.email);  
-        return {
-            acessToken,
-            message: "User Signed In successfully"
+    async refreshSession(refreshToken: string){
+        const { data, error } = await this.supabaseService.getPublicClient().auth.refreshSession({refresh_token: refreshToken,});
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "Refresh Session")
+        }
+        return { user: data.user, session: data.session, };
+    }
+
+    async signout() {
+        const { error } = await this.supabaseService.getPublicClient().auth.signOut();
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "SignOut User")
         }
     }
 
-    async signToken( userId: number, email: string,): Promise<{ access_token: string }> {
-        const payload = {
-          sub: userId,
-          email,
-        };
-        const secret = this.config.get('JWT_SECRET');
-    
-        const token = await this.jwt.signAsync(
-          payload,
-          {
-            expiresIn: '15m',
-            secret: secret,
-          },
-        );
-    
-        return {
-          access_token: token,
+    async changePassword(dto: AuthDtoChangePassword, email: string){
+        const currentPassword = dto.currentPassword
+        const password = dto.newPassword
+        const password2 = dto.newPassword2
+        if(password != password2)
+            throw new HttpException("The passwords are different", HttpStatus.BAD_REQUEST)
+
+        if(password == currentPassword)
+            throw new HttpException("The current password is the same", HttpStatus.BAD_REQUEST)
+
+        const {data: signInData, error: signInError} = await this.supabaseService.getPublicClient().auth.signInWithPassword({email, password: currentPassword})
+        if(signInError){
+            this.supabaseService.handleSupabaseError(signInError, "Change Password");
+        }
+
+        const {data: updateUserData, error: updateUserError} = await this.supabaseService.getPublicClient().auth.updateUser({password: password})
+        if (updateUserError) {
+            this.supabaseService.handleSupabaseError(updateUserError, "Change Password");
+        }
+        return { 
+            message: 'Passord changed successfully'
         };
     }
-}
+
+    async requestResetPassword(dto: AuthDtoRequestResetPassword){
+        const {data, error} = await this.supabaseService.getPublicClient().auth.resetPasswordForEmail(dto.email, {redirectTo: FRONTEND_ROUTES.RESET_PASSWORD})
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "Request Reset Password");
+        }
+        return { 
+             message: 'Password reset request successfull'
+        };
+    }
+
+    async resetPassword(dto: AuthDtoResetPassword, userId : string){
+        const password = dto.newPassword
+        const password2 = dto.newPassword2
+        if(password != password2)
+            throw new HttpException("The passwords are different", HttpStatus.BAD_REQUEST)
+
+        const { data, error } = await this.supabaseService.getAdminClient().auth.admin.updateUserById(userId, {password: password})
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "Reset Password");
+        }
+        return { 
+             message: 'Passord changed successfully'
+        };
+    }
+} 

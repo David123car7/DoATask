@@ -3,86 +3,60 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type SignInSchema } from '../schema/signin-form-schema';
-import { SigninUser} from './utils/signin.api'
+import { SigninUser} from '../../../lib/api/auth/authentication/signin'
 import { useState } from 'react';
 import styles from './page.module.css';
+import Image from 'next/image';
+import { ROUTES } from "../../../lib/constants/routes"
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Header } from '@/lib/components/layouts/header/header';
+import Footer from '@/lib/components/layouts/footer/page';
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { toast } from 'react-toastify';
 
 export default function SignInForm() {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<SignInSchema>({
-    resolver: zodResolver(signInSchema), // Use Zod for validation
-  });
+  const { register, handleSubmit} = useForm<SignInSchema>({resolver: zodResolver(signInSchema)});
+  const router = useRouter(); 
   
-  const [successMessage, setSuccessMessage] = useState('');
-
   const onSubmit = async (data: SignInSchema) => {
     try {
-      setSuccessMessage("") //its done because if the next outcome is different it will only show one outcome (a error or a sucess)
       const responseData = await SigninUser(data);
-      console.log('Success:', responseData.message);
-      setSuccessMessage(responseData.message);
+      toast.success(responseData.message)
+      router.push(ROUTES.HOME)
     } catch (error: any) {
-      console.error('Error signing up:', error);
-
-      if (error.field) {
-        setError(error.field, { type: 'manual', message: error.message });
-      } else {
-        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
-      }
+      toast.error(error.message)
     }
   };
   
   return (
-    <div className='page'>
-    <header>
-        <div>
-            <h1 className={styles.logo_title}>DOATASK</h1>
+    <div className="page-auth">
+      <Header userData={null} notifications={{ notifications: [] }}/>
+      <main>
+        <Toaster />
+        <div className={styles.titleBox}>
+          <div className={styles.mainTitle}>Sign In</div>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Criadores</a></li>
-                <li><a href="#">Conta</a></li>
-                <li><a href="#">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <div className={styles.container}>
-
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <div className={styles.container_form}>
+          <div className={styles.formBox}>
+            <div className={styles.container}>
+              <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <div className={styles.inputGroup}>
-                    <label htmlFor="email" className={styles.label}>Email</label>
-                    <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
-                    {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
+                  <label htmlFor="email" className={styles.label}>Email</label>
+                  <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
                 </div>
                 <div className={styles.inputGroup}>
-                    <label htmlFor="password" className={styles.label}>Password</label>
-                    <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
-                    {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+                  <label htmlFor="password" className={styles.label}>Password</label>
+                  <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
                 </div>
-                    <button type="submit" className={styles.submitButton}>Submeter</button>
-
-                {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            </form>
-        </div>
-        
-    </main>
-
-        <footer>
-            <div>
-                <p>DOATASK</p>
+                <button type="submit" className={styles.submitButton}>Submeter</button>
+              </form>
             </div>
-
-        </footer>
-
-   
-</div>
-);
+            <Link href={ROUTES.RESET_PASSWORD} className={styles.reset_password}>Resetar Password</Link>
+          </div>
+        </div>
+      </main>
+      <Footer/>
+    </div>
+  );
 }

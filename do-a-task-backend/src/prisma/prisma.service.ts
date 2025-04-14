@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient} from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { HttpException, HttpStatus} from '@nestjs/common';
 
 @Injectable()
 export class PrismaService extends PrismaClient{
@@ -13,14 +15,26 @@ export class PrismaService extends PrismaClient{
                     },
                 },
         });
-        console.log(config.get("DATABASE_URL"));
     }
 
-    //tear down logic
-    cleanDb(){
-        return this.$transaction([ //executes by order
-            this.user.deleteMany(),
-            this.member.deleteMany(),
-        ])
-    }
+    //https://www.prisma.io/docs/orm/reference/error-reference
+    handlePrismaError(error: unknown, context: string): never {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          switch (error.code) {
+            case 'P2002':
+              // Unique constraint violation.
+              throw new HttpException(
+                `${context}: Duplicate field value violates a unique constraint.`,
+                HttpStatus.BAD_REQUEST
+              );
+            default:
+              throw new HttpException(
+                `${context}: Unexpected Prisma error with code ${error.code}.`,
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+          }
+        }
+        // For non-Prisma errors, throw a generic internal server error.
+        throw new HttpException(`${context}: An unexpected error occurred.`, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
 }
