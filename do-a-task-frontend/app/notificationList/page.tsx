@@ -4,7 +4,7 @@ import Footer from "@/lib/components/layouts/footer/page";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import styles from "./page.module.css"
 import { GetNotifications } from "@/lib/api/notifications/get.notifications";
-import { notificationDataSchema } from "../user/schema/notification-data-schema";
+import { notificationDataSchema } from "../../lib/components/layouts/notifications/notification-data-schema";
 
 export default async function NotificationList(){
 

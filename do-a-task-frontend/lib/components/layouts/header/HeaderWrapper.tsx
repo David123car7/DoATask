@@ -4,7 +4,7 @@ import { GetUserData } from "@/lib/api/user/get-user";
 import { GetNotifications } from "@/lib/api/notifications/get.notifications";
 import { Header } from "./header";
 import { userDataSchema } from "@/app/user/schema/user-data-schema";
-import { notificationDataSchema } from "@/app/user/schema/notification-data-schema";
+import { notificationDataSchema } from "@/lib/components/layouts/notifications/notification-data-schema";
 
 export default async function HeaderWrapper() {
   const resultUser = await GetUserData();

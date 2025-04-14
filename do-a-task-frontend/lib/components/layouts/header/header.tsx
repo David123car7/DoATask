@@ -8,7 +8,7 @@ import { Menu } from "../lateralMenu/page";
 import { FaHome } from "@/lib/icons";
 import {ROUTES} from "@/lib/constants/routes"
 import { Notifications } from "../notifications/notifications";
-import { NotificationDataSchema } from "@/app/user/schema/notification-data-schema";
+import { NotificationDataSchema } from "@/lib/components/layouts/notifications/notification-data-schema";
 
 
 export function Header({userData, notifications }: {userData: UserDataSchema | null; notifications: NotificationDataSchema }) {

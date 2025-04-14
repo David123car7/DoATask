@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
-import { NotificationDataSchema } from "@/app/user/schema/notification-data-schema";
+import { NotificationDataSchema } from "@/lib/components/layouts/notifications/notification-data-schema";
 import { useRouter } from 'next/navigation';
 import { IoCheckmark } from "react-icons/io5";
 import { ROUTES } from "@/lib/constants/routes";
