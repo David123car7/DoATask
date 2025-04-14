@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import { GetUser } from '@/lib/api/user/get-user';
+import { GetUser } from '@/lib/utils/supabase/user/get-user';
 import { URLS } from '@/lib/constants/links';
 import { GetNotifications } from '@/lib/api/notifications/get.notifications';
 import { setNotifications } from '@/lib/api/notifications/set.notification';
@@ -27,7 +27,7 @@ export default function NotificationClient() {
     // Function to connect the socket for real-time updates
     const connectSocket = async () => {
       const user = await GetUser();
-      if (!user.access_token) {
+      if (!user) {
         console.error("Access token not found");
         return;
       }
