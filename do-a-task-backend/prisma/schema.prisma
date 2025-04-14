@@ -54,12 +54,14 @@ model Notification {
 model Community {
   id              Int               @id @default(autoincrement())
   localityId      Int
-  parish          String?
+  communityName   String
   locality        Locality          @relation(fields: [localityId], references: [id])
   stores          Store[]
   StreetCommunity StreetCommunity[]
   userCommunities UserCommunity[]
   members         Member[]
+
+  creatorId String 
 }
 
 model Locality {

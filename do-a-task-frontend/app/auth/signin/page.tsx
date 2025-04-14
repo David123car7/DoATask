@@ -16,7 +16,7 @@ import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 
 export default function SignInForm() {
-  const { register, handleSubmit} = useForm<SignInSchema>({resolver: zodResolver(signInSchema)});
+  const { register, handleSubmit, formState: { errors }} = useForm<SignInSchema>({resolver: zodResolver(signInSchema)});
   const router = useRouter(); 
   
   const onSubmit = async (data: SignInSchema) => {
@@ -44,10 +44,12 @@ export default function SignInForm() {
                 <div className={styles.inputGroup}>
                   <label htmlFor="email" className={styles.label}>Email</label>
                   <input type="email" id="email" className={styles.input} {...register('email')} placeholder="Email"/>
+                  {errors.email && <p className={styles.error_message}>{errors.email.message}</p>}
                 </div>
                 <div className={styles.inputGroup}>
                   <label htmlFor="password" className={styles.label}>Password</label>
                   <input type="password" id="password" className={styles.input} {...register('password')} placeholder="Password"/>
+                  {errors.password && <p className={styles.error_message}>{errors.password.message}</p>}
                 </div>
                 <button type="submit" className={styles.submitButton}>Submeter</button>
               </form>

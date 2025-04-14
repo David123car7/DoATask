@@ -5,5 +5,9 @@ export class CreateCommunityDto{
 
     @IsNotEmpty()
     @IsString()
-    name: string
+    communityName: string
+
+    @IsNotEmpty()
+    @IsString()
+    location: string
 }

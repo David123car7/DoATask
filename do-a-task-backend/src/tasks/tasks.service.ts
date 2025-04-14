@@ -50,7 +50,7 @@ export class TasksService{
         try{
             const community = await this.prisma.community.findFirst({
                 where:{
-                    parish: parish
+                    communityName: parish
                 }
             })
 

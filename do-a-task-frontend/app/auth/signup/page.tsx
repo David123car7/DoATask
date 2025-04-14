@@ -14,7 +14,7 @@ import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 
 export default function SignUpForm() {
-  const {register, handleSubmit, setError, formState: { errors }} = useForm<SignUpSchema>({resolver: zodResolver(signUpSchema)});
+  const {register, handleSubmit, formState: { errors }} = useForm<SignUpSchema>({resolver: zodResolver(signUpSchema)});
   const router = useRouter(); 
 
   const onSubmit = async (data: SignUpSchema) => {

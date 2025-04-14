@@ -1,9 +1,12 @@
 import { z } from "zod";
 
-export const communityNameSchema = z.object({
-    parish: z.string()
+export const getCommunitySchema = z.object({
+  communityName: z.string(),
+  locality: z.object({
+    name: z.string(),
+  }),
 });
 
-export const communityNameSchemaArray = z.array(communityNameSchema)
+export const getCommunitySchemaArray = z.array(getCommunitySchema);
 
-export type CommunityNameSchemaArray = z.infer<typeof communityNameSchemaArray>;
+export type GetCommunitySchemaSchemaArray = z.infer<typeof getCommunitySchemaArray>;

@@ -10,21 +10,23 @@ export class CommunityController {
     constructor(private communityService: CommunityService) {}
 
     @Post("createCommunity")
-    async createTask(@Body() dto: CreateCommunityDto, localityId: number) {
-      // Criação da tarefa usando o serviço
-      const task = await this.communityService.createCommunity(dto, localityId);
-      
-      // Retorna o status e os dados da tarefa criada
-      return {
-        status: 'success',  // Corrigido o typo para "success"
-        task,               // Tarefa criada
-      };
+    @UseGuards(JwtAuthGuard)
+    async createTask(@Body() dto: CreateCommunityDto, @Req() req: RequestWithUser ,@Res() res: Response) {
+      const task = await this.communityService.createCommunity(dto, req.user.sub);
+      return res.json({ message: 'Communitie created'});
     }
 
     @Get("getUserCommunities")
     @UseGuards(JwtAuthGuard)
     async GetUserCommunity(@Req() req: RequestWithUser, @Res() res: Response){
       const communities = await this.communityService.GetUserCommunities(req.user.sub)
+      return res.json({ message: 'Communities get sucessufel', communities: communities});
+    }
+
+    @Get("getAllCommunities")
+    @UseGuards(JwtAuthGuard)
+    async GetAllCommunity(@Res() res: Response, @Req() req: RequestWithUser){
+      const communities = await this.communityService.GetAllCommunitiesWithLocality(req.user.sub)
       return res.json({ message: 'Communities get sucessufel', communities: communities});
     }
 

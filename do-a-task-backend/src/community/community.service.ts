@@ -1,6 +1,6 @@
 import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateCommunityDto } from "./dto/community.dto";
 import { LocalityService } from "src/locality/locality.service";
 import { RequestWithUser } from "src/auth/types/jwt-payload.type";
@@ -9,21 +9,61 @@ import { RequestWithUser } from "src/auth/types/jwt-payload.type";
 export class CommunityService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private readonly localityService: LocalityService) {}
 
-    async createCommunity(dto: CreateCommunityDto,locality: number){
+    async createCommunity(dto: CreateCommunityDto, userId: string){
 
-        const existCommunity = await this.localityService.getLocalityDataById(locality);
+        try{
+            const checkName = await this.prisma.community.findFirst({
+                where:{
+                    communityName: dto.communityName
+                }
+            })
+            if(checkName){
+                throw new HttpException("Community with this name allready exists", HttpStatus.BAD_REQUEST)
+            }
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Find Community", error)
+        }
 
-        if(!existCommunity){
+        try{
+            const checkName2 = await this.prisma.locality.findFirst({
+                where:{
+                    name: dto.location
+                }
+            })
+            if(!checkName2){
+                throw new HttpException("Location with this name does not exist", HttpStatus.BAD_REQUEST)
+            }
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Find Location", error)
+        }
+
+        let locality
+        try{
+            locality = await this.prisma.locality.findFirst({
+                where:{
+                    name: dto.location,
+                }
+            })
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Find Community", error)
+        }
+
+        try{
             const createCommunity = await this.prisma.community.create({
                 data:{
-                    parish: dto.name,
-                    localityId: locality,
+                    communityName: dto.communityName,
+                    localityId: locality.id,
+                    creatorId: userId,
                 }
             });
             return createCommunity;
         }
-
-        throw new Error("O nome que escolheu já existe");
+        catch(error){
+            this.prisma.handlePrismaError("Create community", error)
+        }
     }
 
     async GetUserCommunities(userId: string){
@@ -41,10 +81,9 @@ export class CommunityService{
                     } 
                 },
                 select:{
-                    parish: true
+                    communityName: true
                 }
             });
-            console.log("dwnujadnbhwabnda")
 
             return communities;
         }
@@ -52,6 +91,49 @@ export class CommunityService{
             this.prisma.handlePrismaError("Get User Communities",error)
         }
     }
+
+    //Gets all communities that the user is not in
+    async GetAllCommunitiesWithLocality(userId: string){
+        try{
+            const communitys = await this.prisma.userCommunity.findMany({
+                where:{
+                    userId: userId
+                }
+            });
+
+            const communities = await this.prisma.community.findMany({
+                where:{
+                    id: {
+                        notIn: communitys.map(c => c.communityId)
+                    } 
+                },
+                select: {
+                    locality: {
+                      select: { name: true },
+                    },
+                    communityName: true,
+                },
+            });
+
+            return communities;
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Get User Communities",error)
+        }
+    }
+
+    async UserEnterCommunity(userId: string, communityName: string){
+        try{
+            const result = await this.prisma.$transaction(async (prisma) => {
+            }
+
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Enter Community",error)
+        }
+    }
+
+
 
 
 
@@ -71,14 +153,14 @@ export class CommunityService{
         const existAdrresses = await this.prisma.streetCommunity.findFirst({
             where:{
                 communityId: existCommunity.id,
-                street: dto.name,
+                street: dto.communityName,
             }
         });
 
         if(!existAdrresses){
             const addAdrresses = await this.prisma.streetCommunity.create({
                 data:{
-                    street: dto.name,
+                    street: dto.communityName,
                     community:{
                         connect:{
                             id: existCommunity.id,
@@ -106,7 +188,7 @@ export class CommunityService{
             },
             select:{
                 id:true, 
-                parish: true,
+                communityName: true,
                 localityId: true,
             }
         });
