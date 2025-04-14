@@ -63,7 +63,7 @@ export function Notifications({userData,  }: {userData: NotificationDataSchema  
           )}
           </ul>
           <div className={styles.allNotifi}>
-            <a href="#">Ver Todas</a>
+            <a href={ROUTES.NOTIFICATION_LIST}>Ver Todas</a>
           </div>
         </nav>
       )}

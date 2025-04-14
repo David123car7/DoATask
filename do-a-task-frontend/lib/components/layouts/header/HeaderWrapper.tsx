@@ -12,7 +12,6 @@ export default async function HeaderWrapper() {
   const userParse = userDataSchema.safeParse(resultUser);
 
   if(!userParse.success){
-    console.log("Erro de validação:", userParse.error);
     return <Header userData={null} notifications={{notifications : []}} />;
   }
   

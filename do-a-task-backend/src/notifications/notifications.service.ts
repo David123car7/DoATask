@@ -71,13 +71,12 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
             const notifications = await this.prisma.notification.findMany({
                 where: { 
                     recipientId: userId,
-                    read: false, 
+                    /*read: false,*/ 
                 },
                 include:{
                   recipient: true,
                 }
             });
-            console.log(notifications)
             return notifications;
         }
         catch(error){

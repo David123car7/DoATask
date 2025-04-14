@@ -20,7 +20,6 @@ export class UserService {
                     id: user.contactId
                 }
             })
-            console.log({user: user, contact: contact})
             return {
                 user: {
                   id: user.id,

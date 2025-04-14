@@ -4,7 +4,8 @@ export const ROUTES = {
   SIGNUP: '/auth/signup',
   RESET_PASSWORD: '/auth/requestResetPassword',
   USER_MAIN: '/user/main',
-  PRIVATE: '/private' //just for testing
+  PRIVATE: '/private', //just for testing
+  NOTIFICATION_LIST: '/notificationList',
 };
 
 export const API_ROUTES = {
