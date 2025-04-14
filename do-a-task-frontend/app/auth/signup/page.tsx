@@ -10,36 +10,31 @@ import { ROUTES } from "../../../lib/constants/routes"
 import { useRouter } from 'next/navigation';
 import { Header } from '@/lib/components/layouts/header/header';
 import Footer from '@/lib/components/layouts/footer/page';
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { toast } from 'react-toastify';
 
 export default function SignUpForm() {
   const {register, handleSubmit, setError, formState: { errors }} = useForm<SignUpSchema>({resolver: zodResolver(signUpSchema)});
-  const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter(); 
 
   const onSubmit = async (data: SignUpSchema) => {
     try {
-      setSuccessMessage("") 
       const responseData = await SignupUser(data);
-      setSuccessMessage(responseData.message);
+      toast.success(responseData.message)
       router.push(ROUTES.SIGNIN)
     } catch (error: any) {
-      if (error.field) {
-        setError(error.field, { type: 'manual', message: error.message });
-      } else {
-        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
-      }
+      toast.error(error.message)
     }
   };
   
   return (
     <div className="page-auth">
       <Header userData={null} />
-  
       <main>
+        <Toaster/>
         <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Registo Novo Membro</div>
         </div>
-  
         <div className={styles.container_form}>
           <div className={styles.formBox}>
             <div className={styles.container}>
@@ -75,10 +70,7 @@ export default function SignUpForm() {
                 </div>
   
                 <button type="submit" className={styles.submitButton}>Submeter</button>
-  
-                {errors.root?.serverError && <p style={{ color: 'red' }}>{errors.root.serverError.message}</p>}
-                {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
-              </form>
+                </form>
             </div>
           </div>
         </div>

@@ -11,24 +11,20 @@ import { useRouter } from 'next/navigation';
 import { ChangePassword } from '@/lib/api/auth/password/change.password';
 import { Header } from '@/lib/components/layouts/header/header';
 import Footer from '@/lib/components/layouts/footer/page';
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { toast } from 'react-toastify';
 
 export default function RequestResetPasswordPage() {
   const {register, handleSubmit, setError, formState: { errors }} = useForm<ChangePasswordSchema>({resolver: zodResolver(changePasswordSchema)});
-  const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter();
 
   const onSubmit = async (data: ChangePasswordSchema) => {
     try {
-      setSuccessMessage("");
       const responseData = await ChangePassword(data)
-      setSuccessMessage(responseData.message);
+      toast.success(responseData.message)
       router.push(ROUTES.SIGNIN)
     } catch (error: any) {
-      if (error.field) {
-        setError(error.field, { type: 'manual', message: error.message });
-      } else {
-        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
-      }
+      toast.error(error.message)
     }
   };
 
@@ -36,6 +32,7 @@ export default function RequestResetPasswordPage() {
     <div className="page-auth">
       <Header userData={null}/>
       <main>
+        <Toaster/>
         <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Sign In</div>
         </div>
@@ -62,7 +59,6 @@ export default function RequestResetPasswordPage() {
                 <button type="submit" className={styles.submitButton}>Submeter</button>
 
                 {errors.root?.serverError && (<p style={{ color: 'red' }}>{errors.root.serverError.message}</p>)}
-                {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
               </form>
             </div>
           </div>

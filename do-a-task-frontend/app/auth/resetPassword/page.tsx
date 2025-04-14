@@ -11,11 +11,11 @@ import { useRouter } from 'next/navigation';
 import { ResetPassword } from '@/lib/api/auth/password/reset.password';
 import { Header } from '@/lib/components/layouts/header/header';
 import Footer from '@/lib/components/layouts/footer/page';
-import Head from 'next/head';
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { toast } from 'react-toastify';
 
 export default function RequestResetPasswordPage() {
   const {register, handleSubmit, setError, formState: { errors }} = useForm<ResetPasswordSchema>({resolver: zodResolver(resetPasswordSchema)});
-  const [successMessage, setSuccessMessage] = useState('');
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
 
@@ -30,21 +30,16 @@ export default function RequestResetPasswordPage() {
 
   const onSubmit = async (data: ResetPasswordSchema) => {
     try {
-      setSuccessMessage("");
       if (!token) {
         router.push(ROUTES.HOME);
         return;
       }
 
       const responseData = await ResetPassword(data, token);
-      setSuccessMessage(responseData.message);
+      toast.success(responseData.message)
       router.push(ROUTES.SIGNIN)
     } catch (error: any) {
-      if (error.field) {
-        setError(error.field, { type: 'manual', message: error.message });
-      } else {
-        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
-      }
+      toast.error(error.message)
     }
   };
 
@@ -53,6 +48,7 @@ export default function RequestResetPasswordPage() {
       <Header userData={null} />
   
       <main>
+        <Toaster/>
         <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Resetar Palavra passe</div>
         </div>
@@ -74,14 +70,11 @@ export default function RequestResetPasswordPage() {
                 </div>
   
                 <button type="submit" className={styles.submitButton}>Submeter</button>
-                {errors.root?.serverError && <p style={{ color: 'red' }}>{errors.root.serverError.message}</p>}
-                {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
               </form>
             </div>
           </div>
         </div>
       </main>
-  
       <Footer />
     </div>
   );

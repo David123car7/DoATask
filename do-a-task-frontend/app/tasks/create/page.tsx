@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Footer from "@/lib/components/layouts/footer/page";
 
+
 export default function PublishTask() {
   const [formData, setFormData] = useState({
     title: "",

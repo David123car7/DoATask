@@ -3,32 +3,24 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RequestResetPasswordSchema, requestResetPasswordSchema} from '../schema/request-reset-password-form-schema';
-import { useState } from 'react';
 import styles from './page.module.css';
-import Image from 'next/image';
-import { ROUTES } from "../../../lib/constants/routes"
 import { useRouter } from 'next/navigation';
 import { RequestResetPassword } from '@/lib/api/auth/password/request.reset.password';
 import { Header } from '@/lib/components/layouts/header/header';
 import Footer from '@/lib/components/layouts/footer/page';
-import Head from 'next/head';
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { toast } from 'react-toastify';
 
 export default function RequestResetPasswordPage() {
   const {register, handleSubmit, setError, formState: { errors }} = useForm<RequestResetPasswordSchema>({resolver: zodResolver(requestResetPasswordSchema)});
-  const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter(); 
   
   const onSubmit = async (data: RequestResetPasswordSchema) => {
     try {
-      setSuccessMessage("") 
       const responseData = await RequestResetPassword(data);
-      setSuccessMessage(responseData.message);
+      toast.success(responseData.message)
     } catch (error: any) {
-      if (error.field) {
-        setError(error.field, { type: 'manual', message: error.message });
-      } else {
-        setError('root.serverError', { type: 'manual', message: error.message || 'An unexpected error occurred' });
-      }
+      toast.error(error.message);
     }
   };
   
@@ -37,6 +29,7 @@ export default function RequestResetPasswordPage() {
       <Header userData={null} />
   
       <main>
+        <Toaster/>
         <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Submeter pedido de resetar password</div>
         </div>
@@ -53,7 +46,6 @@ export default function RequestResetPasswordPage() {
                 <button type="submit" className={styles.submitButton}>Submeter</button>
   
                 {errors.root?.serverError && <p style={{ color: 'red' }}>{errors.root.serverError.message}</p>}
-                {successMessage && <p className={styles.sucess_message}>{successMessage}</p>}
               </form>
             </div>
           </div>
