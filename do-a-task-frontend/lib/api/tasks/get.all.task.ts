@@ -3,7 +3,7 @@
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie } from "@/lib/utils/cookies/auth/index";
 
-export async function GetUserCommunities() {
+export async function GetAllTasks() {
   try {
     const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
     if (!access_token) {
@@ -12,7 +12,7 @@ export async function GetUserCommunities() {
 
     // Call the backend endpoint
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/community/getUserCommunities`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/tasksDone`,
       {
         method: 'GET',
         headers: {
@@ -27,12 +27,12 @@ export async function GetUserCommunities() {
       console.log('Backend Error:', errorData);
       throw new Error(errorData.message || 'An unexpected error occurred');
     }
-    
+
+
     const data = await response.json();
-    console.log("Comunidades", data.communities)
-    return data.communities
+    return data.task;
   } catch (error) {
-    console.error('Error retrieving notifications:', error);
+    console.error('Error retrieving tasks:', error);
     throw error;
   }
 }

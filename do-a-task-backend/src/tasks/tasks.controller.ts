@@ -1,6 +1,6 @@
-import { Controller, Post, Body, Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles} from '@nestjs/common';
+import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get} from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTasksDto,EvaluateTaskDto} from './dto/tasks.dto';
+import { CreateTasksDto,EvaluateTaskDto, GetTasksCommunity} from './dto/tasks.dto';
 import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
 import { stat } from 'fs';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
@@ -60,6 +60,29 @@ export class TasksController {
     }
 
     
+    @Get("tasksDone")
+    async tasksDone(@Req()req: RequestWithUser, @Res()res: Response){
+        const data = await this.tasksService.getDoneTasks(req.user.sub)
+        return res.json({message: "Task Found", task: data})
+    }
+
+    @Get('tasksDoneCommunity')
+    @UseGuards(JwtAuthGuard)
+    async tasksDoneCommunity(
+      @Query('communityName') communityName: string,  // Recebendo o parâmetro via query string
+      @Req() req,
+    ) {
+      console.log('Received communityName in backend:', communityName);  // Verifique o valor do communityName
+  
+      if (!communityName) {
+        console.log('Error: communityName is missing');
+        throw new Error('Community name is required');
+      }
+  
+      const userId = req.user.sub;
+      const tasks = await this.tasksService.getTaskByCommunity(userId, communityName);
+      return { message: 'Task Found', task: tasks};
+    }
 
 
 }

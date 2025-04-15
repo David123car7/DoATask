@@ -86,7 +86,7 @@ export class CommunityService{
                     communityName: true
                 }
             });
-
+            console.log("back", communities)
             return communities;
         }
         catch(error){

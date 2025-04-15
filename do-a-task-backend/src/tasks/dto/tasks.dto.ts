@@ -33,3 +33,10 @@ export class EvaluateTaskDto{
     @Transform(({ value}) => parseInt(value, 10))
     score: number;
 }
+
+export class GetTasksCommunity{
+
+    @IsString()
+    @IsNotEmpty()
+    communityName: string
+}

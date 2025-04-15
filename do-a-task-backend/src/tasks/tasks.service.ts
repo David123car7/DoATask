@@ -4,6 +4,7 @@ import { SupabaseService } from "src/supabase/supabase.service";
 import { CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "src/lib/constants/tasks/tasks.constants";
 import { EvaluateTaskDto } from "./dto/tasks.dto";
+import { find } from "rxjs";
 
 @Injectable({})
 export class TasksService{
@@ -267,5 +268,96 @@ export class TasksService{
             totalPoints : reward.points + bonusPoints,
         };
     }
-}
 
+    async getTaskByCommunity(userId: string, communityName: string){
+        try{   
+
+            const community = await this.prisma.community.findFirst({
+                where:{
+                    communityName: communityName,
+                }
+            });
+
+            const findMember = await this.prisma.member.findFirst({
+                where:{
+                    communityId : community.id,
+                    userId : userId
+                },
+            });
+
+            const findTasks = await this.prisma.task.findMany({
+                where:{
+                    creatorId : findMember.id
+                },
+                include:{
+                    members:{
+                        select:{
+                            volunteerId: true,
+                            completedAt: true,
+                        }
+                    }
+                }
+            });
+            console.log(findTasks)
+            return findTasks;
+        }
+        catch(error){
+            console.error('Error getting done tasks in community:', error); 
+        }
+    }
+
+    
+    async getDoneTasks(userId: string) {
+        try {
+          // Busca os membros relacionados ao usuário
+          const user = await this.prisma.member.findMany({
+            where: {
+              userId: userId,
+            },
+            select: {
+              id: true,
+            },
+          });
+      
+          const memberIds = user.map((m) => m.id);
+      
+          // Busca as tarefas com pelo menos um membro que completou a tarefa
+          const tasksCommunity = await this.prisma.task.findMany({
+            where: {
+              creatorId: {
+                in: memberIds, // Filtra tarefas criadas pelos membros
+              },
+              members: {
+                some: {
+                  completedAt: { not: null }, // Filtra tarefas com pelo menos um membro que completou
+                },
+              },
+            },
+            select: {
+              title: true, 
+              difficulty: true, 
+              coins: true, 
+              points: true, 
+              location: true, 
+              members: {
+                where: {
+                  completedAt: { not: null }, 
+                },
+                select: {
+                  volunteerId: true,
+                  completedAt: true,
+                },
+              },
+            },
+          });
+      
+          return tasksCommunity;
+      
+        } catch (error) {
+          console.error('Error getting done tasks in community:', error);
+        }
+      }
+      
+      
+
+}
