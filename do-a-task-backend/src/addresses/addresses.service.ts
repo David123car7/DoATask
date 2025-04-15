@@ -59,15 +59,12 @@ export class AddressService{
 
     async getAllAddresses(userId:string){
         try{
-            const findUser = await this.prisma.member.findMany({
+            const findUser = await this.prisma.address.findMany({
                 where:{
                     userId: userId
                 },
-                include:{
-                    address: true,
-                }
             });
-            const addresses = findUser.map(member => member.address).filter(address => address !== null);
+            const addresses = findUser.map(address => address).filter(address => address !== null);
             return addresses
         }
         catch(error){
@@ -90,41 +87,43 @@ export class AddressService{
             throw new HttpException("Invalid postal codes provided", HttpStatus.BAD_REQUEST);
         }
 
+        // Helper function to parse a postal code into prefix and suffix.
         const parsePostalCode = (code: string) => {
             const parts = code.split('-').map(part => part.trim());
-            // Convert prefix. If parsing fails, it becomes NaN.
             const prefix = parseInt(parts[0], 10);
-            // If suffix is missing, set it to zero. Otherwise, parse it.
             const suffix = parts[1] ? parseInt(parts[1], 10) : 0;
             return { prefix, suffix };
         };
-        
-            // Parse the min and max postal codes from the inputs.
-            const { prefix: minPrefix, suffix: minSuffix } = parsePostalCode(minPostalCode);
-            const { prefix: maxPrefix, suffix: maxSuffix } = parsePostalCode(maxPostalCode);
-        
-            // Validate that we got numbers.
-            if (isNaN(minPrefix) || isNaN(minSuffix) || isNaN(maxPrefix) || isNaN(maxSuffix)) {
-                throw new HttpException("Invalid postal code range", HttpStatus.BAD_REQUEST);
-            }
-        
-            // Check if at least one address falls within the specified range.
-            const hasValidAddress = addresses.some(address => {
+
+        // Parse the min and max postal codes.
+        const { prefix: minPrefix, suffix: minSuffix } = parsePostalCode(minPostalCode);
+        const { prefix: maxPrefix, suffix: maxSuffix } = parsePostalCode(maxPostalCode);
+
+        // Validate that both the min and max postal codes were parsed correctly.
+        if (isNaN(minPrefix) || isNaN(minSuffix) || isNaN(maxPrefix) || isNaN(maxSuffix)) {
+            throw new HttpException("Invalid postal code range", HttpStatus.BAD_REQUEST);
+        }
+
+        // Filter addresses that fall within the specified range.
+        const validAddresses = addresses.filter(address => {
             if (!address.postalCode) return false;
-        
+
             const { prefix: addrPrefix, suffix: addrSuffix } = parsePostalCode(address.postalCode);
             if (isNaN(addrPrefix) || isNaN(addrSuffix)) return false;
-        
-            // Compare prefixes first.
+
+            // Check if address is within the lower bound.
             const isAboveMin = addrPrefix > minPrefix || (addrPrefix === minPrefix && addrSuffix >= minSuffix);
+            // Check if address is within the upper bound.
             const isBelowMax = addrPrefix < maxPrefix || (addrPrefix === maxPrefix && addrSuffix <= maxSuffix);
             return isAboveMin && isBelowMax;
         });
 
-        if (!hasValidAddress) {
-            return false
+        // If no valid addresses were found, throw an exception.
+        if (validAddresses.length === 0) {
+            throw new HttpException("User addresses do not match the postal code range", HttpStatus.BAD_REQUEST);
         }
-        else
-            return true
+
+        // Return the addresses that meet the criteria.
+        return validAddresses;
     }
 }

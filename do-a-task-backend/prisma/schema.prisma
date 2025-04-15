@@ -11,13 +11,11 @@ datasource db {
 model Member {
   id           Int            @id @default(autoincrement())
   userId       String
-  addressId    Int
   communityId  Int
   tasks        MemberTask[]
   points       PointsMember[]
   purchases    Purchase[]
   createdTasks Task[]         @relation("MemberTasks")
-  address      Address        @relation(fields: [addressId], references: [id])
   community    Community      @relation(fields: [communityId], references: [id])
   user         User           @relation(fields: [userId], references: [id])
 
@@ -33,6 +31,7 @@ model User {
   totalCoins      Int
   contactId       Int
   email           String          @unique @default("default@example.com")
+  Address         Address[]
   Notification    Notification[]
   userCommunities UserCommunity[]
   members         Member[]
@@ -55,13 +54,12 @@ model Community {
   id              Int               @id @default(autoincrement())
   localityId      Int
   communityName   String
+  creatorId       String
   locality        Locality          @relation(fields: [localityId], references: [id])
   stores          Store[]
   StreetCommunity StreetCommunity[]
   userCommunities UserCommunity[]
   members         Member[]
-
-  creatorId String 
 }
 
 model Locality {
@@ -72,11 +70,12 @@ model Locality {
 }
 
 model Address {
-  id      Int      @id @default(autoincrement())
-  port    Int?
-  street  String?
+  id         Int     @id @default(autoincrement())
+  port       Int?
+  street     String?
   postalCode String?
-  members Member[]
+  userId     String?
+  user       User?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model StreetCommunity {
@@ -101,11 +100,11 @@ model Store {
 }
 
 model PostalCode {
-  id           Int      @id @default(autoincrement())
-  minPostalNumber String
+  id              Int      @id @default(autoincrement())
+  localityId      Int
   maxPostalNumber String
-  localityId   Int
-  locality     Locality @relation(fields: [localityId], references: [id])
+  minPostalNumber String
+  locality        Locality @relation(fields: [localityId], references: [id])
 }
 
 model Task {

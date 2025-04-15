@@ -127,16 +127,40 @@ export class CommunityService{
 
     async UserEnterCommunity(userId: string, communityName: string){
         try{
-            const result = await this.prisma.$transaction(async (prisma) => {
                 const community = await this.prisma.community.findFirst({
                     where:{
                         communityName: communityName
+                    },
+                    select: {
+                        id: true,
+                        communityName: true,
+                        locality: true
                     }
                 })
                 if(!community){
                     throw new HttpException("Community with this name does not exist", HttpStatus.BAD_REQUEST)
                 }
 
+                const check = await this.CheckUserBelongsCommunity(userId, community.id)
+                if(check){
+                    throw new HttpException("The user allready is in the community", HttpStatus.BAD_REQUEST)
+                }
+
+                const postalCodes = await this.prisma.postalCode.findFirst({
+                    where:{
+                        localityId: community.locality.id,
+                    }
+                })
+                if(!postalCodes){
+                    throw new HttpException("Postal code was not defined", HttpStatus.BAD_REQUEST)
+                }
+
+                const addresses = await this.addressService.VefifyAdressses(userId, postalCodes.minPostalNumber, postalCodes.maxPostalNumber)
+                if(!addresses){
+                    throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
+                }
+
+                const result = await this.prisma.$transaction(async (prisma) => {
                 const userCommunity = await this.prisma.userCommunity.create({
                     data:{
                         joinedAt: new Date(),
@@ -148,7 +172,6 @@ export class CommunityService{
                 const member = await this.prisma.member.create({
                     data:{
                         userId: userId,
-                        addressId: 1, //é preciso ir buscar o addresso
                         communityId: community.id
                     }
                 })
@@ -198,6 +221,27 @@ export class CommunityService{
         }
 
         
+    }
+
+
+    async CheckUserBelongsCommunity(userId: string, communityId: number){
+        try{
+            const userCommunity = await this.prisma.userCommunity.findFirst({
+                where:{
+                    userId: userId,
+                    communityId: communityId,
+                }
+            })
+            if(!userCommunity){
+                return false
+            }
+            else{
+                return true
+            }
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Check User",error)
+        }
     }
 
 

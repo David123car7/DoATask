@@ -30,6 +30,8 @@ export class CommunityController {
       return res.json({ message: 'Communities get sucessufel', communities: communities});
     }
 
+    @Post("enterCommunity")
+    @UseGuards(JwtAuthGuard)
     async UserEnterCommunity(@Body() dto: EnterCommunityDto,@Res() res: Response, @Req() req: RequestWithUser){
       const data = await this.communityService.UserEnterCommunity(req.user.sub, dto.communityName)
       return res.json({ message: 'User entered community'});

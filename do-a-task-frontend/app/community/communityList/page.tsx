@@ -5,6 +5,7 @@ import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import styles from "./page.module.css"
 import { GetAllCommunities } from "@/lib/api/communities/get.all.communities";
 import { getCommunitySchemaArray } from "@/lib/schemas/community/get-community-shema";
+import { EnterCommunityButton } from "@/lib/components/layouts/community/enter.community.button";
 
 export default async function CommunitiesListPage(){
     const communitiesData = await GetAllCommunities();
@@ -28,7 +29,7 @@ export default async function CommunitiesListPage(){
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{notification.communityName}</p>
                                     <p className={styles.values}>{notification.locality.name}</p>
-            
+                                    <EnterCommunityButton communityName={notification.communityName}/>
                                 </div>
                             ))
                         )}

@@ -23,7 +23,6 @@ export class MemberService{
             const createMember = await this.prisma.member.create({
                 data:{
                     userId: userId, 
-                    addressId: addressId, 
                     communityId: existCommunity.id,
                 }
             });

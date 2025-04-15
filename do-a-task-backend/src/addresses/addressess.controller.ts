@@ -26,6 +26,6 @@ export class AddressesController {
     @UseGuards(JwtAuthGuard)
     async VefifyAdressses(@Body() body: { minPostalCode: string; maxPostalCode: string }, @Res() res: Response, @Req() req: RequestWithUser){
         const data = await this.addressesService.VefifyAdressses(req.user.sub,body.minPostalCode, body.maxPostalCode)
-        return res.json({message: "Address Verified", verification: data})
+        return res.json({message: "Address Verified", address: data})
     }
 }

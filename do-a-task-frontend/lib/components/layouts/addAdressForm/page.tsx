@@ -15,7 +15,6 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
-
     useEffect(() => {
 
       const handleClickOutside = (event: MouseEvent) => {

@@ -33,7 +33,6 @@ export class TasksService{
                                     contact: true,
                                 },
                             },
-                            address: true, // Incluir o endereço do criador
                         },
                     },
                 },
