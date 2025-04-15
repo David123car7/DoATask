@@ -82,5 +82,23 @@ export class TasksController {
       return { message: 'Task Found', task: tasks};
     }
 
+    @Get('tasksVolunteerCommunity')
+    @UseGuards(JwtAuthGuard)
+    async tasksVolunteerCommunity(
+      @Query('communityName') communityName: string,  // Recebendo o parâmetro via query string
+      @Req() req,
+    ) {
+      console.log('Received communityName in backend:', communityName);  // Verifique o valor do communityName
+  
+      if (!communityName) {
+        console.log('Error: communityName is missing');
+        throw new Error('Community name is required');
+      }
+  
+      const userId = req.user.sub;
+      const tasks = await this.tasksService.GetVolunteerTasks(userId, communityName);
+      return { message: 'Task Found', task: tasks};
+    }
+
 
 }

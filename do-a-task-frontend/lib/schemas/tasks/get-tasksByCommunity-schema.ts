@@ -16,8 +16,9 @@ export const taskSchema = z.object({
       volunteerId: z.number(),  // Corrigido para número
       completedAt: z.union([ // Permite tanto string quanto Date
         z.string().transform((str) => new Date(str)),
-        z.date()      
+        z.date(),
       ]),
+      status: z.string(), 
     })
   ),
 });

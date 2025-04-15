@@ -3,7 +3,7 @@
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie } from "@/lib/utils/cookies/auth/index";
 
-export async function GetAllTasksCommunity(communityName: string) {
+export async function GetVolunteerTasksCommunity(communityName: string) {
   try {
     const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
     if (!access_token) {
@@ -12,7 +12,7 @@ export async function GetAllTasksCommunity(communityName: string) {
     console.log('Sending communityName:', communityName);
     // Call the backend endpoint
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/tasksDoneCommunity?communityName=${communityName}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/tasksVolunteerCommunity?communityName=${communityName}`,
       {
         method: 'GET',
         headers: {

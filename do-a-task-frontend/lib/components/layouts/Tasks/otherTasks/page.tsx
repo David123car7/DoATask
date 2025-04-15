@@ -8,10 +8,12 @@ import { register } from 'module';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { effect, string } from 'zod';
-import { taskDataSchema, TasksDataSchema } from '@/lib/schemas/tasks/get-tasksByCommunity-schema';
-import { GetAllTasksCommunity } from '@/lib/api/tasks/get.all.tasksCommunity';
+import { GetVolunteerTasksCommunity } from '@/lib/api/tasks/get.all.tasksVolunteer';
+import { taskVolunteerDataSchema } from '@/lib/schemas/tasks/get-tasksVolunteer';
 
-export function ListTask({community }: {community: GetNameCommunitySchemaArray | null }){
+
+
+export function OtherTasks({community }: {community: GetNameCommunitySchemaArray | null }){
 
     const { register} = useForm();
     const [selectedCommunity, setSelectedCommunity] = useState('');
@@ -24,8 +26,8 @@ export function ListTask({community }: {community: GetNameCommunitySchemaArray |
         if (!communityName) return;
 
     try {
-      const result = await GetAllTasksCommunity(communityName);
-      const validateTasks = taskDataSchema.parse(result);
+      const result = await GetVolunteerTasksCommunity(communityName);
+      const validateTasks = taskVolunteerDataSchema.parse(result);
       setTasks(validateTasks);
       console.log("Tarefas", tasks)
     } catch (error) {
@@ -47,7 +49,7 @@ export function ListTask({community }: {community: GetNameCommunitySchemaArray |
                         ))}      
                 </select>
                 <a href="#" className={styles.singleOption}>
-                Tarefas Realizadas
+                Tarefas Criadas
                 </a>
                 <div className={styles.singleOption}>
                 Estatisticas
@@ -57,7 +59,7 @@ export function ListTask({community }: {community: GetNameCommunitySchemaArray |
                 <div><h1>Stats User</h1></div>
             ) : (
                 <div>
-                <div className={styles.mainTitle}>Tarefas Criadas</div>
+                <div className={styles.mainTitle}>Tarefas Realizadas</div>
 
                 <div className={styles.table}>
 

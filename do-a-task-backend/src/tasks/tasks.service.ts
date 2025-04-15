@@ -297,6 +297,7 @@ export class TasksService{
                         select:{
                             volunteerId: true,
                             completedAt: true,
+                            status: true,
                         }
                     }
                 }
@@ -360,7 +361,44 @@ export class TasksService{
           console.error('Error getting done tasks in community:', error);
         }
       }
-      
-      
 
+      async GetVolunteerTasks(userId: string, communityName:string){
+
+        const community = await this.prisma.community.findFirst({
+            where:{
+                communityName: communityName,
+            }
+        });
+
+        const findMember = await this.prisma.member.findFirst({
+            where:{
+                communityId : community.id,
+                userId : userId
+            },
+        });
+
+        const findTasks = await this.prisma.memberTask.findMany({
+            where:{
+                volunteerId : findMember.id
+            },
+            include:{
+                task:{
+                    select:{
+                        creatorId: true,
+                        title: true,
+                        coins: true,
+                        points:true,
+                        location: true
+                    }
+                }
+            },
+        });
+        console.log(findTasks)
+        return findTasks;
+    }
+    catch(error){
+        console.error('Error getting done tasks in community:', error); 
+    }
 }
+       
+
