@@ -96,6 +96,32 @@ export class CommunityService{
         }
     }
 
+        //Gets all communities names the user is in
+        async GetUserCommunitiesNames(userId: string){
+            try{
+                const communitys = await this.prisma.userCommunity.findMany({
+                    where:{
+                        userId: userId
+                    }
+                });
+    
+                const communities = await this.prisma.community.findMany({
+                    where:{
+                        id: {
+                            in: communitys.map(c => c.communityId)
+                        } 
+                    },
+                    select:{
+                        communityName: true
+                    }
+                });
+                return communities;
+            }
+            catch(error){
+                this.prisma.handlePrismaError("Get User Communities",error)
+            }
+        }
+
     //Gets all communities that the user is not in and has address in the community location
     async GetAllCommunitiesWithLocality(userId: string){
         try{

@@ -3,7 +3,7 @@
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie } from "@/lib/utils/cookies/auth/index";
 
-export async function GetUserCommunities() {
+export async function GetUserCommunitiesNames() {
   try {
     const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
     if (!access_token) {
@@ -11,7 +11,7 @@ export async function GetUserCommunities() {
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/community/getUserCommunities`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/community/getUserCommunitiesNames`,
       {
         method: 'GET',
         headers: {

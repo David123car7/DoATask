@@ -23,6 +23,13 @@ export class CommunityController {
       return res.json({ message: 'Communities get sucessufel', communities: communities});
     }
 
+    @Get("getUserCommunitiesNames")
+    @UseGuards(JwtAuthGuard)
+    async GetUserCommunityNames(@Req() req: RequestWithUser, @Res() res: Response){
+      const communities = await this.communityService.GetUserCommunitiesNames(req.user.sub)
+      return res.json({ message: 'Communities names get sucessufel', communities: communities});
+    }
+
     @Get("getAllCommunities")
     @UseGuards(JwtAuthGuard)
     async GetAllCommunity(@Res() res: Response, @Req() req: RequestWithUser){
