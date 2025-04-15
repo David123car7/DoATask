@@ -4,9 +4,10 @@ export const ROUTES = {
   SIGNUP: '/auth/signup',
   RESET_PASSWORD: '/auth/requestResetPassword',
   USER_MAIN: '/user/main',
-  PRIVATE: '/private', //just for testing
   NOTIFICATION_LIST: '/notificationList',
-  COMMUNITIES:'/associateToCommunity'
+  COMMUNITIES:'/associateToCommunity',
+  ENTER_COMMUNITY: '/community/list/enterCommunity',
+  USER_COMMUNITY: '/community/list/userCommunity'
 };
 
 export const API_ROUTES = {
@@ -15,5 +16,8 @@ export const API_ROUTES = {
 
 export const PROTECTED_ROUTES = new Set([
   '/auth/test',
-  '/user/main'
+  '/user/main',
+  '/notificationList',
+  '/community/list/enterCommunity',
+  '/community/list/userCommunity'
 ]);

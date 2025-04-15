@@ -1,0 +1,90 @@
+.optionsContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.singleOption{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    border-left: 1px solid black;
+    border-right: 1px solid black ;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.mainTitle{
+    margin-top: 50px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(204, 204, 204);
+    border-radius: 8px; 
+    margin: 5rem; 
+}
+
+.titles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 16px;
+    background-color: #f5f5f5; 
+    border-bottom: 2px solid rgb(204, 204, 204);
+    font-weight: bold;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 16px;
+    background-color: white;
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.values {
+    color: black;
+    flex: 1; 
+}
+
+.selectCustom {
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: transparent; 
+    appearance: none;
+    cursor: pointer; 
+    text-transform: uppercase;
+}
+
+.selectCustom option {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+}

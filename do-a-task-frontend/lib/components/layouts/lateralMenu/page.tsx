@@ -74,7 +74,7 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
               <MdOutlineSupport /> Centro de Apoio
             </li>
             <li>
-              <a href={ROUTES.COMMUNITIES}>As Suas Comunidades</a>
+              <a href={ROUTES.USER_COMMUNITY}>As Suas Comunidades</a>
             </li>
           </ul>
           {userData ? (
