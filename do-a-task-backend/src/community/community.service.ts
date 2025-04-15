@@ -4,10 +4,11 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateCommunityDto } from "./dto/community.dto";
 import { LocalityService } from "src/locality/locality.service";
 import { RequestWithUser } from "src/auth/types/jwt-payload.type";
+import { AddressService } from "src/addresses/addresses.service";
 
 @Injectable({})
 export class CommunityService{
-    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private readonly localityService: LocalityService) {}
+    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private addressService: AddressService) {}
 
     async createCommunity(dto: CreateCommunityDto, userId: string){
 
@@ -66,6 +67,7 @@ export class CommunityService{
         }
     }
 
+    //Gets all communities the user is in
     async GetUserCommunities(userId: string){
         try{
             const communitys = await this.prisma.userCommunity.findMany({
@@ -122,20 +124,40 @@ export class CommunityService{
         }
     }
 
+
     async UserEnterCommunity(userId: string, communityName: string){
         try{
             const result = await this.prisma.$transaction(async (prisma) => {
-            }
+                const community = await this.prisma.community.findFirst({
+                    where:{
+                        communityName: communityName
+                    }
+                })
+                if(!community){
+                    throw new HttpException("Community with this name does not exist", HttpStatus.BAD_REQUEST)
+                }
 
+                const userCommunity = await this.prisma.userCommunity.create({
+                    data:{
+                        joinedAt: new Date(),
+                        userId: userId,
+                        communityId: community.id
+                    }
+                })
+            
+                const member = await this.prisma.member.create({
+                    data:{
+                        userId: userId,
+                        addressId: 1, //é preciso ir buscar o addresso
+                        communityId: community.id
+                    }
+                })
+            });
         }
         catch(error){
             this.prisma.handlePrismaError("Enter Community",error)
         }
     }
-
-
-
-
 
     ///Tenho de ver se faz sentido ter esta tabela no prisma, uso a tabela de streetsCommunity e o user apenas adicona o numero de porta
     async addAdrresses(dto: CreateCommunityDto/*, localityId: number, name: string, communityId: number*/){

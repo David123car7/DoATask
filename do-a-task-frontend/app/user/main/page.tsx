@@ -13,8 +13,8 @@ import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
 import { AddAdress } from "@/lib/components/layouts/addAdressForm/page";
 import { GetAllAddresses } from "@/lib/api/address/get-allAddresses";
-import {AddressSchema} from '@/lib/components/layouts/addAdressForm/Schema/address.schema'
-import { addressSchemaData } from "@/lib/components/layouts/addAdressForm/Schema/address.schema";
+import {AddressSchema} from '@/lib/schemas/address/address.schema'
+import { addressSchemaData } from "@/lib/schemas/address/address.schema";
 import { API_ROUTES } from "../../../lib/constants/routes";
 
 
@@ -24,11 +24,10 @@ export default async function UserMainPage() {
     const user = await GetUserData();
     const validatedData = userDataSchema.parse(user);
     
+    
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
     const data = await GetAllAddresses();
-    console.log("main1",data);
-    const validatedAddress = addressSchemaData.parse(data);
-    console.log("main2:",validatedAddress);
+    const validatedAddresses = addressSchemaData.parse(data);
 
     return (
       <div className="page">
@@ -50,7 +49,7 @@ export default async function UserMainPage() {
             {/* Password Change Forms */}
             <ChangePasswordForm></ChangePasswordForm>
             {/* Add Adresses */}
-            <AddAdress allAddresses={validatedAddress} />
+            <AddAdress allAddresses={validatedAddresses} />
             
           </div>
         </main>

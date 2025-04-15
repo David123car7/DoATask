@@ -11,3 +11,10 @@ export class CreateCommunityDto{
     @IsString()
     location: string
 }
+
+export class EnterCommunityDto{
+
+    @IsNotEmpty()
+    @IsString()
+    communityName: string
+}

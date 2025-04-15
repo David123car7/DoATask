@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Put, Get, Param, Req, UseGuards, Res} from '@nestjs/common';
 import { CommunityService } from './community.service';
-import { CreateCommunityDto } from './dto/community.dto';
+import { CreateCommunityDto, EnterCommunityDto} from './dto/community.dto';
 import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
 import { Response } from 'express';
@@ -28,6 +28,11 @@ export class CommunityController {
     async GetAllCommunity(@Res() res: Response, @Req() req: RequestWithUser){
       const communities = await this.communityService.GetAllCommunitiesWithLocality(req.user.sub)
       return res.json({ message: 'Communities get sucessufel', communities: communities});
+    }
+
+    async UserEnterCommunity(@Body() dto: EnterCommunityDto,@Res() res: Response, @Req() req: RequestWithUser){
+      const data = await this.communityService.UserEnterCommunity(req.user.sub, dto.communityName)
+      return res.json({ message: 'User entered community'});
     }
 
     @Post("addStreetCommunity")

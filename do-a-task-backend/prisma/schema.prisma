@@ -75,6 +75,7 @@ model Address {
   id      Int      @id @default(autoincrement())
   port    Int?
   street  String?
+  postalCode String?
   members Member[]
 }
 
@@ -101,7 +102,8 @@ model Store {
 
 model PostalCode {
   id           Int      @id @default(autoincrement())
-  neighborhood String?
+  minPostalNumber String
+  maxPostalNumber String
   localityId   Int
   locality     Locality @relation(fields: [localityId], references: [id])
 }

@@ -9,7 +9,6 @@ export async function GetAllAddresses() {
         if(!access_token)
             return {message: "Acess token not found", state: false}
 
-        // Send the data to the backend
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/addresses/getAllAddresses`, {
             method: 'GET',
             headers: {
@@ -25,7 +24,6 @@ export async function GetAllAddresses() {
         }
         
         const data = await response.json();
-        console.log(data.address)
         return data.address
     } catch (error) {
       console.error('Error getting addresses', error);

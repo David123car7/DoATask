@@ -7,7 +7,7 @@ export const createTaskSchema = z.object({
     difficulty: z.preprocess(val => Number(val), z.number().int().refine(val => [1, 2, 3].includes(val), {
         message: "Difficulty must be 1, 2, or 3"
       })),
-    parish:  z.string(),
+    communityName:  z.string(),
 });
 
 export type CreateTaskSchema = z.infer<typeof createTaskSchema>;

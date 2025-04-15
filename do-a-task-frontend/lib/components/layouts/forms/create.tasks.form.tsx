@@ -10,10 +10,10 @@ import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from "react-toastify";
 import { ROUTES } from "@/lib/constants/routes";
 import { CreateTask } from "@/lib/api/tasks/create.task";
-import { CommunityNameSchemaArray } from "@/lib/schemas/community/get-community-shema";
+import { GetNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 import { useState } from "react";
 
-export default function CreateTaskForm({communityData}: {communityData: CommunityNameSchemaArray}) {
+export default function CreateTaskForm({communityData}: {communityData: GetNameCommunitySchemaArray}) {
   const { register, handleSubmit,formState: { errors }} = useForm<CreateTaskSchema>({
     resolver: zodResolver(createTaskSchema),
   });
@@ -35,7 +35,7 @@ export default function CreateTaskForm({communityData}: {communityData: Communit
       formData.append("description", data.description);
       formData.append("difficulty", data.difficulty.toString());
       formData.append("location", data.location);
-      formData.append("parish", data.parish);
+      formData.append("parish", data.communityName);
       selectedImages.forEach((image) => {
         formData.append("images", image);
       });
@@ -102,10 +102,10 @@ export default function CreateTaskForm({communityData}: {communityData: Communit
 
             <div className={styles.inputGroup}>
               <label className={styles.label}>Comunidade</label>
-              <select {...register("parish")} className={styles.input}>
+              <select {...register("communityName")} className={styles.input}>
                 {communityData.map((community, index) => (
-                  <option key={index} value={community.parish}>
-                    {community.parish}
+                  <option key={index} value={community.communityName}>
+                    {community.communityName}
                   </option>
                 ))}
               </select>

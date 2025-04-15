@@ -11,9 +11,7 @@ export class AddressesController {
 
     @Post("createAddress")
     async createAdrress(@Body() dto: CreateAddressDto){
-
         const createAdrress = await this.addressesService.createAddress(dto);
-
         return createAdrress;
     }
 
@@ -24,4 +22,10 @@ export class AddressesController {
         return res.json({message: "Address Found", address: data})
     }
 
+    @Post("vefifyAdressses")
+    @UseGuards(JwtAuthGuard)
+    async VefifyAdressses(@Body() body: { minPostalCode: string; maxPostalCode: string }, @Res() res: Response, @Req() req: RequestWithUser){
+        const data = await this.addressesService.VefifyAdressses(req.user.sub,body.minPostalCode, body.maxPostalCode)
+        return res.json({message: "Address Verified", verification: data})
+    }
 }

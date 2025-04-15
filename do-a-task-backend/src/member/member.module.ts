@@ -5,11 +5,12 @@ import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
 import { LocalityService } from 'src/locality/locality.service';
 import { CommunityService } from 'src/community/community.service';
+import { AddressService } from 'src/addresses/addresses.service';
 
 @Module({
     imports: [PrismaModule, SupabaseModule],
     controllers: [MemberController],
-    providers: [MemberService, LocalityService, CommunityService],
+    providers: [MemberService, LocalityService, CommunityService, AddressService],
     exports: [MemberService],
 })
 export class MemberModule {}

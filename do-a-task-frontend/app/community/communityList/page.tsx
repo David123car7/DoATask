@@ -28,8 +28,7 @@ export default async function CommunitiesListPage(){
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{notification.communityName}</p>
                                     <p className={styles.values}>{notification.locality.name}</p>
-                   
-
+            
                                 </div>
                             ))
                         )}

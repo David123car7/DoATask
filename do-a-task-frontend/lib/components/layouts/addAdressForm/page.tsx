@@ -6,7 +6,7 @@ import { styleText } from "util";
 import styles from './page.module.css'
 import Styles from '@/app/user/main/page.module.css'
 import { GetAllAddresses } from "@/lib/api/address/get-allAddresses";
-import { AddressSchema } from "./Schema/address.schema";
+import { AddressSchema } from "../../../schemas/address/address.schema";
 
 export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
 
@@ -45,8 +45,9 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
             <div className={styles.boxAddress}>
                 {allAddresses.map((address, index) => (
                 <div key={index}>
-                    <p>Rua: {address.address.street}</p>
-                    <p>Número: {address.address.port}</p>
+                    <p>Rua: {address.street}</p>
+                    <p>Número: {address.port}</p>
+                    <p>Código Postal: {address.postalCode}</p>
                 </div>
                 ))}
             </div>

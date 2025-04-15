@@ -13,8 +13,6 @@ export class MemberService{
     ) {}
 
     async createMember(userId: string, addressId: number, parish: string){
-
-
         const locality = await this.localityService.getLocalityDataByParish(parish);
         const existCommunity = await this.communityService.getDataCommunity(locality.id);
 
