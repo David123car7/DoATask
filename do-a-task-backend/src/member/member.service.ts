@@ -24,5 +24,27 @@ export class MemberService{
             this.prisma.handlePrismaError("Creating Member", error)
         }
     }
+
+    async DeleteMember(userId: string,communityId: number){
+        try{
+            const member = await this.prisma.member.findFirst({
+                where:{
+                    communityId: communityId,
+                    userId: userId
+                }
+            })
+
+            
+            const deletedMember = await this.prisma.member.delete({
+                where:{
+                    id: member.id
+                }
+            })
+            return true
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Creating Member", error)
+        }
+    }
 }
 

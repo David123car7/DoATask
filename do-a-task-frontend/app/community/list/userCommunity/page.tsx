@@ -6,11 +6,10 @@ import styles from "./page.module.css"
 import { EnterCommunityButton } from "@/lib/components/layouts/community/enter.community.button";
 import { getUserCommunitySchemaArray } from "@/lib/schemas/community/get-user-community-schema";
 import { GetUserCommunities } from "@/lib/api/communities/get.user.communities";
+import { ExitCommunityButton } from "@/lib/components/layouts/community/exit.community.button";
 
 export default async function CommunitiesListPage(){
     const communitiesData = await GetUserCommunities();
-    console.log("Raw communitiesData:", communitiesData);
-
     const communitiesDataValidated = getUserCommunitySchemaArray.parse(communitiesData)
 
     return(
@@ -27,12 +26,13 @@ export default async function CommunitiesListPage(){
                         </div>  
                         
                         {communitiesDataValidated.length > 0 && (
-                            communitiesDataValidated.map((community, index) => (
+                            communitiesDataValidated.map((community, index) => 
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{community.community.communityName}</p>
                                     <p className={styles.values}>{community.coins}</p>
+                                    <ExitCommunityButton communityName={community.community.communityName}/>
                                 </div>
-                            ))
+                            )
                         )}
                     </div>
                 </div>

@@ -198,6 +198,32 @@ export class CommunityService{
         }
     }
 
+
+    async ExitCommunity(userid: string, communityName: string){
+        try{
+            const community = await this.prisma.community.findFirst({
+                where:{
+                    communityName: communityName
+                },
+                select: {
+                    id: true,
+                    communityName: true,
+                    locality: true
+                }
+            })
+            if(!community)
+                throw new HttpException("The community with this name does not exist", HttpStatus.BAD_REQUEST)
+
+            const result = await this.prisma.$transaction(async (prisma) => {
+                await this.memberService.DeleteMember(userid,community.id)
+                await this.userCommunityService.DeleteUserCommunity(userid,community.id)
+            });
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Exit Community", error)
+        }
+    }
+
     ///Tenho de ver se faz sentido ter esta tabela no prisma, uso a tabela de streetsCommunity e o user apenas adicona o numero de porta
     async addAdrresses(dto: CreateCommunityDto/*, localityId: number, name: string, communityId: number*/){
         

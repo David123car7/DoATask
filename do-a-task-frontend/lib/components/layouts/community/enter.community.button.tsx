@@ -1,6 +1,6 @@
 "use client"
 
-import { EnterCommunitySchema, enterCommunitySchema} from "@/lib/schemas/community/enter-community-schema"
+import { EnterExitCommunitySchema, enterExitCommunitySchema} from "@/lib/schemas/community/enter-community-schema"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
@@ -8,9 +8,9 @@ import { toast } from 'react-toastify';
 import { EnterCommunity } from "@/lib/api/communities/enter.community";
 
 export function EnterCommunityButton({communityName} : {communityName: string}){
-  const { register, handleSubmit} = useForm<EnterCommunitySchema>({resolver: zodResolver(enterCommunitySchema)});
+  const { register, handleSubmit} = useForm<EnterExitCommunitySchema>({resolver: zodResolver(enterExitCommunitySchema)});
   
-  const onSubmit = async (data: EnterCommunitySchema) => {
+  const onSubmit = async (data: EnterExitCommunitySchema) => {
     try {
       const responseData = await EnterCommunity(data)
       toast.success(responseData.message)

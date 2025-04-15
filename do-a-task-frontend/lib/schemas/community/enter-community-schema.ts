@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const enterCommunitySchema = z.object({
+export const enterExitCommunitySchema = z.object({
     communityName: z.string().min(1, 'É obrigatorio escolher'),
 });
 
-export type EnterCommunitySchema = z.infer<typeof enterCommunitySchema>;
+export type EnterExitCommunitySchema = z.infer<typeof enterExitCommunitySchema>;

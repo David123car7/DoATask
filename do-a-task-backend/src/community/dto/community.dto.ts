@@ -12,7 +12,7 @@ export class CreateCommunityDto{
     location: string
 }
 
-export class EnterCommunityDto{
+export class EnterExitCommunityDto{
 
     @IsNotEmpty()
     @IsString()

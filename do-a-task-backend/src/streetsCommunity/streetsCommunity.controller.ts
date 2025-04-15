@@ -12,5 +12,4 @@ export class StreetsCommunityController {
       const task = await this.communityService.addStreets(communityId, streets);
       return task;
     }
-    
 }

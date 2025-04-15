@@ -20,4 +20,24 @@ export class UserCommunityService {
             this.prisma.handlePrismaError("Create user community", error)
         }
     }
+
+    async DeleteUserCommunity(userId: string ,communityId: number){
+        try{
+            const userCommunity = await this.prisma.userCommunity.findFirst({
+                where:{
+                    communityId: communityId,
+                    userId: userId
+                }
+            })
+            await this.prisma.userCommunity.delete({
+                where:{
+                    id: userCommunity.id
+                }
+            })
+            return true
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Create user community", error)
+        }
+    }
 }

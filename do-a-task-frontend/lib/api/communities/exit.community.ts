@@ -2,14 +2,14 @@ import { getCookie } from "@/lib/utils/cookies/auth";
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { EnterExitCommunitySchema } from "@/lib/schemas/community/enter-community-schema";
 
-export async function EnterCommunity(data: EnterExitCommunitySchema) {
+export async function ExitCommunity(data: EnterExitCommunitySchema) {
     try {
         const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
         if(!access_token)
             return "Acess token not found"
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/community/enterCommunity`, {
-            method: 'POST',
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/community/exitCommunity`, {
+            method: 'DELETE',
             headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${access_token}`,
