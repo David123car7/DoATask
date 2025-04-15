@@ -7,26 +7,22 @@ import { CommunityService } from "src/community/community.service";
 
 @Injectable({})
 export class MemberService{
-    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService,
-        private readonly localityService: LocalityService,
-        private readonly communityService: CommunityService,
-    ) {}
+    constructor(private supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-    async createMember(userId: string, addressId: number, parish: string){
-        const locality = await this.localityService.getLocalityDataByParish(parish);
-        const existCommunity = await this.communityService.getDataCommunity(locality.id);
-
-        if(!existCommunity){
-            throw new Error("Nao Existe Comunidade")
-        }
-        
-            const createMember = await this.prisma.member.create({
+    async createMember(userId: string, communityId: number){
+        try{
+            const member = await this.prisma.member.create({
                 data:{
-                    userId: userId, 
-                    communityId: existCommunity.id,
+                    userId: userId,
+                    communityId: communityId,
+                    coins: 0,
                 }
-            });
-            return createMember;
+            })
+            return member
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Creating Member", error)
+        }
     }
 }
 

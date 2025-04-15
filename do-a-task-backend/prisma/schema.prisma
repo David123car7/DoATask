@@ -12,6 +12,7 @@ model Member {
   id           Int            @id @default(autoincrement())
   userId       String
   communityId  Int
+  coins        Int?
   tasks        MemberTask[]
   points       PointsMember[]
   purchases    Purchase[]
@@ -63,10 +64,11 @@ model Community {
 }
 
 model Locality {
-  id          Int          @id @default(autoincrement())
-  name        String?
-  communities Community[]
-  postalCodes PostalCode[]
+  id              Int         @id @default(autoincrement())
+  name            String?
+  maxPostalNumber String
+  minPostalNumber String
+  communities     Community[]
 }
 
 model Address {
@@ -100,11 +102,9 @@ model Store {
 }
 
 model PostalCode {
-  id              Int      @id @default(autoincrement())
-  localityId      Int
+  id              Int    @id @default(autoincrement())
   maxPostalNumber String
   minPostalNumber String
-  locality        Locality @relation(fields: [localityId], references: [id])
 }
 
 model Task {

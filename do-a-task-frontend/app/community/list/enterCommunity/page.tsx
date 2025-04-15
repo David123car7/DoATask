@@ -25,11 +25,11 @@ export default async function CommunitiesListPage(){
                         </div>  
                         
                         {communitiesDataValidated.length > 0 && (
-                            communitiesDataValidated.map((notification, index) => (
+                            communitiesDataValidated.map((community, index) => (
                                 <div className={styles.row} key={index}>
-                                    <p className={styles.values}>{notification.communityName}</p>
-                                    <p className={styles.values}>{notification.locality.name}</p>
-                                    <EnterCommunityButton communityName={notification.communityName}/>
+                                    <p className={styles.values}>{community.communityName}</p>
+                                    <p className={styles.values}>{community.locality.name}</p>
+                                    <EnterCommunityButton communityName={community.communityName}/>
                                 </div>
                             ))
                         )}

@@ -2,13 +2,15 @@ import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateCommunityDto } from "./dto/community.dto";
-import { LocalityService } from "src/locality/locality.service";
-import { RequestWithUser } from "src/auth/types/jwt-payload.type";
 import { AddressService } from "src/addresses/addresses.service";
+import { MemberService } from "src/member/member.service";
+import { UserCommunityService } from "src/userCommunity/userCommunity.service";
 
 @Injectable({})
 export class CommunityService{
-    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private addressService: AddressService) {}
+    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, 
+        private addressService: AddressService, private memberService: MemberService, private userCommunityService: UserCommunityService
+    ) {}
 
     async createCommunity(dto: CreateCommunityDto, userId: string){
 
@@ -76,17 +78,17 @@ export class CommunityService{
                 }
             });
 
-            const communities = await this.prisma.community.findMany({
+            const communities = await this.prisma.member.findMany({
                 where:{
-                    id: {
+                    communityId: {
                         in: communitys.map(c => c.communityId)
                     } 
                 },
                 select:{
-                    communityName: true
+                    community: true,
+                    coins: true,
                 }
             });
-            console.log("back", communities)
             return communities;
         }
         catch(error){
@@ -94,10 +96,10 @@ export class CommunityService{
         }
     }
 
-    //Gets all communities that the user is not in
+    //Gets all communities that the user is not in and has address in the community location
     async GetAllCommunitiesWithLocality(userId: string){
         try{
-            const communitys = await this.prisma.userCommunity.findMany({
+            const userCommunities = await this.prisma.userCommunity.findMany({
                 where:{
                     userId: userId
                 }
@@ -106,18 +108,27 @@ export class CommunityService{
             const communities = await this.prisma.community.findMany({
                 where:{
                     id: {
-                        notIn: communitys.map(c => c.communityId)
+                        notIn: userCommunities.map(c => c.communityId)
                     } 
                 },
                 select: {
-                    locality: {
-                      select: { name: true },
-                    },
+                    locality:{},
                     communityName: true,
                 },
             });
 
-            return communities;
+            const validCommunities = [];
+
+            for (const community of communities) {
+                console.log(community.locality.minPostalNumber)
+                console.log(community.locality.maxPostalNumber)
+                const verify = await this.addressService.VefifyAdressses(userId, community.locality.minPostalNumber, community.locality.maxPostalNumber);
+                if(verify.length != 0){
+                    validCommunities.push(community);
+                }
+            }
+
+            return validCommunities;
         }
         catch(error){
             this.prisma.handlePrismaError("Get User Communities",error)
@@ -146,36 +157,15 @@ export class CommunityService{
                     throw new HttpException("The user allready is in the community", HttpStatus.BAD_REQUEST)
                 }
 
-                const postalCodes = await this.prisma.postalCode.findFirst({
-                    where:{
-                        localityId: community.locality.id,
-                    }
-                })
-                if(!postalCodes){
-                    throw new HttpException("Postal code was not defined", HttpStatus.BAD_REQUEST)
-                }
-
-                const addresses = await this.addressService.VefifyAdressses(userId, postalCodes.minPostalNumber, postalCodes.maxPostalNumber)
+                const addresses = await this.addressService.VefifyAdressses(userId, community.locality.minPostalNumber, community.locality.maxPostalNumber)
                 if(!addresses){
                     throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
                 }
 
                 const result = await this.prisma.$transaction(async (prisma) => {
-                const userCommunity = await this.prisma.userCommunity.create({
-                    data:{
-                        joinedAt: new Date(),
-                        userId: userId,
-                        communityId: community.id
-                    }
-                })
-            
-                const member = await this.prisma.member.create({
-                    data:{
-                        userId: userId,
-                        communityId: community.id
-                    }
-                })
-            });
+                    await this.userCommunityService.CreateUserCommunity(userId, community.id)
+                    await this.memberService.createMember(userId, community.id)
+                });
         }
         catch(error){
             this.prisma.handlePrismaError("Enter Community",error)
@@ -219,8 +209,6 @@ export class CommunityService{
         if(existAdrresses){
             throw new Error("Rua ja existe na comunidade");
         }
-
-        
     }
 
 

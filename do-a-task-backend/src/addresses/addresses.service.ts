@@ -118,12 +118,6 @@ export class AddressService{
             return isAboveMin && isBelowMax;
         });
 
-        // If no valid addresses were found, throw an exception.
-        if (validAddresses.length === 0) {
-            throw new HttpException("User addresses do not match the postal code range", HttpStatus.BAD_REQUEST);
-        }
-
-        // Return the addresses that meet the criteria.
         return validAddresses;
     }
 }

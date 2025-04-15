@@ -10,7 +10,7 @@ import { AddressService } from 'src/addresses/addresses.service';
 @Module({
     imports: [PrismaModule, SupabaseModule],
     controllers: [MemberController],
-    providers: [MemberService, LocalityService, CommunityService, AddressService],
+    providers: [MemberService],
     exports: [MemberService],
 })
 export class MemberModule {}
