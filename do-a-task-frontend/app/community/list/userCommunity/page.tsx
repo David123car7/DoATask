@@ -25,6 +25,7 @@ export default async function CommunitiesListPage(){
                         <div className={styles.titles}>
                             <p className={styles.values}>Comunidade</p>
                             <p className={styles.values}>Moedas</p>
+                            <p className={styles.values}></p>
                         </div>  
                         
                         {communitiesDataValidated.length > 0 && (

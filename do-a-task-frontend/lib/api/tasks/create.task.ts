@@ -1,4 +1,4 @@
-import { CreateTaskSchema } from "@/app/tasks/schema/create-task-form-schema";
+import { CreateTaskSchema } from "@/lib/schemas/tasks/create-task-form-schema";
 import { getCookie } from "@/lib/utils/cookies/auth";
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 

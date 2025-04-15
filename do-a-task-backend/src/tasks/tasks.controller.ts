@@ -1,8 +1,7 @@
 import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get} from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTasksDto,EvaluateTaskDto, GetTasksCommunity} from './dto/tasks.dto';
+import { CreateTasksDto,EvaluateTaskDto, AssignTaskDto} from './dto/tasks.dto';
 import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
-import { stat } from 'fs';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
 import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -23,6 +22,13 @@ export class TasksController {
       return res.json({ message: 'Task was created'});
     }
 
+    @Post("assignTask")
+    @UseGuards(JwtAuthGuard)
+    async assignTask(@Body() dto: AssignTaskDto,@Req() req: RequestWithUser, @Res() res: Response) {
+      await this.tasksService.assignTask(req.user.sub, dto);
+      return res.json({ message: 'Task was assigned'});
+    }
+
     @Put("endingtaskvolunteer")
     async endingTask(/*taskID: number*/){
         const task = await this.tasksService.endingTaskVolunteer();
@@ -32,14 +38,6 @@ export class TasksController {
         };
     }
 
-    @Post("createMemberTask")
-    async createMemberTask(/*, taskID: number*/){
-        const task = await this.tasksService.createMemberTask(/*, taskID*/);
-        return {
-            status: 'success',
-            task,
-        };
-    }
 
     @Put("evaluateTask")
     async evaluateTask(@Body() dto: EvaluateTaskDto/*, taskId: number*/) {

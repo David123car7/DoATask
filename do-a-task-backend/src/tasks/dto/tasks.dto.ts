@@ -22,7 +22,17 @@ export class CreateTasksDto{
 
     @IsString()
     @IsNotEmpty()
-    parish: string
+    communityName: string
+}
+
+export class AssignTaskDto{
+    @IsInt()
+    @Transform(({ value}) => parseInt(value, 10))
+    communityId: number
+
+    @IsInt()
+    @Transform(({ value}) => parseInt(value, 10))
+    taskId: number
 }
 
 export class EvaluateTaskDto{

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { SupabaseService } from "src/supabase/supabase.service";
-import { CreateTasksDto } from "./dto/tasks.dto";
+import { AssignTaskDto, CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "src/lib/constants/tasks/tasks.constants";
 import { EvaluateTaskDto } from "./dto/tasks.dto";
 import { find } from "rxjs";
@@ -12,85 +12,88 @@ export class TasksService{
 
     async createTask(dto: CreateTasksDto, userId: string) {
         const reward = baseReward[dto.difficulty]
-        const memberId = (await this.getMemberByParish(userId,dto.parish)).id
-        console.log("MemberID", memberId)
-        let task
         try{
-            task = await this.prisma.task.create({
-                data: {
-                    title: dto.tittle,
-                    difficulty: parseInt(dto.difficulty),
-                    location: dto.location,
-                    coins: 1,
-                    points: 2,
-                    creatorId: memberId,  // Usar o id do usuário autenticado
-                },
-                include: {
-                    creator: {
-                        include: {
-                            user: {
-                                select: {
-                                    name: true,
-                                    contact: true,
-                                },
-                            },
-                        },
+            const community = await this.prisma.community.findFirst({
+                where:{
+                    communityName: dto.communityName
+                }
+            })
+            if(!community){
+                throw new HttpException("Community with this name does not exist", HttpStatus.BAD_REQUEST)
+            }    
+
+            const member = await this.prisma.member.findFirst({
+                where:{
+                    userId: userId,
+                    communityId: community.id
+                }
+            })
+            if(!member){
+                throw new HttpException("The user is not a member of the community", HttpStatus.BAD_REQUEST)
+            }   
+            const result = await this.prisma.$transaction(async () => {
+                const task = await this.prisma.task.create({
+                    data: {
+                        title: dto.tittle,
+                        difficulty: parseInt(dto.difficulty),
+                        location: dto.location,
+                        coins: reward.coins,
+                        points: reward.points,
+                        creatorId: member.id,
                     },
-                },
+                });
+
+                console.log("DWADA", task.id);
+                await this.prisma.memberTask.create({
+                    data: {
+                        status: "Por Aceitar",
+                        taskId: task.id,
+                    },
+                });
             });
         }
         catch(error){
             this.prisma.handlePrismaError("Creating Task" ,error)
         }
-    
-        return { message: "Created task with sucess", taskData: task}
     }
 
-    async getMemberByParish(userId: string, parish: string){
+    async assignTask(userId: string, dto: AssignTaskDto){
         try{
-            const community = await this.prisma.community.findFirst({
-                where:{
-                    communityName: parish
-                }
-            })
-
+            console.log(dto.communityId)
+            console.log(dto.taskId)
             const member = await this.prisma.member.findFirst({
                 where:{
-                    communityId: community.id
+                    userId: userId,
+                    communityId: dto.communityId
                 }
             })
-            return member
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Getting Member" ,error)
-        }
-    }
+            if(!member){
+                throw new HttpException("The user is not a member of the community", HttpStatus.BAD_REQUEST)
+            }
 
-    //  FAlTA  TESTAR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    async createMemberTask(/*, taskId: number*/ ){ 
-        
-        //const user = (await this.supabaseService.supabase.auth.getUser()).data;////troca por getTask
-        //const id = parseInt(user.user.id); // <------ É o Id do USER OK!!!!!
-        //const idTask = taskId;// <--- É o Id da TASK OK!!!!!
-        let task
-        try{
-            task = await this.prisma.memberTask.create({
-                data: {
-                    status: 'pending',
-                    assignedAt: new Date(),
-                    completedAt: new Date(1900,1,1,12,12,12,12),
-                    score: 0,
-                    volunteerId: 6,
-                    taskId: 27,
+            const memberTask = await this.prisma.memberTask.findFirst({
+                where:{
+                    taskId: dto.taskId
+                }
+            })
+
+            await this.prisma.memberTask.update({
+                where:{
+                    id: memberTask.id
                 },
-            });
+                data:{
+                    status: "Em Progresso",
+                    assignedAt: new Date(),
+                    volunteerId: member.id,
+                }
+            })
         }
         catch(error){
-            this.prisma.handlePrismaError("Creating MemberTask", error)
+            this.prisma.handlePrismaError("Assign Task" ,error)
         }
-
-        return { message: "Created member task with sucess", memberTaskData: task}
     }
+
+
 
     async endingTaskVolunteer(/*, memberTaskId: number*/){
         try{

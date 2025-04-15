@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaCoins, FaShoppingCart, CiUser } from "@/lib/icons";
 import styles from "@/app/tasks/create/page.module.css"
-import { CreateTaskSchema, createTaskSchema } from "@/app/tasks/schema/create-task-form-schema";
+import { CreateTaskSchema, createTaskSchema } from "@/lib/schemas/tasks/create-task-form-schema";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from "react-toastify";
@@ -35,7 +35,7 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
       formData.append("description", data.description);
       formData.append("difficulty", data.difficulty.toString());
       formData.append("location", data.location);
-      formData.append("parish", data.communityName);
+      formData.append("communityName", data.communityName);
       selectedImages.forEach((image) => {
         formData.append("images", image);
       });
