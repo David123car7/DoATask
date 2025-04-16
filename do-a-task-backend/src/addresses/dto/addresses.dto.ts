@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsString,Matches } from "class-validator";
 import { Transform } from "class-transformer";
 
 export class CreateAddressDto{
@@ -10,4 +10,14 @@ export class CreateAddressDto{
     @IsNotEmpty()
     @IsString()
     street: string
+
+    @IsNotEmpty()
+    @IsString()
+    locality: string
+
+    @IsNotEmpty()
+    @IsString()
+    @Transform(({ value }) => value.toString())
+    postalCode: string
+
 }

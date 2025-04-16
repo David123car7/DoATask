@@ -10,24 +10,62 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 export class AddressService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-    async createAddress(dto: CreateAddressDto){
+    async createAddress(dto: CreateAddressDto, userId: string){
 
-        const searchAddress = await this.prisma.address.findFirst({
-            where:{
-                port: dto.port,
-                street: dto.street,
-            }
-        });
-        if(searchAddress) return searchAddress.id;
+        try{
+            const searchAddress = await this.prisma.address.findFirst({
+                where:{
+                    port: dto.port,
+                    street: dto.street,
+                    postalCode: dto.postalCode
+                }
+            });
+            if(searchAddress){
 
-        const createAddress = await this.prisma.address.create({
-            data:{
-                port: dto.port,
-                street: dto.street
+                const addAddress = await this.prisma.address.update({
+                    where:{
+                        id: searchAddress.id
+                    },
+                    data:{
+                        userId : userId
+                    }
+                })
+
+                return addAddress
+            };
+    
+            const locality = await this.prisma.locality.findFirst({
+                where:{
+                    name: dto.locality
+                }
+            });
+
+            if(!locality){
+                throw new HttpException("The Locality does not exist", HttpStatus.BAD_REQUEST)
             }
-        });
-        return createAddress;
-    }
+
+            const createAddress = await this.prisma.address.create({
+                data:{
+                    port: dto.port,
+                    street: dto.street,
+                    postalCode: dto.postalCode
+                }
+            });
+
+            const addAddress = await this.prisma.address.update({
+                where:{
+                    id: createAddress.id
+                },
+                data:{
+                    userId : userId
+                }
+            })
+            return  addAddress;
+        }catch(error){
+            this.prisma.handlePrismaError("Create Address",error);
+        }
+}
+
 
     async updateAddress(dto: CreateAddressDto, addressId: number){
          
