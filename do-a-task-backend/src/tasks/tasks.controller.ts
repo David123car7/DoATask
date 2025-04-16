@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get} from '@nestjs/common';
+import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get, HttpException} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTasksDto,EvaluateTaskDto, AssignTaskDto} from './dto/tasks.dto';
 import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
@@ -57,13 +57,6 @@ export class TasksController {
         };
     }
 
-    
-    @Get("tasksDone")
-    async tasksDone(@Req()req: RequestWithUser, @Res()res: Response){
-        const data = await this.tasksService.getDoneTasks(req.user.sub)
-        return res.json({message: "Task Found", task: data})
-    }
-
     @Get('tasksDoneCommunity')
     @UseGuards(JwtAuthGuard)
     async tasksDoneCommunity(
@@ -82,23 +75,14 @@ export class TasksController {
       return { message: 'Task Found', task: tasks};
     }
 
-    @Get('tasksVolunteerCommunity')
+    @Get('getTasksMemberDoing')
     @UseGuards(JwtAuthGuard)
-    async tasksVolunteerCommunity(
-      @Query('communityName') communityName: string,  // Recebendo o parâmetro via query string
-      @Req() req,
-    ) {
-      console.log('Received communityName in backend:', communityName);  // Verifique o valor do communityName
-  
+    async GetTasksMemberDoing(@Query('communityName') communityName: string,@Req() req) {
+      console.log('Received communityName in backend:', communityName); 
       if (!communityName) {
-        console.log('Error: communityName is missing');
-        throw new Error('Community name is required');
+        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
       }
-  
-      const userId = req.user.sub;
-      const tasks = await this.tasksService.GetVolunteerTasks(userId, communityName);
-      return { message: 'Task Found', task: tasks};
+      const tasks = await this.tasksService.GetTasksMemberDoing(req.user.sub, communityName);
+      return { message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks};
     }
-
-
 }

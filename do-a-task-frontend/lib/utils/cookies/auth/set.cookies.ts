@@ -10,7 +10,7 @@ export async function setAccessCookie(access_token: string) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 900, // 15 minutes in seconds (900 seconds)
+    maxAge: 3600, // 15 minutes in seconds (900 seconds)
   });
   return res;
 }

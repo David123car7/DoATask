@@ -13,7 +13,7 @@ export class SetAuthCookies{
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
             path: '/',
-            maxAge: 15 * 60 * 1000, // 900000 ms = 15 minutes in milliseconds) //to test use maxAge: 15 * 1000 (15sec)
+            maxAge: 60 * 60 * 1000, // 900000 ms = 15 minutes in milliseconds) //to test use maxAge: 15 * 1000 (15sec)
           });
         return res;
     }

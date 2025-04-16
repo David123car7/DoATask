@@ -31,10 +31,12 @@ export class TasksService{
             if(!member){
                 throw new HttpException("The user is not a member of the community", HttpStatus.BAD_REQUEST)
             }   
+
             const result = await this.prisma.$transaction(async () => {
                 const task = await this.prisma.task.create({
                     data: {
                         title: dto.tittle,
+                        description: dto.description,
                         difficulty: parseInt(dto.difficulty),
                         location: dto.location,
                         coins: reward.coins,
@@ -43,7 +45,6 @@ export class TasksService{
                     },
                 });
 
-                console.log("DWADA", task.id);
                 await this.prisma.memberTask.create({
                     data: {
                         status: "Por Aceitar",
@@ -310,91 +311,51 @@ export class TasksService{
         }
     }
 
-    
-    async getDoneTasks(userId: string) {
-        try {
-          // Busca os membros relacionados ao usuário
-          const user = await this.prisma.member.findMany({
-            where: {
-              userId: userId,
-            },
-            select: {
-              id: true,
-            },
-          });
-      
-          const memberIds = user.map((m) => m.id);
-      
-          // Busca as tarefas com pelo menos um membro que completou a tarefa
-          const tasksCommunity = await this.prisma.task.findMany({
-            where: {
-              creatorId: {
-                in: memberIds, // Filtra tarefas criadas pelos membros
-              },
-              members: {
-                some: {
-                  completedAt: { not: null }, // Filtra tarefas com pelo menos um membro que completou
-                },
-              },
-            },
-            select: {
-              title: true, 
-              difficulty: true, 
-              coins: true, 
-              points: true, 
-              location: true, 
-              members: {
-                where: {
-                  completedAt: { not: null }, 
-                },
-                select: {
-                  volunteerId: true,
-                  completedAt: true,
-                },
-              },
-            },
-          });
-      
-          return tasksCommunity;
-      
-        } catch (error) {
-          console.error('Error getting done tasks in community:', error);
-        }
-      }
-
-      async GetVolunteerTasks(userId: string, communityName:string){
-
-        const community = await this.prisma.community.findFirst({
-            where:{
-                communityName: communityName,
-            }
-        });
-
-        const findMember = await this.prisma.member.findFirst({
-            where:{
-                communityId : community.id,
-                userId : userId
-            },
-        });
-
-        const findTasks = await this.prisma.memberTask.findMany({
-            where:{
-                volunteerId : findMember.id
-            },
-            include:{
-                task:{
-                    select:{
-                        creatorId: true,
-                        title: true,
-                        coins: true,
-                        points:true,
-                        location: true
-                    }
+      async GetTasksMemberDoing(userId: string, communityName:string){
+        try{
+            const community = await this.prisma.community.findFirst({
+                where:{
+                    communityName: communityName,
                 }
-            },
-        });
-        console.log(findTasks)
-        return findTasks;
+            });
+            if(!community){
+                throw new HttpException("Community does not exist with this name", HttpStatus.BAD_REQUEST)
+            }
+    
+            const findMember = await this.prisma.member.findFirst({
+                where:{
+                    communityId : community.id,
+                    userId : userId
+                },
+            });
+            if(!findMember){
+                throw new HttpException("The user does not belong to the community", HttpStatus.BAD_REQUEST)
+            }
+            
+            const memberTasks = await this.prisma.memberTask.findMany({
+                where:{
+                    volunteerId : findMember.id
+                },
+            });
+            if(!memberTasks)
+            {
+                throw new HttpException("The member accepted no tasks", HttpStatus.BAD_REQUEST)
+            }
+
+            const tasks = await this.prisma.task.findMany({
+                where: {
+                    id: { in: memberTasks.map(m => m.taskId) }
+                }
+            })
+            
+            console.log("Tasks", tasks)
+            console.log("MemberTasks", memberTasks)
+            return {tasks: tasks, memberTasks: memberTasks};
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Gettting volunteer tasks:", error)
+        }
+
     }
     catch(error){
         console.error('Error getting done tasks in community:', error); 
@@ -402,3 +363,21 @@ export class TasksService{
 }
        
 
+/*
+const findTasks = await this.prisma.memberTask.findMany({
+                where:{
+                    volunteerId : findMember.id
+                },
+                include:{
+                    task:{
+                        select:{
+                            creatorId: true,
+                            title: true,
+                            coins: true,
+                            points:true,
+                            location: true
+                        }
+                    }
+                },
+            });
+*/

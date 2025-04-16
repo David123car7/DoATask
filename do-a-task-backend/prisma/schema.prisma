@@ -108,15 +108,16 @@ model PostalCode {
 }
 
 model Task {
-  id         Int          @id @default(autoincrement())
-  title      String
-  difficulty Int?
-  creatorId  Int
-  coins      Int?
-  points     Int?
-  location   String
-  members    MemberTask[]
-  creator    Member       @relation("MemberTasks", fields: [creatorId], references: [id])
+  id          Int          @id @default(autoincrement())
+  title       String
+  difficulty  Int?
+  creatorId   Int
+  coins       Int?
+  points      Int?
+  location    String
+  description String
+  members     MemberTask[]
+  creator     Member       @relation("MemberTasks", fields: [creatorId], references: [id])
 }
 
 model MemberTask {

@@ -7,7 +7,9 @@ export const ROUTES = {
   NOTIFICATION_LIST: '/notificationList',
   COMMUNITIES:'/associateToCommunity',
   ENTER_COMMUNITY: '/community/list/enterCommunity',
-  USER_COMMUNITY: '/community/list/userCommunity'
+  USER_COMMUNITY: '/community/list/userCommunity',
+  TASKS_LIST: '/tasks/list',
+  TASKS_USER_LIST: '/tasks/listTasksUser',
 };
 
 export const API_ROUTES = {
@@ -15,9 +17,10 @@ export const API_ROUTES = {
 };
 
 export const PROTECTED_ROUTES = new Set([
-  '/auth/test',
-  '/user/main',
-  '/notificationList',
-  '/community/list/enterCommunity',
-  '/community/list/userCommunity'
+  ROUTES.USER_MAIN,
+  ROUTES.NOTIFICATION_LIST,
+  ROUTES.USER_COMMUNITY,
+  ROUTES.ENTER_COMMUNITY,
+  ROUTES.TASKS_LIST,
+  ROUTES.TASKS_USER_LIST,
 ]);
