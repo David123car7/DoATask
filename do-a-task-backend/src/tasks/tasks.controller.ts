@@ -91,4 +91,14 @@ export class TasksController {
       const tasks = await this.tasksService.getTaskByCommunity(userId, communityName);
       return { message: 'Task Found', task: tasks};
     }
+
+    @Get('getTasksByCommunity')
+    async GetTasksMemberCommunity(@Query('communityName') communityName: string,@Req() req,@Res() res: Response) {
+      console.log('Received communityName in backend:', communityName); 
+      if (!communityName) {
+        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
+      }
+      const tasks = await this.tasksService.getTaskBeDoneCommunity(communityName);
+      return res.json({ message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks});
+    }
 }

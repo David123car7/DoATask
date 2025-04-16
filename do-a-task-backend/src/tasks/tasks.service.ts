@@ -388,24 +388,53 @@ export class TasksService{
             this.prisma.handlePrismaError("Gettting volunteer tasks:", error)
         }
     }
+    async getTaskBeDoneCommunity(communityName: string){
+
+        try{
+
+            const findCommunity = await this.prisma.community.findFirst({
+                where:{
+                    communityName : communityName,
+                },
+            });
+    
+            const findMemberTaskCreatedCommunity = await this.prisma.member.findMany({
+                where:{
+                    communityId: findCommunity.id
+                },
+                select:{
+                    id:true,
+                },
+            });
+    
+            
+            const Task2 = await this.prisma.task.findMany({
+                where:{
+                    creatorId: {in: findMemberTaskCreatedCommunity.map(m => m.id)}
+                },
+            });
+    
+            const MemberTask = await this.prisma.memberTask.findMany({
+                where:{
+                    taskId : {in: Task2.map(t => t.id)},
+                    assignedAt : null
+                },
+            });
+
+            const Task = await this.prisma.task.findMany({
+                where:{
+                    id: {in: MemberTask.map(m => m.taskId)}
+                },
+            });
+            return {tasks: Task, memberTasks: MemberTask}
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Gettting community tasks:", error)
+        }
+    }
 }
        
 
-/*
-const findTasks = await this.prisma.memberTask.findMany({
-                where:{
-                    volunteerId : findMember.id
-                },
-                include:{
-                    task:{
-                        select:{
-                            creatorId: true,
-                            title: true,
-                            coins: true,
-                            points:true,
-                            location: true
-                        }
-                    }
-                },
-});
-*/
+
+    
+       
