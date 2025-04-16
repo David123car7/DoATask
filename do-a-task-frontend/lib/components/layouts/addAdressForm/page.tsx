@@ -6,15 +6,30 @@ import { styleText } from "util";
 import styles from './page.module.css'
 import Styles from '@/app/user/main/page.module.css'
 import { GetAllAddresses } from "@/lib/api/address/get-allAddresses";
-import { AddressSchema } from "../../../schemas/address/address.schema";
+import { AddressSchema, addressSchemaData } from "../../../schemas/address/address.schema";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateAddress } from "@/lib/api/address/create-addressUser";
+import { createAddressSchema, CreateAddressSchema } from "@/lib/schemas/address/createAddress.schema";
+import { toast } from "react-toastify";
+import { Toaster } from "../toaster/toaster";
 
 export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
 
     const [isOpen, setIsOpen] = useState(false);
     const formRef = useRef<HTMLDivElement>(null);
+    const { register, handleSubmit, formState: { errors }} = useForm<CreateAddressSchema>({resolver: zodResolver(createAddressSchema)});
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
+    const onSubmit = async (data: CreateAddressSchema) => {
+      try {
+        const responseData = await CreateAddress(data);
+        toast.success(responseData.message)
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+    };
     useEffect(() => {
 
       const handleClickOutside = (event: MouseEvent) => {
@@ -37,6 +52,7 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
 
     return(
         <div className={styles.container}>
+        <Toaster/>
         <div className={styles.forms}>
           <p>Moradas:</p>
     
@@ -59,16 +75,18 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
               <div className={styles.boxTitle}>
                 <p>Adicionar Nova Morada</p>
               </div>
-              <form className={styles.form}>
-                <input type="text" placeholder="Rua" name="street" />
-                <input type="number" placeholder="Número" name="port" />
-                <input type="text" placeholder="Localidade" />
-                <input type="text" placeholder="Freguesia" />
-                <input type="text" placeholder="Código Postal" />
+              <form  onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+                <input type="text" {...register('locality')} placeholder="Localidade"/>
+                {errors.locality && <p>{errors.locality.message}</p> }
+                <input type="text" {...register('street')} placeholder="Rua"/>
+                {errors.street && <p>{errors.street.message}</p> }
+                <input type="number" {...register('port', {valueAsNumber: true})} placeholder="Porta"/>
+                {errors.port && <p>{errors.port.message}</p> }
+                <input type="text" {...register('postalCode')} placeholder="Código Postal" />
+                {errors.postalCode && <p>{errors.postalCode.message}</p> }
+                <button type ="submit" className={styles.button}>Guardar</button>
               </form>
-              <button className={styles.button}>
-                <p>Guardar</p>
-              </button>
+
             </div>
           )}
           <button className={styles.addButton} onClick={toggleMenu}>Adicionar Morada</button>

@@ -9,10 +9,12 @@ import { Response } from 'express';
 export class AddressesController {
     constructor(private addressesService: AddressService) {}
 
-    @Post("createAddress")
-    async createAdrress(@Body() dto: CreateAddressDto){
-        const createAdrress = await this.addressesService.createAddress(dto);
-        return createAdrress;
+
+    @Post("createAdressses")
+    @UseGuards(JwtAuthGuard)
+    async CreateAdressses(@Body() dto: CreateAddressDto, @Res() res: Response, @Req() req: RequestWithUser){
+        const data = await this.addressesService.createAddress(dto, req.user.sub)
+        return res.json({message: "Address Created", address: data})
     }
 
     @Get("getAllAddresses")
