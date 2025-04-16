@@ -7,11 +7,30 @@ import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { StorageService } from 'src/storage/storage.service';
 import { BUCKETS } from 'src/lib/constants/storage/buckets';
+import { ParseIntPipe } from '@nestjs/common';
+
 
 
 @Controller('tasks')
 export class TasksController {
     constructor(private tasksService: TasksService, private storageService: StorageService) {}
+
+    @Get('getTasksMemberDoing')
+    @UseGuards(JwtAuthGuard)
+    async GetTasksMemberDoing(@Query('communityName') communityName: string,@Req() req: RequestWithUser, @Res() res: Response) {
+      if (!communityName) {
+        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
+      }
+      const tasks = await this.tasksService.GetTasksMemberDoing(req.user.sub, communityName);
+      return res.json({ message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks})
+    }
+
+    @Get('getTasksMemberCreated')
+    @UseGuards(JwtAuthGuard)
+    async GetTasksMemberCreated(@Req() req: RequestWithUser, @Res() res: Response) {
+      const data = await this.tasksService.GetTasksMemberCreated(req.user.sub);
+      return res.json({ message: 'Tasks Found', tasks: data.tasks, memberTasks: data.memberTasks, community: data.community});
+    }
 
     @Post("createTask")
     @UseGuards(JwtAuthGuard)
@@ -29,13 +48,11 @@ export class TasksController {
       return res.json({ message: 'Task was assigned'});
     }
 
-    @Put("endingtaskvolunteer")
-    async endingTask(/*taskID: number*/){
-        const task = await this.tasksService.endingTaskVolunteer();
-        return {
-            status: 'success',
-            task,
-        };
+    @Put("finishTask")
+    @UseGuards(JwtAuthGuard)
+    async finishTask(@Query('memberTaskId', ParseIntPipe) memberTaskId: number, @Req() req: RequestWithUser, @Res() res: Response){
+      await this.tasksService.finishTask(memberTaskId)
+      return res.json({ message: 'Task was finished'});
     }
 
 
@@ -73,16 +90,5 @@ export class TasksController {
       const userId = req.user.sub;
       const tasks = await this.tasksService.getTaskByCommunity(userId, communityName);
       return { message: 'Task Found', task: tasks};
-    }
-
-    @Get('getTasksMemberDoing')
-    @UseGuards(JwtAuthGuard)
-    async GetTasksMemberDoing(@Query('communityName') communityName: string,@Req() req) {
-      console.log('Received communityName in backend:', communityName); 
-      if (!communityName) {
-        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
-      }
-      const tasks = await this.tasksService.GetTasksMemberDoing(req.user.sub, communityName);
-      return { message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks};
     }
 }

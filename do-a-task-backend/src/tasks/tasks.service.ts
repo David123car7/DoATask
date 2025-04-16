@@ -4,7 +4,7 @@ import { SupabaseService } from "src/supabase/supabase.service";
 import { AssignTaskDto, CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "src/lib/constants/tasks/tasks.constants";
 import { EvaluateTaskDto } from "./dto/tasks.dto";
-import { find } from "rxjs";
+import { TASK_STATES } from "src/lib/constants/tasks/tasks.constants";
 
 @Injectable({})
 export class TasksService{
@@ -83,7 +83,7 @@ export class TasksService{
                     id: memberTask.id
                 },
                 data:{
-                    status: "Em Progresso",
+                    status: TASK_STATES.ACCEPTED,
                     assignedAt: new Date(),
                     volunteerId: member.id,
                 }
@@ -94,51 +94,33 @@ export class TasksService{
         }
     }
 
+    async finishTask(memberTaskId: number){
+        if(!memberTaskId)
+            throw new HttpException("The memberTaskId is invalid", HttpStatus.BAD_REQUEST)
 
-
-    async endingTaskVolunteer(/*, memberTaskId: number*/){
         try{
-            const result = await this.prisma.$transaction(async (prisma) => {
-                const memberTask = await this.prisma.memberTask.update({
-                    where: {
-                        id: 7,     
-                    },
-                    data: {
-                        status: 'completed',
-                        completedAt: new Date(), // Marking the task as completed
-                    },
-                    include: {
-                        task: {
-                            include: {
-                                creator: {
-                                    include: {
-                                        user: {
-                                            select: {
-                                                email: true,
-                                                id: true,
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                });
-            
-                await this.prisma.notification.create({
-                    data:{
-                        title: 'Tarefa Concluída - Avaliação Necessária',
-                        message: `Olá, a tarefa ${memberTask.task.title} que você criou foi concluída por um voluntário. Por favor, avalie o desempenho do voluntário.`,
-                        recipientId: memberTask.task.creator.user.id,
-                    }
-                });
-            });
+            const memberTask = await this.prisma.memberTask.findFirst({
+                where: {
+                    id: memberTaskId
+                }
+            })
+            if(!memberTask){
+                throw new HttpException("The memberTask does not exist", HttpStatus.BAD_REQUEST)
+            }
+
+            await this.prisma.memberTask.update({
+                where: {
+                    id: memberTask.id
+                },
+                data: {
+                    status: TASK_STATES.FINISH,
+                    completedAt: new Date(), 
+                }
+            })
         }
         catch(error){
-            this.prisma.handlePrismaError("Ending Task Volunteer" , error);
+            this.prisma.handlePrismaError("Finish Task" , error);
         }
-
-        return {message: 'Task updated successfully'};
     }
 
     async evaluateTask(/*memberTaskId: number,*/ dto:EvaluateTaskDto) {
@@ -334,7 +316,8 @@ export class TasksService{
             
             const memberTasks = await this.prisma.memberTask.findMany({
                 where:{
-                    volunteerId : findMember.id
+                    volunteerId : findMember.id,
+                    completedAt: null,
                 },
             });
             if(!memberTasks)
@@ -348,8 +331,6 @@ export class TasksService{
                 }
             })
             
-            console.log("Tasks", tasks)
-            console.log("MemberTasks", memberTasks)
             return {tasks: tasks, memberTasks: memberTasks};
         }
         catch(error){
@@ -359,6 +340,53 @@ export class TasksService{
     }
     catch(error){
         console.error('Error getting done tasks in community:', error); 
+    }
+
+    async GetTasksMemberCreated(userId: string){
+        try{
+            const member = await this.prisma.member.findMany({
+                where:{
+                    userId : userId
+                },
+            });
+            if(!member){
+                throw new HttpException("The user does not belong to the any community", HttpStatus.BAD_REQUEST)
+            }
+            console.log(member)
+
+            const community = await this.prisma.community.findMany({
+                where:{
+                    id: {in: member.map(m => m.communityId)}
+                },
+                select:{communityName: true}
+            })
+            if(!community){
+                throw new HttpException("The member is not associated to the any community", HttpStatus.BAD_REQUEST)
+            }
+            console.log(community)
+            
+            const tasks = await this.prisma.task.findMany({
+                where:{
+                    creatorId: { in: member.map(m => m.id) }
+                }
+            })
+            if(!tasks){
+                throw new HttpException("The user has not created any tasks", HttpStatus.BAD_REQUEST)
+            }
+            console.log(tasks)
+
+            const memberTasks = await this.prisma.memberTask.findMany({
+                where:{
+                    taskId: {in: tasks.map(t => t.id)}
+                }
+            })
+            console.log(memberTasks)
+            
+            return {tasks: tasks, memberTasks: memberTasks, community: community};
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Gettting volunteer tasks:", error)
+        }
     }
 }
        
@@ -379,5 +407,5 @@ const findTasks = await this.prisma.memberTask.findMany({
                         }
                     }
                 },
-            });
+});
 */

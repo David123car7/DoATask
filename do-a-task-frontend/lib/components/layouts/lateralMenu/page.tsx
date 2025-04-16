@@ -68,7 +68,7 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
               <FaRegUserCircle /> <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
             </li>
             <li>
-              <FaTasks /><a href={ROUTES.TASKS_USER_LIST}>Tarefas</a>
+              <FaTasks /><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
             </li>
             <li>
               <MdOutlineSupport /> Centro de Apoio

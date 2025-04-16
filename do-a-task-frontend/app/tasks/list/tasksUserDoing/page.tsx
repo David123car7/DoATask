@@ -6,8 +6,8 @@ import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import style from "./page.module.css"
 import { GetUserCommunitiesNames } from "@/lib/api/communities/get.user.communities.names";
 import { getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
-import { OtherTasks } from "@/lib/components/layouts/tasks/otherTasks/page";
-
+import { UserTasks } from "@/lib/components/layouts/tasks/userTasks/page";
+import TaskNavBar from "@/lib/components/layouts/tasks/navbar/nav.bar";
 
 export default async function ListTasksUser(){
 
@@ -17,8 +17,9 @@ export default async function ListTasksUser(){
     return(
         <div className="page">
             <HeaderWrapper/>
+            <TaskNavBar/>
             <main className={style.main2}>
-                <OtherTasks community={validatedData}/>
+            <UserTasks community={validatedData}/>
             </main>
             <Footer/>
         </div>

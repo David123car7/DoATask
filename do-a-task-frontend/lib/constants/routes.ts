@@ -8,8 +8,9 @@ export const ROUTES = {
   COMMUNITIES:'/associateToCommunity',
   ENTER_COMMUNITY: '/community/list/enterCommunity',
   USER_COMMUNITY: '/community/list/userCommunity',
-  TASKS_LIST: '/tasks/list',
-  TASKS_USER_LIST: '/tasks/listTasksUser',
+  TASKS_USER_CREATED_LIST: '/tasks/list/tasksUserCreated',
+  TASKS_USER__DOING_LIST: '/tasks/list/tasksUserDoing',
+  TASKS_CREATE: '/tasks/create',
 };
 
 export const API_ROUTES = {
@@ -21,6 +22,7 @@ export const PROTECTED_ROUTES = new Set([
   ROUTES.NOTIFICATION_LIST,
   ROUTES.USER_COMMUNITY,
   ROUTES.ENTER_COMMUNITY,
-  ROUTES.TASKS_LIST,
-  ROUTES.TASKS_USER_LIST,
+  ROUTES.TASKS_USER_CREATED_LIST,
+  ROUTES.TASKS_USER__DOING_LIST,
+  ROUTES.TASKS_CREATE,
 ]);
