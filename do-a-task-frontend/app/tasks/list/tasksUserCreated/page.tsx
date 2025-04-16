@@ -17,8 +17,8 @@ export default async function ListUserCreatedTasks(){
     return(
         <div className="page">
             <HeaderWrapper/>
-            <TaskNavBar/>
             <main className={style.main2}>
+            <TaskNavBar/>
             <UserCreatedTasks taskMemberCreated={validatedData}/>
             </main>
             <Footer/>

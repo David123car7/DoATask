@@ -2,12 +2,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
-import { CiUser } from "react-icons/ci";
-import { FaRegUserCircle,FaTasks } from "react-icons/fa";
-import { MdOutlineSupport } from "react-icons/md";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { useRouter } from 'next/navigation';
 import { ROUTES, API_ROUTES} from "@/lib/constants/routes";
+import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser} from "@/lib/icons"
 
 export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,10 +69,7 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
               <FaTasks /><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
             </li>
             <li>
-              <MdOutlineSupport /> Centro de Apoio
-            </li>
-            <li>
-              <a href={ROUTES.USER_COMMUNITY}>As Suas Comunidades</a>
+              <RiUserCommunityFill/> <a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
             </li>
           </ul>
           {userData ? (

@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateCommunity } from '@/lib/api/communities/create.community';
-import styles from '@/app/community/createCommunity/page.module.css'
+import styles from '@/app/community/create/page.module.css'
 import { ROUTES } from '@/lib/constants/routes';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';

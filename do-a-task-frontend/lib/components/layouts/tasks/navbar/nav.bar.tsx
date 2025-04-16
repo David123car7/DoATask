@@ -8,6 +8,9 @@ export default function TaskNavBar(){
         <div className={styles.optionsContainer}>
             <div className={styles.options}>
                 <div className={styles.singleOption}>
+                    <a href={ROUTES.TASKS_AVAILABLE}>Encontrar Tarefas</a>
+                </div>
+                <div className={styles.singleOption}>
                     <a href={ROUTES.TASKS_USER__DOING_LIST}>Tarefas em progresso</a>
                 </div>
                 <div className={styles.singleOption}>

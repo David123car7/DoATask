@@ -18,7 +18,7 @@ export class PrismaService extends PrismaClient{
     }
 
     //https://www.prisma.io/docs/orm/reference/error-reference
-    handlePrismaError(error: unknown, context: string): never {
+    handlePrismaError(context: string, error: unknown): never {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           switch (error.code) {
             case 'P2002':

@@ -41,10 +41,10 @@ export class TasksController {
       return res.json({ message: 'Task was created'});
     }
 
-    @Post("assignTask")
+    @Put("assignTask")
     @UseGuards(JwtAuthGuard)
-    async assignTask(@Body() dto: AssignTaskDto,@Req() req: RequestWithUser, @Res() res: Response) {
-      await this.tasksService.assignTask(req.user.sub, dto);
+    async assignTask(@Query('taskId', ParseIntPipe) taskId: number, @Req() req: RequestWithUser, @Res() res: Response) {
+      await this.tasksService.assignTask(req.user.sub, taskId);
       return res.json({ message: 'Task was assigned'});
     }
 

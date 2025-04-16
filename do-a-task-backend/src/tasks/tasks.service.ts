@@ -58,23 +58,48 @@ export class TasksService{
         }
     }
 
-    async assignTask(userId: string, dto: AssignTaskDto){
+    async assignTask(userId: string, taskId: number){
         try{
-            console.log(dto.communityId)
-            console.log(dto.taskId)
+            const task = await this.prisma.task.findFirst({
+                where:{
+                    id: taskId
+                }
+            })
+            if(!task){
+                throw new HttpException("The task does not exist", HttpStatus.BAD_REQUEST)
+            }
+
             const member = await this.prisma.member.findFirst({
                 where:{
-                    userId: userId,
-                    communityId: dto.communityId
+                    id: task.creatorId,
                 }
             })
             if(!member){
+                throw new HttpException("The task has no creator", HttpStatus.BAD_REQUEST)
+            }
+
+            const community = await this.prisma.community.findFirst({
+                where:{
+                    id: member.communityId
+                }
+            })
+            if(!community){
+                throw new HttpException("The task is not assigned to any community", HttpStatus.BAD_REQUEST)
+            }
+
+            const memberUser = await this.prisma.member.findFirst({
+                where:{
+                    userId: userId,
+                    communityId: community.id,
+                }
+            })
+            if(!memberUser){
                 throw new HttpException("The user is not a member of the community", HttpStatus.BAD_REQUEST)
             }
 
             const memberTask = await this.prisma.memberTask.findFirst({
                 where:{
-                    taskId: dto.taskId
+                    taskId: taskId
                 }
             })
 
@@ -85,7 +110,7 @@ export class TasksService{
                 data:{
                     status: TASK_STATES.ACCEPTED,
                     assignedAt: new Date(),
-                    volunteerId: member.id,
+                    volunteerId: memberUser.id,
                 }
             })
         }

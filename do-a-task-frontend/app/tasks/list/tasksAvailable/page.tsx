@@ -2,10 +2,11 @@
 
 import Footer from "@/lib/components/layouts/footer/page";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
-import { ListTasksCommunity } from "@/lib/components/layouts/tasks/listAllTaskCommunity/page";
+import { AvaiableTasks } from "@/lib/components/layouts/tasks/availableTasks/page";
 import React from "react";
 import { GetUserCommunitiesNames } from "@/lib/api/communities/get.user.communities.names";
 import { getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
+import TaskNavBar from "@/lib/components/layouts/tasks/navbar/nav.bar";
 
 export default async function ListAllTasksCommunity(){
 
@@ -16,11 +17,10 @@ export default async function ListAllTasksCommunity(){
     <div className="page">   
 
       <HeaderWrapper/>
-
       <main>
-        <ListTasksCommunity community={validatedData}/>
+        <TaskNavBar/>
+        <AvaiableTasks community={validatedData}/>
       </main>
-
       <Footer/>
     </div>
 

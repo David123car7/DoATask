@@ -6,9 +6,9 @@ import { GetNameCommunitySchemaArray } from "@/lib/schemas/community/get-communi
 import { GetTasksBeDone } from "@/lib/api/tasks/get.all.taskBeDoneCommunity";
 import { taskResponseSchema } from "@/lib/schemas/tasks/get-all-taskBeDoneCommunity";
 import { FaLocationPin, FaCoins } from "@/lib/icons/index";
+import { AssignTaskButton } from "../buttons/assign.task.button";
 
-export function ListTasksCommunity({community }: {community: GetNameCommunitySchemaArray | null }){
-
+export function AvaiableTasks({community }: {community: GetNameCommunitySchemaArray | null }){
     const [selectedCommunity, setSelectedCommunity] = useState('');
     const [tasks, setTasks] = useState<any[]>([]);
     const [memberTasks, setMemberTasks] = useState<any[]>([]);
@@ -31,16 +31,15 @@ export function ListTasksCommunity({community }: {community: GetNameCommunitySch
     
     return(
         <div className={styles.container}>
-
             <select onChange={handleSelectChange}
                     className={styles.selectCustom}>
-                    <option value="">Comunidades</option>
+                    <option value=""></option>
                         {(community ??[]).map((c, index) => (
                             <option key={index} value={c.communityName}>
                             {c.communityName}
                             </option>
                         ))}      
-                </select>
+            </select>
             <div className={styles.taskGrid}>
             
             {tasks.length > 0 ?(
@@ -59,7 +58,7 @@ export function ListTasksCommunity({community }: {community: GetNameCommunitySch
                         </div>
                     
                     <div className={styles.buttonContainer}>
-                        <button className={styles.buttonTask}>Ver Mais</button>
+                        <AssignTaskButton taskId={tasks.id}/>
                     </div>
                 </div>
                 ))

@@ -13,6 +13,9 @@ export default function CommunityNavBar(){
                 <div className={styles.singleOption}>
                     <a href={ROUTES.USER_COMMUNITY}>As minhas comunidades</a>
                 </div>
+                <div className={styles.singleOption}>
+                    <a href={ROUTES.CREATE_COMMUNITY}>Criar Comunidade</a>
+                </div>
             </div>
         </div>
     );

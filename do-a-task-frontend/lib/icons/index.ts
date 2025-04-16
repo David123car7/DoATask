@@ -7,3 +7,7 @@ export { MdNotificationsActive } from "react-icons/md";
 export { IoIosNotificationsOutline } from "react-icons/io";
 export { IoIosAdd } from "react-icons/io";
 export { FaLocationPin } from "react-icons/fa6";
+export { RiUserCommunityFill } from "react-icons/ri";
+export { MdOutlineSupport } from "react-icons/md";
+export { FaRegUserCircle,FaTasks } from "react-icons/fa";
+

@@ -17,8 +17,8 @@ export default async function ListTasksUser(){
     return(
         <div className="page">
             <HeaderWrapper/>
-            <TaskNavBar/>
             <main className={style.main2}>
+            <TaskNavBar/>
             <UserTasks community={validatedData}/>
             </main>
             <Footer/>
