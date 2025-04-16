@@ -17,12 +17,9 @@ export class TasksController {
 
     @Get('getTasksMemberDoing')
     @UseGuards(JwtAuthGuard)
-    async GetTasksMemberDoing(@Query('communityName') communityName: string,@Req() req: RequestWithUser, @Res() res: Response) {
-      if (!communityName) {
-        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
-      }
-      const tasks = await this.tasksService.GetTasksMemberDoing(req.user.sub, communityName);
-      return res.json({ message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks})
+    async GetTasksMemberDoing(@Req() req: RequestWithUser, @Res() res: Response) {
+      const tasks = await this.tasksService.GetTasksMemberDoing(req.user.sub);
+      return res.json({ message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks, community: tasks.community})
     }
 
     @Get('getTasksMemberCreated')
@@ -56,23 +53,13 @@ export class TasksController {
     }
 
 
-    @Put("evaluateTask")
-    async evaluateTask(@Body() dto: EvaluateTaskDto/*, taskId: number*/) {
-        const task = await this.tasksService.evaluateTask(dto);
-        return {
-            status: 'success',
-            task,
-        };
+    @Post("evaluateTask")
+    async evaluateTask(@Body() dto: EvaluateTaskDto, @Res() res: Response) {
+        await this.tasksService.evaluateTask(dto.memberTaskId, dto.score);
+        await this.tasksService.assignBonus(dto.memberTaskId, dto.score)
+        return res.json({ message: 'Task was evaluated'});
     }
 
-    @Post("assignBonus")
-    async assignBonus(volunteerId: number,evaluation: number,memberTaskId:number){
-        const task = await this.tasksService.assignBonus(volunteerId,evaluation,memberTaskId);
-        return{ 
-            status : 'success',
-            task,
-        };
-    }
 
     @Get('tasksDoneCommunity')
     @UseGuards(JwtAuthGuard)

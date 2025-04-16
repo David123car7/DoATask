@@ -21,9 +21,15 @@ const getMemberTaskSchema = z.object({
   score: z.number().nullable(),
 });
 
-export const getTasksAndMemberTasksSchema = z.object({
-  tasks: z.array(getTaskSchema),
-  memberTasks: z.array(getMemberTaskSchema),
+const getMemberCommunitySchema = z.object({
+  communityName: z.string()
 });
 
-export type GetTasksAndMemberTasks = z.infer<typeof getTasksAndMemberTasksSchema>;
+
+export const getTasksMemberDoingSchema = z.object({
+  tasks: z.array(getTaskSchema),
+  memberTasks: z.array(getMemberTaskSchema),
+  community: z.array(getMemberCommunitySchema)
+});
+
+export type GetTasksMemberDoingSchema = z.infer<typeof getTasksMemberDoingSchema>;

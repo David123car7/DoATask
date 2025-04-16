@@ -3,13 +3,13 @@
 import { AUTH_COOKIES } from "@/lib/constants/auth/cookies";
 import { getCookie } from "@/lib/utils/cookies/auth/index";
 
-export async function GetTasksMemberDoing(communityName: string) {
+export async function GetTasksMemberDoing() {
   try {
     const access_token = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
     if (!access_token) {
       return { message: "Access token not found", state: false };
     }
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/getTasksMemberDoing?communityName=${communityName}`,
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/getTasksMemberDoing`,
       {
         method: 'GET',
         headers: {
@@ -26,7 +26,7 @@ export async function GetTasksMemberDoing(communityName: string) {
     }
 
     const data = await response.json();
-    return {tasks: data.tasks, memberTasks: data.memberTasks};
+    return {tasks: data.tasks, memberTasks: data.memberTasks, community: data.community};
   } catch (error) {
     console.error('Error retrieving tasks:', error);
     throw error;

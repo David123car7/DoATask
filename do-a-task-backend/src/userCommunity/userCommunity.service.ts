@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -22,22 +22,25 @@ export class UserCommunityService {
     }
 
     async DeleteUserCommunity(userId: string ,communityId: number){
+        const userCommunity = await this.prisma.userCommunity.findFirst({
+            where:{
+                communityId: communityId,
+                userId: userId
+            }
+        })
+        if(!userCommunity){
+            throw new HttpException("No usercommunity found to delete", HttpStatus.BAD_REQUEST)
+        }
+
         try{
-            const userCommunity = await this.prisma.userCommunity.findFirst({
-                where:{
-                    communityId: communityId,
-                    userId: userId
-                }
-            })
             await this.prisma.userCommunity.delete({
                 where:{
                     id: userCommunity.id
                 }
             })
-            return true
         }
         catch(error){
-            this.prisma.handlePrismaError("Create user community", error)
+            this.prisma.handlePrismaError("Delete user community", error)
         }
     }
 }

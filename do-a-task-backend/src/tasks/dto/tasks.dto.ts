@@ -1,6 +1,6 @@
 
-import { Transform } from "class-transformer";
-import { IsInt, IsNotEmpty, IsNumber, IsString, Max, Min } from "class-validator";
+import { Transform, Type } from "class-transformer";
+import { IsInt, IsNotEmpty, IsNumber, IsString, Max, MIN, Min } from "class-validator";
 
 
 export class CreateTasksDto{
@@ -36,11 +36,14 @@ export class AssignTaskDto{
 }
 
 export class EvaluateTaskDto{
+    @IsInt()
+    @Transform(({ value}) => parseInt(value, 10))
+    memberTaskId: number
 
     @IsInt()
-    @Min(1)
-    @Max(5)
     @Transform(({ value}) => parseInt(value, 10))
+    @Min(0)
+    @Max(5)
     score: number;
 }
 

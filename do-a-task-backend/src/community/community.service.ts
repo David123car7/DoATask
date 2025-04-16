@@ -161,37 +161,35 @@ export class CommunityService{
         }
     }
 
-
     async UserEnterCommunity(userId: string, communityName: string){
+        const community = await this.prisma.community.findFirst({
+            where:{
+                communityName: communityName
+            },
+            select: {
+                id: true,
+                    communityName: true,
+                    locality: true
+                }
+        })
+        if(!community){
+            throw new HttpException("Community with this name does not exist", HttpStatus.BAD_REQUEST)
+        }
+
+        const check = await this.CheckUserBelongsCommunity(userId, community.id)
+            if(check){
+            throw new HttpException("The user allready is in the community", HttpStatus.BAD_REQUEST)
+        }
+
+        const addresses = await this.addressService.VefifyAdressses(userId, community.locality.minPostalNumber, community.locality.maxPostalNumber)
+        if(!addresses){
+            throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
+        }
         try{
-                const community = await this.prisma.community.findFirst({
-                    where:{
-                        communityName: communityName
-                    },
-                    select: {
-                        id: true,
-                        communityName: true,
-                        locality: true
-                    }
-                })
-                if(!community){
-                    throw new HttpException("Community with this name does not exist", HttpStatus.BAD_REQUEST)
-                }
-
-                const check = await this.CheckUserBelongsCommunity(userId, community.id)
-                if(check){
-                    throw new HttpException("The user allready is in the community", HttpStatus.BAD_REQUEST)
-                }
-
-                const addresses = await this.addressService.VefifyAdressses(userId, community.locality.minPostalNumber, community.locality.maxPostalNumber)
-                if(!addresses){
-                    throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
-                }
-
-                const result = await this.prisma.$transaction(async (prisma) => {
-                    await this.userCommunityService.CreateUserCommunity(userId, community.id)
-                    await this.memberService.createMember(userId, community.id)
-                });
+            const result = await this.prisma.$transaction(async (prisma) => {
+                await this.userCommunityService.CreateUserCommunity(userId, community.id)
+                await this.memberService.createMember(userId, community.id)
+            });
         }
         catch(error){
             this.prisma.handlePrismaError("Enter Community",error)
@@ -200,20 +198,20 @@ export class CommunityService{
 
 
     async ExitCommunity(userid: string, communityName: string){
+        const community = await this.prisma.community.findFirst({
+            where:{
+                communityName: communityName
+            },
+            select: {
+                id: true,
+                communityName: true,
+                locality: true
+            }
+        })
+        if(!community)
+            throw new HttpException("The community with this name does not exist", HttpStatus.BAD_REQUEST)
+        
         try{
-            const community = await this.prisma.community.findFirst({
-                where:{
-                    communityName: communityName
-                },
-                select: {
-                    id: true,
-                    communityName: true,
-                    locality: true
-                }
-            })
-            if(!community)
-                throw new HttpException("The community with this name does not exist", HttpStatus.BAD_REQUEST)
-
             const result = await this.prisma.$transaction(async (prisma) => {
                 await this.memberService.DeleteMember(userid,community.id)
                 await this.userCommunityService.DeleteUserCommunity(userid,community.id)

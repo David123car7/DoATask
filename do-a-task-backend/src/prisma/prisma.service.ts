@@ -27,6 +27,12 @@ export class PrismaService extends PrismaClient{
                 `${context}: Duplicate field value violates a unique constraint.`,
                 HttpStatus.BAD_REQUEST
               );
+              case 'P2003 ':
+                // Unique constraint violation.
+                throw new HttpException(
+                  `${context}: Foreign‐key constraint failure:`,
+                  HttpStatus.BAD_REQUEST
+                );
             default:
               throw new HttpException(
                 `${context}: Unexpected Prisma error with code ${error.code}.`,

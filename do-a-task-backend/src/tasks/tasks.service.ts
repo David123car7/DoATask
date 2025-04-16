@@ -59,7 +59,7 @@ export class TasksService{
     }
 
     async assignTask(userId: string, taskId: number){
-        try{
+        
             const task = await this.prisma.task.findFirst({
                 where:{
                     id: taskId
@@ -97,26 +97,31 @@ export class TasksService{
                 throw new HttpException("The user is not a member of the community", HttpStatus.BAD_REQUEST)
             }
 
+            const verify = await this.verifyAssignTask(userId, member.id)
+            if(verify == false)
+                throw new HttpException("The user has allready accepted one task in this community", HttpStatus.BAD_REQUEST)
+
             const memberTask = await this.prisma.memberTask.findFirst({
                 where:{
                     taskId: taskId
                 }
             })
 
-            await this.prisma.memberTask.update({
-                where:{
-                    id: memberTask.id
-                },
-                data:{
-                    status: TASK_STATES.ACCEPTED,
-                    assignedAt: new Date(),
-                    volunteerId: memberUser.id,
-                }
-            })
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Assign Task" ,error)
-        }
+            try{
+                await this.prisma.memberTask.update({
+                    where:{
+                        id: memberTask.id
+                    },
+                    data:{
+                        status: TASK_STATES.ACCEPTED,
+                        assignedAt: new Date(),
+                        volunteerId: memberUser.id,
+                    }
+                })
+            }
+            catch(error){
+                this.prisma.handlePrismaError("Assign Task" ,error)
+            }
     }
 
     async finishTask(memberTaskId: number){
@@ -148,125 +153,92 @@ export class TasksService{
         }
     }
 
-    async evaluateTask(/*memberTaskId: number,*/ dto:EvaluateTaskDto) {
-        let memberTask
+    async evaluateTask(memberTaskId: number, score: number) {
+        if(!memberTaskId)
+            throw new HttpException("Invalid membertaskid", HttpStatus.BAD_REQUEST)
+
         try{
-            memberTask = await this.prisma.memberTask.findUnique({
-                where: {
-                    id: 7,
+            const memberTask = await this.prisma.memberTask.update({
+                where:{
+                    id: memberTaskId
                 },
-            });
+                data:{
+                    score: score,
+                    status: TASK_STATES.EVALUATED,
+                }
+            })
         }
         catch(error){
-            this.prisma.handlePrismaError("Evaluate Task (Find MemberTask)" , error);
+            this.prisma.handlePrismaError("Evaluating task", error)
         }
-
-        let updatedMemberTask
-        try{
-            updatedMemberTask = await this.prisma.memberTask.update({
-                where: {
-                    id: 7,
-                },
-                data: {
-                    score: dto.score,
-                },
-            });
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Evaluate Task (Update MemberTask)" , error);
-        }
-
-        return {message: 'Task evaluated successfully'};
     }
 
-
-
-    async assignBonus(volunteerId: number, evaluation: number, memberTaskId: number) {
-        
-        let volunteerTask
-        try{
-            volunteerTask = await this.prisma.memberTask.findUnique({
+    async assignBonus(memberTaskId: number, score: number, ) {
+        const memberTask = await this.prisma.memberTask.findUnique({
                 where: {
-                    id: 7,
+                    id: memberTaskId,
                 },
                 include: {
                     task: true,
                 },
             });
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Assign Bonus (Find Volunteer Task)" , error);
+        if(!memberTask){
+            throw new HttpException("No memberTask found with the id", HttpStatus.BAD_REQUEST)
         }
 
-        const reward = baseReward[volunteerTask.task.difficulty];
-        const { totalCoins, totalPoints } = this.calculateReward(volunteerTask.task.difficulty, 5);
-        
+        const member = await this.prisma.member.findFirst({
+            where:{
+                id: memberTask.volunteerId
+            }
+        })
+        if(!member){
+            throw new HttpException("There is not member assigned to the task", HttpStatus.BAD_REQUEST)
+        }
+
+        const { totalCoins, totalPoints } = this.calculateReward(memberTask.task.difficulty, score)
+        console.log("Coins", totalCoins)
+        console.log("Points", totalPoints)
+
+        const pointsMember = await this.prisma.pointsMember.findFirst({
+            where: {
+                memberId: member.id,
+            },
+        });
+        if(!pointsMember){
+            throw new HttpException("No pointsMember assigned to member", HttpStatus.BAD_REQUEST)
+        }
+
         try{
-            const result = await this.prisma.$transaction(async (prisma) => {
-                let pointsMember = await this.prisma.pointsMember.findFirst({
+            const result = await this.prisma.$transaction(async () => {
+                await this.prisma.member.update({
                     where: {
-                        memberId: 6,
-                    },
-                });
-
-                const updatedCoins = await this.prisma.member.update({
-                    where: {
-                        id: 6,
+                        id: member.id,
                     },
                     data: {
-                        user: {
-                            update: {
-                                totalCoins: {
-                                    increment: totalCoins,
-                                },
-                            },
-                        },
-                    },
+                        coins: { increment: totalCoins },
+                    }
                 });
-
-                if (!pointsMember) {
-                    pointsMember = await this.prisma.pointsMember.create({
-                        data: {
-                            memberId: 6,
-                            points: totalPoints,
-                        },
-                    });
-                } else {
-                    // Se houver, atualiza os pontos
-                    pointsMember = await this.prisma.pointsMember.update({
-                        where: {
-                            id: pointsMember.id,
-                        },
-                        data: {
-                            points: {
-                                increment: totalPoints,
-                            },
-                        },
-                    });
-                }
-            
-                // Criação da notificação
-                await this.prisma.notification.create({
+    
+                await this.prisma.pointsMember.update({
+                    where: {
+                        id: pointsMember.id,
+                    },
                     data: {
-                        title: 'Avaliação Concluída',
-                        message: `Você recebeu ${evaluation}/5 na tarefa. Bônus: ${totalCoins} moedas e ${totalPoints} pontos`,  // Correção aqui, usando crase
-                        recipientId: "7", 
-                    },
+                        points: {
+                            increment: totalPoints,
+                            },
+                        },
                 });
-            });
+            })
         }
         catch(error){
-            this.prisma.handlePrismaError("Assign Bonus" , error);
+            this.prisma.handlePrismaError("Assigning bonus", error)
         }
-    
-        return { success: true, bonus: { totalCoins, totalPoints }, evaluation };
     }
     
 
-
-    private  calculateReward(difficulty: string, score: number){    
-        const diff = difficulty.toLowerCase();
-        const reward = baseReward[diff] || {coins: 5, points:10}; // Default reward if difficulty is not recognized (Default reward tem que ser guardada nas constans)
+    private  calculateReward(difficulty: number, score: number){    
+        const reward = baseReward[difficulty] || {coins: 5, points:10}; // Default reward if difficulty is not recognized (Default reward tem que ser guardada nas constans)
     
         const performanceFactor = (score -1) /4;
         const bonusMultiplier = 0.2; // 20% bonus for performance
@@ -318,30 +290,32 @@ export class TasksService{
         }
     }
 
-      async GetTasksMemberDoing(userId: string, communityName:string){
-        try{
-            const community = await this.prisma.community.findFirst({
+      async GetTasksMemberDoing(userId: string){
+        try{    
+            const findMember = await this.prisma.member.findMany({
                 where:{
-                    communityName: communityName,
-                }
-            });
-            if(!community){
-                throw new HttpException("Community does not exist with this name", HttpStatus.BAD_REQUEST)
-            }
-    
-            const findMember = await this.prisma.member.findFirst({
-                where:{
-                    communityId : community.id,
                     userId : userId
                 },
             });
             if(!findMember){
-                throw new HttpException("The user does not belong to the community", HttpStatus.BAD_REQUEST)
+                throw new HttpException("The user does not belong to any community", HttpStatus.BAD_REQUEST)
+            }
+
+            const community = await this.prisma.community.findMany({
+                where:{
+                    id: {in: findMember.map(m => m.communityId)},
+                },
+                select:{
+                    communityName: true
+                }
+            })
+            if(!community){
+                throw new HttpException("The member is not assigned to any community", HttpStatus.BAD_REQUEST)
             }
             
             const memberTasks = await this.prisma.memberTask.findMany({
                 where:{
-                    volunteerId : findMember.id,
+                    volunteerId : {in: findMember.map(m => m.id)},
                     completedAt: null,
                 },
             });
@@ -356,7 +330,7 @@ export class TasksService{
                 }
             })
             
-            return {tasks: tasks, memberTasks: memberTasks};
+            return {tasks: tasks, memberTasks: memberTasks, community: community};
         }
         catch(error){
             this.prisma.handlePrismaError("Gettting volunteer tasks:", error)
@@ -398,7 +372,6 @@ export class TasksService{
             if(!tasks){
                 throw new HttpException("The user has not created any tasks", HttpStatus.BAD_REQUEST)
             }
-            console.log(tasks)
 
             const memberTasks = await this.prisma.memberTask.findMany({
                 where:{
@@ -455,6 +428,24 @@ export class TasksService{
         }
         catch(error){
             this.prisma.handlePrismaError("Gettting community tasks:", error)
+        }
+    }
+
+    async verifyAssignTask(userId: string, memberId: number){
+        try{
+            const memberTasks = await this.prisma.memberTask.findMany({
+                where:{
+                    volunteerId: memberId,
+                    completedAt: null
+                }
+            })
+            if(memberTasks.length == 0)
+                return true
+            else
+                return false
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Verify Assign Task", error)
         }
     }
 }

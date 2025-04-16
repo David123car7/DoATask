@@ -27,8 +27,8 @@ export class CommunityController {
     @Delete("exitCommunity")
     @UseGuards(JwtAuthGuard)
     async ExitCommunity(@Body() dto: EnterExitCommunityDto, @Req() req: RequestWithUser, @Res() res: Response){
-      const communities = await this.communityService.ExitCommunity(req.user.sub, dto.communityName)
-      return res.json({ message: 'Exit community successful', communities: communities});
+      await this.communityService.ExitCommunity(req.user.sub, dto.communityName)
+      return res.json({ message: 'Exit community successful'});
     }
 
     @Get("getUserCommunities")
