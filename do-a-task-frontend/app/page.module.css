@@ -156,7 +156,7 @@ a.secondary {
   }
 
   .ctas a {
-    font-size: 14px;
+    font-size: 140px;
     height: 40px;
     padding: 0 16px;
   }
@@ -176,4 +176,146 @@ a.secondary {
   .logo {
     filter: invert();
   }
+}
+
+  .letter {
+    font-size: 25px;
+    color: black;
+    line-height: 1.2;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    padding-top: 1rem;
+  }
+
+  .lis{
+    font-size: 25px;
+    color: black;
+    line-height: 1.2;
+    margin: 20px;
+  }
+
+  .buttons a{
+    background-color: #000000; 
+    color: #ffffff;
+    border-radius: 15px;
+    padding: 20px 35px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 1rem;
+}
+
+  .image{
+    max-width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;          /* Torna o elemento bloco */
+    margin-left: auto;       /* Centraliza horizontalmente */
+    margin-right: auto;
+  }
+
+  .container{
+    font-size: 25px;
+    color: black;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    place-items: center; /* Centraliza conteúdo horizontal e verticalmente */
+    text-align: center; /* Alinha o texto ao centro */
+    gap: 2rem; /* Espaçamento entre colunas */
+    padding: 2rem; /* Espaçamento interno */
+    max-width: 1200px; /* Limita a largura máxima */
+    margin: 0 auto; /* Centraliza o container na página */
+  }
+
+  .space{
+    margin: 100px;
+  }
+
+  .container2 {
+    font-size: 25px;
+    color: black;
+    display: flex;          /* Flexbox para alinhar texto e imagem */
+    align-items: center;    /* Centraliza verticalmente */
+    gap: 2rem;              /* Espaço entre texto e imagem */
+    margin: 0 3rem;         /* Margem nas laterais */
+    padding-top: 1rem;
+    line-height: 1.2;
+  }
+  
+  .textContent {
+    flex: 1;                /* Ocupa o espaço disponível */
+  }
+  
+  .advantage {
+    margin-bottom: 1.5rem;
+  }
+  
+  .advantage h4 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .imageContainer {
+    flex-shrink: 0;         /* Evita que a imagem diminua */
+  }
+
+/* === Container Principal === */
+.section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  font-family: sans-serif; /* Altere conforme sua fonte */
+}
+
+/* Caixa de Depoimento */
+.box {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Citação (texto principal) */
+.quote {
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.4;
+  color: #222;
+}
+
+/* Autor (nome em destaque) */
+.author {
+  font-weight: 600;
+  margin-top: 8px;
+  color: #444;
+  font-style: normal;
+}
+
+/* Cargo/Detalhes */
+.details {
+  font-size: 14px;
+  color: black;
+}
+
+.container3 {
+  color: black;
+  display: flex;          /* Flexbox para alinhar texto e imagem */
+  align-items: center;    /* Centraliza verticalmente */
+  gap: 2rem;              /* Espaço entre texto e imagem */
+  margin: auto;         /* Margem nas laterais */
+  padding-top: 1rem;
+  line-height: 1.2;
+}
+
+.fundo {
+  background: #E6E6E6;
+  color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.content {
+  text-align: center;
+  padding-top: 1.5rem;
 }

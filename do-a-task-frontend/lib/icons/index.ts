@@ -11,4 +11,9 @@ export { RiUserCommunityFill } from "react-icons/ri";
 export { MdOutlineSupport } from "react-icons/md";
 export { FaRegUserCircle,FaTasks } from "react-icons/fa";
 export { TiShoppingCart } from "react-icons/ti";
+export { MdOutlineVolunteerActivism } from "react-icons/md";
+export { FiBookOpen } from "react-icons/fi";
+export { RiHandCoinLine } from "react-icons/ri";
+export { IoPersonOutline } from "react-icons/io5";
+export { BiTask } from "react-icons/bi";
 
