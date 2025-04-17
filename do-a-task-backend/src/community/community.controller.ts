@@ -51,23 +51,4 @@ export class CommunityController {
       const communities = await this.communityService.GetAllCommunitiesWithLocality(req.user.sub)
       return res.json({ message: 'Communities get successful', communities: communities});
     }
-
-    @Post("addStreetCommunity")
-    async addStreet(@Body() dto: CreateCommunityDto/*, localityId: number*/) {
-      // Criação da tarefa usando o serviço
-      const task = await this.communityService.addAdrresses(dto/*, localityId*/);
-      
-      // Retorna o status e os dados da tarefa criada
-      return {
-        status: 'success',  // Corrigido o typo para "success"
-        task,               // Tarefa criada
-      };
-    }
-
-    @Get(':id')
-    async getCommunityData(@Param('id') id:string){
-      const community = parseInt(id);
-      return this.communityService.getDataCommunity(community)
-    }
-
 }

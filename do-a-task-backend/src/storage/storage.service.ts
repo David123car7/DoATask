@@ -7,7 +7,7 @@ import e from 'express';
 export class StorageService {
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-    async uploadImage(bucketName: string, userId: string, folderName: string, files: Express.Multer.File[]){
+    async uploadImages(bucketName: string, userId: string, folderName: string, files: Express.Multer.File[]){
         const data = await Promise.all(
             files.map((file) =>
             this.supabaseService.getAdminClient().storage.from(bucketName).upload(`${userId}/${folderName}/${file.originalname}`, file.buffer, { contentType: file.mimetype})         
@@ -19,6 +19,13 @@ export class StorageService {
             this.supabaseService.handleSupabaseError(errors[0], "Upload Image")
         }
         return data
+    }
+
+    async uploadImage(bucketName: string, userId: string, folderName: string, file: Express.Multer.File){
+        const error = this.supabaseService.getAdminClient().storage.from(bucketName).upload(`${userId}/${folderName}/${file.originalname}`, file.buffer, { contentType: file.mimetype})         
+        if (error) {
+            this.supabaseService.handleSupabaseError(error, "Upload Image")
+        }
     }
 
     async deleteImage(bucketName: string, userId: string, folderName: string){

@@ -9,10 +9,10 @@ import { UserModule } from './user/user.module';
 import { MemberModule } from './member/member.module';
 import { CommunityModule } from './community/community.module';
 import { LocalityModule } from './locality/locality.module';
-import { StreetsCommunityModule } from './streetsCommunity/streetsCommunity.module';
 import { AddressModule } from './addresses/addresses.module';
 import { StorageModule } from './storage/storage.module';
 import { NotificationModule } from './notifications/notifications.module';
+import { StoreModule } from './store/store.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), 
@@ -22,10 +22,10 @@ import { NotificationModule } from './notifications/notifications.module';
     MemberModule, 
     CommunityModule, 
     LocalityModule, 
-    StreetsCommunityModule, 
     AddressModule,
     StorageModule,
     NotificationModule,
+    StoreModule,
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],

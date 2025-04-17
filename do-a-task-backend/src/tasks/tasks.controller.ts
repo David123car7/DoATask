@@ -42,7 +42,7 @@ export class TasksController {
     @UseInterceptors(FilesInterceptor("images"))
     async createTask(@Body() dto: CreateTasksDto, @UploadedFiles() files: Express.Multer.File[] ,@Req() req: RequestWithUser, @Res() res: Response) {
       const task = await this.tasksService.createTask(dto, req.user.sub);
-      const upload = await this.storageService.uploadImage(BUCKETS.TASK_IMAGES, req.user.sub, dto.tittle, files)
+      const upload = await this.storageService.uploadImages(BUCKETS.TASK_IMAGES, req.user.sub, dto.tittle, files)
       return res.json({ message: 'Task was created'});
     }
 

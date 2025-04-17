@@ -14,14 +14,14 @@ export class StorageController {
   @Post("uploadImage")
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FilesInterceptor("images"))
-  async uploadImage(@Body() dto: UploadDeleteFile, @UploadedFiles() files: Express.Multer.File[],@Req() req: RequestWithUser, @Res() res: Response){
+  async uploadImages(@Body() dto: UploadDeleteFile, @UploadedFiles() files: Express.Multer.File[],@Req() req: RequestWithUser, @Res() res: Response){
     files.map((file) => {
         if (!file) {
           throw new HttpException(`File invalid: ${file.originalname}`, HttpStatus.BAD_REQUEST);
         }
     });
 
-    const data = await this.storageService.uploadImage(BUCKETS.TASK_IMAGES, req.user.sub, dto.folderName, files)
+    const data = await this.storageService.uploadImages(BUCKETS.TASK_IMAGES, req.user.sub, dto.folderName, files)
     return res.json({message: "Image uploaded"})
   }
 

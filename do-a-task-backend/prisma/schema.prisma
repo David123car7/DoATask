@@ -52,13 +52,12 @@ model Notification {
 }
 
 model Community {
-  id              Int               @id @default(autoincrement())
+  id              Int             @id @default(autoincrement())
   localityId      Int
   communityName   String
   creatorId       String
-  locality        Locality          @relation(fields: [localityId], references: [id])
+  locality        Locality        @relation(fields: [localityId], references: [id])
   stores          Store[]
-  StreetCommunity StreetCommunity[]
   userCommunities UserCommunity[]
   members         Member[]
 }
@@ -80,13 +79,6 @@ model Address {
   user       User?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model StreetCommunity {
-  id          Int       @id @default(autoincrement())
-  street      String?
-  communityId Int
-  community   Community @relation(fields: [communityId], references: [id])
-}
-
 model Contact {
   id     Int    @id @default(autoincrement())
   number String
@@ -94,11 +86,10 @@ model Contact {
 }
 
 model Store {
-  id          Int         @id @default(autoincrement())
-  name        String
+  id          Int       @id @default(autoincrement())
   communityId Int
-  community   Community   @relation(fields: [communityId], references: [id])
-  items       StoreItem[]
+  Item        Item[]
+  community   Community @relation(fields: [communityId], references: [id])
 }
 
 model PostalCode {
@@ -133,38 +124,23 @@ model MemberTask {
 }
 
 model Item {
-  id            Int            @id @default(autoincrement())
-  name          String?
-  price         Int?
-  purchaseItems PurchaseItem[]
-  storeItems    StoreItem[]
+  id       Int        @id @default(autoincrement())
+  name     String
+  price    Int
+  storeId  Int?
+  stock    Int
+  Store    Store?     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Item_storeId_fkey1")
+  Purchase Purchase[]
 }
 
 model Purchase {
-  id         Int            @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   date       DateTime?
   totalPrice Int?
   memberId   Int
-  member     Member         @relation(fields: [memberId], references: [id])
-  items      PurchaseItem[]
-}
-
-model StoreItem {
-  id      Int   @id @default(autoincrement())
-  storeId Int
-  itemId  Int
-  item    Item  @relation(fields: [itemId], references: [id])
-  store   Store @relation(fields: [storeId], references: [id])
-}
-
-model PurchaseItem {
-  id              Int      @id @default(autoincrement())
-  quantity        Int?
-  priceAtPurchase Int?
-  purchaseId      Int
-  itemId          Int
-  item            Item     @relation(fields: [itemId], references: [id])
-  purchase        Purchase @relation(fields: [purchaseId], references: [id])
+  itemId     Int
+  Item       Item      @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  member     Member    @relation(fields: [memberId], references: [id])
 }
 
 model UserCommunity {

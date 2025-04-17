@@ -5,11 +5,13 @@ import { CreateCommunityDto } from "./dto/community.dto";
 import { AddressService } from "src/addresses/addresses.service";
 import { MemberService } from "src/member/member.service";
 import { UserCommunityService } from "src/userCommunity/userCommunity.service";
+import { StoreService } from "src/store/store.service";
 
 @Injectable({})
 export class CommunityService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, 
-        private addressService: AddressService, private memberService: MemberService, private userCommunityService: UserCommunityService
+        private addressService: AddressService, private memberService: MemberService, private userCommunityService: UserCommunityService,
+        private storeService: StoreService
     ) {}
 
     async createCommunity(dto: CreateCommunityDto, userId: string){
@@ -56,14 +58,16 @@ export class CommunityService{
         }
 
         try{
-            const createCommunity = await this.prisma.community.create({
-                data:{
-                    communityName: dto.communityName,
-                    localityId: locality.id,
-                    creatorId: userId,
-                }
-            });
-            return createCommunity;
+            const result = await this.prisma.$transaction(async (prisma) => {
+                const c = await this.prisma.community.create({
+                    data:{
+                        communityName: dto.communityName,
+                        localityId: locality.id,
+                        creatorId: userId,
+                    }
+                });
+                this.storeService.createStore(c.id)
+            })
         }
         catch(error){
             this.prisma.handlePrismaError("Create community", error)
@@ -72,55 +76,53 @@ export class CommunityService{
 
     //Gets all communities the user is in
     async GetUserCommunities(userId: string){
-        try{
-            const communitys = await this.prisma.userCommunity.findMany({
-                where:{
-                    userId: userId
-                }
-            });
+        const userCommunitys = await this.prisma.userCommunity.findMany({
+            where:{
+                userId: userId
+            }
+        });
+        if(!userCommunitys){
+            throw new HttpException("User does not belong to any community", HttpStatus.BAD_REQUEST)
+        }
 
-            const communities = await this.prisma.member.findMany({
-                where:{
-                    communityId: {
-                        in: communitys.map(c => c.communityId)
-                    } 
-                },
-                select:{
-                    community: true,
-                    coins: true,
-                }
-            });
-            return communities;
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Get User Communities",error)
-        }
+        const communities = await this.prisma.member.findMany({
+            where:{
+                communityId: {
+                    in: userCommunitys.map(c => c.communityId)
+                }, 
+                userId: userId,
+            },
+            select:{
+                community: true,
+                coins: true,
+            }
+        });
+        return communities;
     }
 
         //Gets all communities names the user is in
         async GetUserCommunitiesNames(userId: string){
-            try{
-                const communitys = await this.prisma.userCommunity.findMany({
-                    where:{
-                        userId: userId
-                    }
-                });
-    
-                const communities = await this.prisma.community.findMany({
-                    where:{
-                        id: {
-                            in: communitys.map(c => c.communityId)
-                        } 
-                    },
-                    select:{
-                        communityName: true
-                    }
-                });
-                return communities;
+        
+            const userCommunitys = await this.prisma.userCommunity.findMany({
+                where:{
+                    userId: userId
+                }
+            });
+            if(!userCommunitys){
+                throw new HttpException("User does not belong to any community", HttpStatus.BAD_REQUEST)
             }
-            catch(error){
-                this.prisma.handlePrismaError("Get User Communities",error)
-            }
+
+            const communities = await this.prisma.community.findMany({
+                where:{
+                    id: {
+                        in: userCommunitys.map(c => c.communityId)
+                    } 
+                },
+                select:{
+                    communityName: true
+                 }
+            });
+            return communities;
         }
 
     //Gets all communities that the user is not in and has address in the community location
@@ -223,46 +225,6 @@ export class CommunityService{
         }
     }
 
-    ///Tenho de ver se faz sentido ter esta tabela no prisma, uso a tabela de streetsCommunity e o user apenas adicona o numero de porta
-    async addAdrresses(dto: CreateCommunityDto/*, localityId: number, name: string, communityId: number*/){
-        
-        const existCommunity = await this.prisma.community.findFirst({
-            where:{
-                id: 15,
-            }
-        });
-
-        if(!existCommunity){
-            throw new Error("Nao Existe Comunidade")
-        }
-
-        const existAdrresses = await this.prisma.streetCommunity.findFirst({
-            where:{
-                communityId: existCommunity.id,
-                street: dto.communityName,
-            }
-        });
-
-        if(!existAdrresses){
-            const addAdrresses = await this.prisma.streetCommunity.create({
-                data:{
-                    street: dto.communityName,
-                    community:{
-                        connect:{
-                            id: existCommunity.id,
-                        },
-                    },
-                },
-            });
-            return addAdrresses;
-        }
-
-        if(existAdrresses){
-            throw new Error("Rua ja existe na comunidade");
-        }
-    }
-
-
     async CheckUserBelongsCommunity(userId: string, communityId: number){
         try{
             const userCommunity = await this.prisma.userCommunity.findFirst({
@@ -281,22 +243,5 @@ export class CommunityService{
         catch(error){
             this.prisma.handlePrismaError("Check User",error)
         }
-    }
-
-
-    ///Atraves de um id de uma comunidade devolve o id da comunidade, o nome e o id da localidade
-    async getDataCommunity(communityId: number){
-
-        const data = await this.prisma.community.findUnique({
-            where:{
-                id:communityId,
-            },
-            select:{
-                id:true, 
-                communityName: true,
-                localityId: true,
-            }
-        });
-        return data;
     }
 }
