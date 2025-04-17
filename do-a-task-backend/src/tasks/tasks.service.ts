@@ -353,6 +353,8 @@ export class TasksService{
             
         return {tasks: tasksFiltered, memberTasks: memberTasks, community: community};
     }
+
+    
     async getTaskBeDoneCommunity(communityName: string){
 
         try{

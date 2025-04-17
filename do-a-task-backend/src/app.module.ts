@@ -13,6 +13,7 @@ import { AddressModule } from './addresses/addresses.module';
 import { StorageModule } from './storage/storage.module';
 import { NotificationModule } from './notifications/notifications.module';
 import { StoreModule } from './store/store.module';
+import { RankModule } from './rank/rank.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), 
@@ -26,6 +27,7 @@ import { StoreModule } from './store/store.module';
     StorageModule,
     NotificationModule,
     StoreModule,
+    RankModule,
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],

@@ -80,4 +80,21 @@ export class UserService {
         }
     }
 
+    async getUserId(userId:string){
+        try{
+            const findUser = await this.prisma.user.findUnique({
+                where:{
+                    id:userId,
+                },
+                select:{
+                    id:true,
+                }
+            })
+            return findUser?.id ?? null
+        }
+        catch(error){
+            this.prisma.handlePrismaError("GetUserData", error)
+        }
+    }
+
 }

@@ -1,0 +1,180 @@
+.SOPARAVER{
+    color: black;
+}
+.title_rank {
+    display: flex;
+    flex-direction: column;
+    font-size: 70px;
+    font-weight: bold;
+    height: fit-content;
+    color: rgb(0, 0, 0);
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.title_rank h1 {
+    font-size: 70px;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.title_rank p {
+    color: #5f5f5f;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.container_main {
+    display: flex;
+    padding: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    height: fit-content;
+    justify-content: center;
+}
+
+
+.ranking_container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+}
+
+.ranking_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ranking_table th, .ranking_table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #656565;
+}
+
+.ranking_table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.ranking_table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.top_player {
+    background-color: #fffaf0;
+}
+
+.player_cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 40px;
+    height: 40px;
+}
+
+.points {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.rank_badge {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 1rem;
+}
+
+
+
+.update_notice {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-color: white;
+    border-radius: 8px;
+    max-width: 250px;
+    max-height: 300px;
+}
+
+
+.container_items p {
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+.coins p {
+    text-align: start;
+}
+
+
+.container_main {
+    position: relative;
+  }
+  
+  .points_display {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .points_label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  
+  .points_value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0076bf;
+  }
+
+  .top_player {
+    color: goldenrod;
+    font-weight: bold;
+  }
+
+ .selectCustom {
+    position: relative;
+    text-align: center;
+    top: 0%;
+    left:2%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: transparent; 
+    appearance: none;
+    cursor: pointer; 
+    text-transform: uppercase;
+    color: black;
+}
