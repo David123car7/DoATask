@@ -10,4 +10,5 @@ export { FaLocationPin } from "react-icons/fa6";
 export { RiUserCommunityFill } from "react-icons/ri";
 export { MdOutlineSupport } from "react-icons/md";
 export { FaRegUserCircle,FaTasks } from "react-icons/fa";
+export { TiShoppingCart } from "react-icons/ti";
 

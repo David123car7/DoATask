@@ -13,6 +13,8 @@ export const ROUTES = {
   TASKS_USER__DOING_LIST: '/tasks/list/tasksUserDoing',
   TASKS_CREATE: '/tasks/create',
   TASKS_AVAILABLE: '/tasks/list/tasksAvailable',
+  SHOPS: "/store/shops",
+  MY_SHOP: "/store/myShop"
 };
 
 export const API_ROUTES = {
@@ -28,4 +30,6 @@ export const PROTECTED_ROUTES = new Set([
   ROUTES.TASKS_USER_CREATED_LIST,
   ROUTES.TASKS_USER__DOING_LIST,
   ROUTES.TASKS_CREATE,
+  ROUTES.SHOPS,
+  ROUTES.MY_SHOP
 ]);

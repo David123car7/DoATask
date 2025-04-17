@@ -13,34 +13,35 @@ export class CommunityService{
     ) {}
 
     async createCommunity(dto: CreateCommunityDto, userId: string){
-
-        try{
-            const checkName = await this.prisma.community.findFirst({
-                where:{
-                    communityName: dto.communityName
-                }
-            })
-            if(checkName){
-                throw new HttpException("Community with this name allready exists", HttpStatus.BAD_REQUEST)
+        const countCommunitys = await this.prisma.community.findMany({
+            where:{
+                creatorId: userId
             }
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Find Community", error)
+        })
+        if(countCommunitys.length >= 1){
+            throw new HttpException("You allready have a community", HttpStatus.BAD_REQUEST)
         }
 
-        try{
-            const checkName2 = await this.prisma.locality.findFirst({
-                where:{
-                    name: dto.location
-                }
-            })
-            if(!checkName2){
-                throw new HttpException("Location with this name does not exist", HttpStatus.BAD_REQUEST)
+        const checkName = await this.prisma.community.findFirst({
+            where:{
+            communityName: dto.communityName
             }
+        })
+        if(checkName){
+            throw new HttpException("Community with this name allready exists", HttpStatus.BAD_REQUEST)
         }
-        catch(error){
-            this.prisma.handlePrismaError("Find Location", error)
+
+       
+        const checkName2 = await this.prisma.locality.findFirst({
+            where:{
+                name: dto.location
+            }
+        })
+        if(!checkName2){
+            throw new HttpException("Location with this name does not exist", HttpStatus.BAD_REQUEST)
         }
+        
+ 
 
         let locality
         try{

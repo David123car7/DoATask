@@ -6,13 +6,13 @@ import { styleText } from "util";
 import styles from './page.module.css'
 import Styles from '@/app/user/main/page.module.css'
 import { GetAllAddresses } from "@/lib/api/address/get-allAddresses";
-import { AddressSchema, addressSchemaData } from "../../../schemas/address/address.schema";
+import { AddressSchema, addressSchemaData } from "../../../../schemas/address/address.schema";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateAddress } from "@/lib/api/address/create-addressUser";
 import { createAddressSchema, CreateAddressSchema } from "@/lib/schemas/address/createAddress.schema";
 import { toast } from "react-toastify";
-import { Toaster } from "../toaster/toaster";
+import { Toaster } from "../../toaster/toaster";
 
 export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
 

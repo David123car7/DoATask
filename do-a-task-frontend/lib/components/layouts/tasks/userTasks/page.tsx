@@ -1,13 +1,9 @@
 'use client'
 
 import styles from './page.module.css'
-import { GetNameCommunitySchemaArray } from '@/lib/schemas/community/get-communityName-schema';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { GetTasksMemberDoing } from '@/lib/api/tasks/get.tasks.member.doing';
-import { getTasksMemberDoingSchema, GetTasksMemberDoingSchema } from "@/lib/schemas/tasks/get-task-member-doing";
+import { GetTasksMemberDoingSchema } from "@/lib/schemas/tasks/get-task-member-doing";
 import { FinishTaskButton } from "@/lib/components/layouts/tasks/buttons/finish.task.button";
-
+import { CancelTaskButton } from '../buttons/cancel.task.butto';
 
 export function UserTasks({ data }: { data: GetTasksMemberDoingSchema | null }) {
   return (
@@ -31,6 +27,7 @@ export function UserTasks({ data }: { data: GetTasksMemberDoingSchema | null }) 
                       <p className={styles.values}>{memberTasks.status}</p>
                       <p className={styles.values}>{communities.communityName}</p>
                       <FinishTaskButton memberTaskId={memberTasks.id}></FinishTaskButton>
+                      <CancelTaskButton taskId={task.id}/>
                     </div>
                   );
                 })

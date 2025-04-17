@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { useRouter } from 'next/navigation';
 import { ROUTES, API_ROUTES} from "@/lib/constants/routes";
-import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser} from "@/lib/icons"
+import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart} from "@/lib/icons"
 
 export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,13 +63,16 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
           {/* Navigation options */}
           <ul className={styles.options}>
             <li>
-              <FaRegUserCircle /> <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
+              <FaRegUserCircle size={26}/> <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
             </li>
             <li>
-              <FaTasks /><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
+              <FaTasks size={26}/><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
             </li>
             <li>
-              <RiUserCommunityFill/> <a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
+              <RiUserCommunityFill size={26}/> <a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
+            </li>
+            <li>
+              <TiShoppingCart size={26}/> <a href={ROUTES.SHOPS}>Loja</a>
             </li>
           </ul>
           {userData ? (

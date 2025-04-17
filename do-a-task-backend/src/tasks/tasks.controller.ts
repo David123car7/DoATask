@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get, HttpException} from '@nestjs/common';
+import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get, HttpException, Delete} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTasksDto,EvaluateTaskDto, AssignTaskDto} from './dto/tasks.dto';
 import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
@@ -8,8 +8,6 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { StorageService } from 'src/storage/storage.service';
 import { BUCKETS } from 'src/lib/constants/storage/buckets';
 import { ParseIntPipe } from '@nestjs/common';
-
-
 
 @Controller('tasks')
 export class TasksController {
@@ -27,6 +25,16 @@ export class TasksController {
     async GetTasksMemberCreated(@Req() req: RequestWithUser, @Res() res: Response) {
       const data = await this.tasksService.GetTasksMemberCreated(req.user.sub);
       return res.json({ message: 'Tasks Found', tasks: data.tasks, memberTasks: data.memberTasks, community: data.community});
+    }
+
+    @Get('getTasksByCommunity')
+    async GetTasksMemberCommunity(@Query('communityName') communityName: string,@Req() req,@Res() res: Response) {
+      console.log('Received communityName in backend:', communityName); 
+      if (!communityName) {
+        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
+      }
+      const tasks = await this.tasksService.getTaskBeDoneCommunity(communityName);
+      return res.json({ message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks});
     }
 
     @Post("createTask")
@@ -52,40 +60,27 @@ export class TasksController {
       return res.json({ message: 'Task was finished'});
     }
 
+    @Delete("deleteTask")
+    @UseGuards(JwtAuthGuard)
+    async deleteTask(@Query('taskId', ParseIntPipe) taskId: number, @Req() req: RequestWithUser, @Res() res: Response){
+      await this.tasksService.DeleteTask(taskId)
+      return res.json({ message: 'Task was deleted'});
+    }
 
-    @Post("evaluateTask")
+    @Put("cancelTask")
+    @UseGuards(JwtAuthGuard)
+    async cancelTask(@Query('taskId', ParseIntPipe) taskId: number, @Req() req: RequestWithUser, @Res() res: Response){
+      await this.tasksService.CancelTask(taskId)
+      return res.json({ message: 'Task was canceled'});
+    }
+
+
+    @Put("evaluateTask")
     async evaluateTask(@Body() dto: EvaluateTaskDto, @Res() res: Response) {
+      console.log("Score", dto.score)
+      console.log("Id", dto.memberTaskId)
         await this.tasksService.evaluateTask(dto.memberTaskId, dto.score);
         await this.tasksService.assignBonus(dto.memberTaskId, dto.score)
         return res.json({ message: 'Task was evaluated'});
-    }
-
-
-    @Get('tasksDoneCommunity')
-    @UseGuards(JwtAuthGuard)
-    async tasksDoneCommunity(
-      @Query('communityName') communityName: string,  // Recebendo o parâmetro via query string
-      @Req() req,
-    ) {
-      console.log('Received communityName in backend:', communityName);  // Verifique o valor do communityName
-  
-      if (!communityName) {
-        console.log('Error: communityName is missing');
-        throw new Error('Community name is required');
-      }
-  
-      const userId = req.user.sub;
-      const tasks = await this.tasksService.getTaskByCommunity(userId, communityName);
-      return { message: 'Task Found', task: tasks};
-    }
-
-    @Get('getTasksByCommunity')
-    async GetTasksMemberCommunity(@Query('communityName') communityName: string,@Req() req,@Res() res: Response) {
-      console.log('Received communityName in backend:', communityName); 
-      if (!communityName) {
-        throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
-      }
-      const tasks = await this.tasksService.getTaskBeDoneCommunity(communityName);
-      return res.json({ message: 'Task Found', tasks: tasks.tasks, memberTasks: tasks.memberTasks});
     }
 }

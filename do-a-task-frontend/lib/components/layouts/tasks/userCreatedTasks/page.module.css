@@ -58,10 +58,86 @@
     border-bottom: 1px solid rgb(204, 204, 204);
 }
 
+.button{
+    background-color: #f3f4f6; 
+    color: #111827;
+    font-size: 1.2rem;;  
+    padding: 5px;
+    cursor: pointer;       
+    transition: all 0.2s; 
+}
 
 .row:last-child {
     border-bottom: none;
 }
+
+.formBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 90%;
+    max-width: 600px;
+    background: rgb(217,249,255);
+    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
+    padding-top: 0;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mainTitle{
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.titleBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: black;
+}
+
+.submitButton{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    gap: 15px;
+}
+
+.boxTitle{
+    display: flex;
+    padding: 20px;
+    background-color: black;
+    align-items: center;
+    justify-content: center;
+}
+  
 
 .values {
     color: black;

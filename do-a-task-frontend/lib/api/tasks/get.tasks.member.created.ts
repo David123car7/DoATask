@@ -22,7 +22,7 @@ export async function GetTasksMemberCreated() {
     if (!response.ok) {
       const errorData = await response.json();
       console.log('Backend Error:', errorData);
-      throw new Error(errorData.message || 'An unexpected error occurred');
+      return null
     }
 
     const data = await response.json();

@@ -12,7 +12,13 @@ import TaskNavBar from "@/lib/components/layouts/tasks/navbar/nav.bar";
 export default async function ListUserCreatedTasks(){
 
     const data = await GetTasksMemberCreated()
-    const validatedData = getTasksAndMemberTasksCreatedSchema.parse(data)
+    let validatedData
+    if(data != null){
+        validatedData = getTasksAndMemberTasksCreatedSchema.parse(data)
+    }
+    else{
+        validatedData = null
+    }
     
     return(
         <div className="page">

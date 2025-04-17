@@ -11,7 +11,7 @@ import ChangePasswordForm from "@/lib/components/layouts/forms/change.password.f
 import ChangeUserDataForm from "@/lib/components/layouts/forms/change.user.data.form";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
-import { AddAdress } from "@/lib/components/layouts/addAdressForm/page";
+import { AddAdress } from "@/lib/components/layouts/forms/addAdressForm/page";
 import { GetAllAddresses } from "@/lib/api/address/get-allAddresses";
 import {AddressSchema} from '@/lib/schemas/address/address.schema'
 import { addressSchemaData } from "@/lib/schemas/address/address.schema";

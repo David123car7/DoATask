@@ -196,8 +196,6 @@ export class TasksService{
         }
 
         const { totalCoins, totalPoints } = this.calculateReward(memberTask.task.difficulty, score)
-        console.log("Coins", totalCoins)
-        console.log("Points", totalPoints)
 
         const pointsMember = await this.prisma.pointsMember.findFirst({
             where: {
@@ -252,46 +250,8 @@ export class TasksService{
         };
     }
 
-    async getTaskByCommunity(userId: string, communityName: string){
-        try{   
-
-            const community = await this.prisma.community.findFirst({
-                where:{
-                    communityName: communityName,
-                }
-            });
-
-            const findMember = await this.prisma.member.findFirst({
-                where:{
-                    communityId : community.id,
-                    userId : userId
-                },
-            });
-
-            const findTasks = await this.prisma.task.findMany({
-                where:{
-                    creatorId : findMember.id
-                },
-                include:{
-                    members:{
-                        select:{
-                            volunteerId: true,
-                            completedAt: true,
-                            status: true,
-                        }
-                    }
-                }
-            });
-            console.log(findTasks)
-            return findTasks;
-        }
-        catch(error){
-            console.error('Error getting done tasks in community:', error); 
-        }
-    }
-
       async GetTasksMemberDoing(userId: string){
-        try{    
+        
             const findMember = await this.prisma.member.findMany({
                 where:{
                     userId : userId
@@ -329,62 +289,69 @@ export class TasksService{
                     id: { in: memberTasks.map(m => m.taskId) }
                 }
             })
+            if(!tasks){
+                throw new HttpException("The member is not assigned to member tasks", HttpStatus.BAD_REQUEST)
+            }
             
             return {tasks: tasks, memberTasks: memberTasks, community: community};
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Gettting volunteer tasks:", error)
-        }
-
     }
     catch(error){
         console.error('Error getting done tasks in community:', error); 
     }
 
     async GetTasksMemberCreated(userId: string){
-        try{
-            const member = await this.prisma.member.findMany({
-                where:{
-                    userId : userId
-                },
-            });
-            if(!member){
-                throw new HttpException("The user does not belong to the any community", HttpStatus.BAD_REQUEST)
-            }
-            console.log(member)
-
-            const community = await this.prisma.community.findMany({
-                where:{
-                    id: {in: member.map(m => m.communityId)}
-                },
-                select:{communityName: true}
-            })
-            if(!community){
-                throw new HttpException("The member is not associated to the any community", HttpStatus.BAD_REQUEST)
-            }
-            console.log(community)
-            
-            const tasks = await this.prisma.task.findMany({
-                where:{
-                    creatorId: { in: member.map(m => m.id) }
-                }
-            })
-            if(!tasks){
-                throw new HttpException("The user has not created any tasks", HttpStatus.BAD_REQUEST)
-            }
-
-            const memberTasks = await this.prisma.memberTask.findMany({
-                where:{
-                    taskId: {in: tasks.map(t => t.id)}
-                }
-            })
-            console.log(memberTasks)
-            
-            return {tasks: tasks, memberTasks: memberTasks, community: community};
+        const member = await this.prisma.member.findMany({
+            where:{
+                userId : userId
+            },
+        });
+        if(!member){
+            throw new HttpException("The user does not belong to the any community", HttpStatus.BAD_REQUEST)
         }
-        catch(error){
-            this.prisma.handlePrismaError("Gettting volunteer tasks:", error)
+
+        const community = await this.prisma.community.findMany({
+            where:{
+                id: {in: member.map(m => m.communityId)}
+            },
+            select:{communityName: true}
+        })
+        if(!community){
+            throw new HttpException("The member is not associated to the any community", HttpStatus.BAD_REQUEST)
         }
+            
+        const tasks = await this.prisma.task.findMany({
+            where:{
+                creatorId: { in: member.map(m => m.id) }
+            }
+        })
+        if(!tasks){
+            throw new HttpException("The user has not created any tasks", HttpStatus.BAD_REQUEST)
+        }
+
+        const memberTasks = await this.prisma.memberTask.findMany({
+            where:{
+                taskId: {in: tasks.map(t => t.id)},
+                score: null,
+            }
+        })
+        if(!memberTasks){
+            throw new HttpException("There are memberTasks assigned to the tasks", HttpStatus.BAD_REQUEST)
+        }
+
+        const tasksFiltered = await this.prisma.task.findMany({
+            where:{
+                id: { in: memberTasks.map(m => m.taskId) }
+            }
+        })
+        if(!tasksFiltered){
+            throw new HttpException("There are not any task to be evaluated", HttpStatus.BAD_REQUEST)
+        }
+
+        if(memberTasks.length == 0){
+            throw new HttpException("There are not any task to evaluate", HttpStatus.BAD_REQUEST)
+        }
+            
+        return {tasks: tasksFiltered, memberTasks: memberTasks, community: community};
     }
     async getTaskBeDoneCommunity(communityName: string){
 
@@ -439,6 +406,7 @@ export class TasksService{
                     completedAt: null
                 }
             })
+            
             if(memberTasks.length == 0)
                 return true
             else
@@ -446,6 +414,84 @@ export class TasksService{
         }
         catch(error){
             this.prisma.handlePrismaError("Verify Assign Task", error)
+        }
+    }
+
+    async DeleteTask(taskId: number){
+        const task = await this.prisma.task.findUnique({
+            where:{
+                id: taskId
+            }
+        })
+        if(!task){
+            throw new HttpException("There is not a task with this id", HttpStatus.BAD_REQUEST)
+        }
+
+        const memberTask = await this.prisma.memberTask.findFirst({
+            where:{
+                taskId: task.id,
+                completedAt: null
+            }
+        })
+        if(!memberTask){
+            throw new HttpException("The task is allready completed", HttpStatus.BAD_REQUEST)
+        }
+
+        try{
+            const result = await this.prisma.$transaction(async () => {
+                await this.prisma.memberTask.delete({
+                    where:{
+                        id: memberTask.id
+                    }
+                })
+                await this.prisma.task.delete({
+                    where:{
+                        id: taskId
+                    }
+                })
+            })
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Delete Task", error)
+        }
+    }
+
+    async CancelTask(taskId: number){
+        const task = await this.prisma.task.findUnique({
+            where:{
+                id: taskId
+            }
+        })
+        if(!task){
+            throw new HttpException("There is not a task with this id", HttpStatus.BAD_REQUEST)
+        }
+
+        const memberTask = await this.prisma.memberTask.findFirst({
+            where:{
+                taskId: task.id,
+                completedAt: null
+            }
+        })
+        if(!memberTask){
+            throw new HttpException("The task is allready completed", HttpStatus.BAD_REQUEST)
+        }
+
+        try{
+            const result = await this.prisma.$transaction(async () => {
+                await this.prisma.memberTask.update({
+                    where: {
+                        id: memberTask.id,
+                    },
+                    data:{
+                        assignedAt: null,
+                        volunteerId: null,
+                        status: TASK_STATES.NOT_ACCEPTED,
+                    }
+                })
+            })
+        }
+        catch(error){
+            this.prisma.handlePrismaError("Cancel Task", error)
         }
     }
 }
