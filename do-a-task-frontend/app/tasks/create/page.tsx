@@ -5,6 +5,7 @@ import { GetUserCommunitiesNames } from "@/lib/api/communities/get.user.communit
 import { GetNameCommunitySchemaArray, getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 
 export default async function PublishTask() {
   const communities = await GetUserCommunitiesNames()
@@ -13,6 +14,7 @@ export default async function PublishTask() {
   return (
     <>
       <HeaderWrapper/>
+      <Toaster/>
       <CreateTaskForm communityData={communitiesValidated}/>
       <Footer/>
     </>

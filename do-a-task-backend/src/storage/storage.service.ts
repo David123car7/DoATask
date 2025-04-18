@@ -22,7 +22,7 @@ export class StorageService {
     }
 
     async uploadImage(bucketName: string, userId: string, folderName: string, file: Express.Multer.File){
-        const error = this.supabaseService.getAdminClient().storage.from(bucketName).upload(`${userId}/${folderName}/${file.originalname}`, file.buffer, { contentType: file.mimetype})         
+        const {data, error} = await this.supabaseService.getAdminClient().storage.from(bucketName).upload(`${userId}/${folderName}/${file.originalname}`, file.buffer, { contentType: file.mimetype})         
         if (error) {
             this.supabaseService.handleSupabaseError(error, "Upload Image")
         }

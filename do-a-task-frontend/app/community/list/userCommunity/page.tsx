@@ -8,7 +8,7 @@ import { getUserCommunitySchemaArray } from "@/lib/schemas/community/get-user-co
 import { GetUserCommunities } from "@/lib/api/communities/get.user.communities";
 import { ExitCommunityButton } from "@/lib/components/layouts/community/exit.community.button";
 import CommunityNavBar from "@/lib/components/layouts/community/navbar/nav.bar";
-
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 export default async function CommunitiesListPage(){
     const communitiesData = await GetUserCommunities();
     const communitiesDataValidated = getUserCommunitySchemaArray.parse(communitiesData)
@@ -16,6 +16,7 @@ export default async function CommunitiesListPage(){
     return(
         <div className="page">
             <HeaderWrapper/>
+            <Toaster/>
             <CommunityNavBar/>
             <h2 className={styles.title}>As suas Notificações</h2>
             <main className={styles.main}>

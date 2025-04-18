@@ -8,6 +8,7 @@ import { GetTasksMemberDoing } from "@/lib/api/tasks/get.tasks.member.doing";
 import { getTasksMemberDoingSchema, GetTasksMemberDoingSchema } from "@/lib/schemas/tasks/get-task-member-doing";
 import { UserTasks } from "@/lib/components/layouts/tasks/userTasks/page";
 import TaskNavBar from "@/lib/components/layouts/tasks/navbar/nav.bar";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 
 export default async function ListTasksUser(){
 
@@ -18,6 +19,7 @@ export default async function ListTasksUser(){
         <div className="page">
             <HeaderWrapper/>
             <main className={style.main2}>
+            <Toaster/>
             <TaskNavBar/>
             <UserTasks data={validatedData}/>
             </main>

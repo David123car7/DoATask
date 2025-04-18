@@ -124,13 +124,15 @@ model MemberTask {
 }
 
 model Item {
-  id       Int        @id @default(autoincrement())
-  name     String
-  price    Int
-  storeId  Int?
-  stock    Int
-  Store    Store?     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Item_storeId_fkey1")
-  Purchase Purchase[]
+  id        Int        @id @default(autoincrement())
+  name      String
+  price     Int
+  storeId   Int?
+  stock     Int
+  imagePath String
+  available Boolean
+  Store     Store?     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Item_storeId_fkey1")
+  Purchase  Purchase[]
 }
 
 model Purchase {

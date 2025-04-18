@@ -15,7 +15,7 @@ export function AssignTaskButton({taskId} : {taskId: number}){
   const router = useRouter(); 
   
   
-  const onSubmit = async () => {
+  const onClick = async () => {
     try {
       const responseData = await AssignTask(taskId)
       toast.success(responseData.message)
@@ -27,10 +27,9 @@ export function AssignTaskButton({taskId} : {taskId: number}){
   
     return(
         <>
-            <Toaster/>
-            <form onSubmit={handleSubmit(onSubmit)}>
-            <button className={style.buttonTask} type="submit">Aceitar Tarefa</button>
-            </form>
+            <button className={style.buttonTask} onClick={onClick}>
+              Aceitar Tarefa
+            </button>
         </>
     )
 }

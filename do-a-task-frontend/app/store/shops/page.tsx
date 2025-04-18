@@ -7,6 +7,7 @@ import { GetUserCommunitiesNames } from "@/lib/api/communities/get.user.communit
 import { getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 import ShopNavBar from "@/lib/components/layouts/shop/navbar/mainPage/nav.bar";
 import { AvaiableItems } from "@/lib/components/layouts/shop/availableItems/page";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 
 export default async function ShopsPage(){
 
@@ -18,6 +19,7 @@ export default async function ShopsPage(){
 
       <HeaderWrapper/>
       <main>
+        <Toaster/>
         <ShopNavBar/>
         <AvaiableItems community={validatedData}/>
       </main>

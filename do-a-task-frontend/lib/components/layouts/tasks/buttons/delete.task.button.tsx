@@ -11,7 +11,7 @@ export function DeleteTaskButton({taskId} : {taskId: number}){
   const {handleSubmit} = useForm<any>()
   const router = useRouter(); 
 
-  const onSubmit = async () => {
+  const onClick = async () => {
     try {
       const responseData = await DeleteTask(taskId)
       toast.success(responseData.message)
@@ -23,10 +23,7 @@ export function DeleteTaskButton({taskId} : {taskId: number}){
   
     return(
         <>
-            <Toaster/>
-            <form onSubmit={handleSubmit(onSubmit)}>
-            <button className={style.buttonTask} type="submit">Eliminar</button>
-            </form>
+            <button className={style.buttonTask} onClick={onClick}>Eliminar</button>
         </>
     )
 }

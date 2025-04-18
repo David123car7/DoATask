@@ -42,7 +42,7 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
 
       const responseData = await CreateTask(formData);
       toast.success(responseData.message);
-      router.push(ROUTES.HOME);
+      router.push(ROUTES.TASKS_CREATE);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -57,7 +57,6 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
   return (
     <div className="page">
       <main>
-        <Toaster/>
         <div className={styles.formBox}>
           <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

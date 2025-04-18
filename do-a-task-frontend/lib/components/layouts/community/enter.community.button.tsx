@@ -21,7 +21,6 @@ export function EnterCommunityButton({communityName} : {communityName: string}){
   
     return(
         <>
-            <Toaster/>
             <form onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" value={communityName} {...register("communityName")} />  
             <button type="submit">Entrar</button>

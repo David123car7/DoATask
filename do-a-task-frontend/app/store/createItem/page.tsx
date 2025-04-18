@@ -7,9 +7,6 @@ import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
 
 export default async function PublishTask() {
-  const communities = await GetUserCommunitiesNames()
-  const communitiesValidated = getNameCommunitySchemaArray.parse(communities);
-  
   return (
     <>
       <HeaderWrapper/>

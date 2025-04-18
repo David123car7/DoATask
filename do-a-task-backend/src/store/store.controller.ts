@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Req, Res, UseGuards, UseInterceptors, Query, Put, HttpException, HttpStatus, Get} from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { StoreService } from './store.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
 import { CreateItemDto } from './dto/store.dto';
@@ -16,17 +16,16 @@ export class StoreController {
 
     @Post("createItem")
     @UseGuards(JwtAuthGuard)
-    @UseInterceptors(FilesInterceptor("image"))
+    @UseInterceptors(FileInterceptor("image"))
     async createItem(@Body() dto: CreateItemDto, @UploadedFile() file: Express.Multer.File ,@Req() req: RequestWithUser, @Res() res: Response){
-        await this.storeService.createItem(req.user.sub, dto.name, dto.price, dto.stock)
+        await this.storeService.createItem(req.user.sub, dto.name, dto.price, dto.stock, file.originalname)
         await this.storageService.uploadImage(BUCKETS.ITEM_IMAGES, req.user.sub, dto.name, file)
         return res.json({ message: 'Item was created'});
     }
 
     @Put("hideItem")
     @UseGuards(JwtAuthGuard)
-    @UseInterceptors(FilesInterceptor("image"))
-    async hideItem(@Query('itemId', ParseIntPipe) itemId: number, @UploadedFile() files: Express.Multer.File ,@Req() req: RequestWithUser, @Res() res: Response){
+    async hideItem(@Query('itemId', ParseIntPipe) itemId: number,@Req() req: RequestWithUser, @Res() res: Response){
         await this.storeService.hideItem(req.user.sub, itemId)
         return res.json({ message: 'Item was Hided'});
     }
@@ -46,7 +45,6 @@ export class StoreController {
 
     @Put("showItem")
     @UseGuards(JwtAuthGuard)
-    @UseInterceptors(FilesInterceptor("image"))
     async showItem(@Query('itemId', ParseIntPipe) itemId: number, @UploadedFile() files: Express.Multer.File ,@Req() req: RequestWithUser, @Res() res: Response){
         await this.storeService.showItem(req.user.sub, itemId)
         return res.json({ message: 'Item was Showed'});
@@ -54,15 +52,22 @@ export class StoreController {
 
     @Get("getMemberPurchases")
     @UseGuards(JwtAuthGuard)
-    async getMemberPurchases(@Query('communityName') communityName: string,@Req() req: RequestWithUser, @Res() res: Response){
-        const data = await this.storeService.getMemberPurchases(req.user.sub, communityName)
-        return res.json(data);
+    async getMemberPurchases(@Req() req: RequestWithUser, @Res() res: Response){
+        const data = await this.storeService.getMemberPurchases(req.user.sub)
+        return res.json({purchases: data.purchases, communities: data.communities});
     }
 
     @Get("getCommunityItems")
     @UseGuards(JwtAuthGuard)
-    async getCommunityItems(@Query('communityName') communityName: string,@Req() req: RequestWithUser, @Res() res: Response){
+    async getCommunityItems(@Query('communityName') communityName: string, @Req() req: RequestWithUser, @Res() res: Response){
         const data = await this.storeService.getCommunityItems(req.user.sub, communityName)
+        return res.json(data);
+    }
+
+    @Get("getMemberShopItems")
+    @UseGuards(JwtAuthGuard)
+    async getMemberShopItems(@Req() req: RequestWithUser, @Res() res: Response){
+        const data = await this.storeService.getMemberShopItems(req.user.sub)
         return res.json(data);
     }
 }

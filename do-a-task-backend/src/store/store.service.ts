@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-
+import { BUCKETS } from 'src/lib/constants/storage/buckets';
 
 @Injectable()
 export class StoreService {
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-    async createItem(userId: string, itemName: string, itemPrice: number, stock: number){
+    async createItem(userId: string, itemName: string, itemPrice: number, stock: number, imageName: string){
         const store = await this.getUserStore(userId)
 
         const item = await this.prisma.item.findFirst({
@@ -26,6 +26,8 @@ export class StoreService {
                    price: itemPrice,
                    storeId: store.id, 
                    stock: stock,
+                   available: true,
+                   imagePath: `${userId}/${itemName}/${imageName}`
                 }
             })
         }
@@ -52,7 +54,7 @@ export class StoreService {
                     id: item.id,
                 },
                 data:{
-                    storeId: null
+                    available: false
                 }
             })
         }
@@ -79,12 +81,12 @@ export class StoreService {
                     id: item.id,
                 },
                 data:{
-                    storeId: store.id
+                    available: true
                 }
             })
         }
         catch(error){
-            this.prisma.handlePrismaError("Delete Item", error)
+            this.prisma.handlePrismaError("Show Item", error)
         }
     }
 
@@ -215,38 +217,51 @@ export class StoreService {
         return store
     }
 
-    async getMemberPurchases(userId: string, communityName: string){
-        const community = await this.prisma.community.findFirst({
-            where:{
-                communityName: communityName,
-            }
+    async getMemberPurchases(userId: string) {
+        const members = await this.prisma.member.findMany({
+          where: { userId }
         })
-        if(!community){
-            throw new HttpException("The community does not exist", HttpStatus.BAD_REQUEST)
+        if (!members) {
+            throw new HttpException("The user does not belong to any community", HttpStatus.BAD_REQUEST);
         }
-
-        const member = await this.prisma.member.findFirst({
-            where:{
-                userId: userId,
-                communityId: community.id,
-            }
-        })
-        if(!member){
-            throw new HttpException("The user does not belong to the community", HttpStatus.BAD_REQUEST)
-        }
-
+      
         const purchases = await this.prisma.purchase.findMany({
-            where:{
-                memberId: member.id
-            },
-            include:{ Item: true}
+          where: {
+            memberId: { in: members.map(m => m.id) }
+          },
+          include: {
+            Item: true
+          }
         })
-        if(!purchases){
-            throw new HttpException("The user does not have any purchases", HttpStatus.BAD_REQUEST)
+        if (!purchases) {
+            throw new HttpException("The user does not have any purchases", HttpStatus.BAD_REQUEST);
         }
+      
+        const memberIdToCommunityId: Record<number, number> = {};
+        for (const m of members) {
+          memberIdToCommunityId[m.id] = m.communityId;
+        }
+      
+        const uniqueCommunityIds = Array.from(
+          new Set(members.map(m => m.communityId))
+        );
 
-        return purchases
-    }
+        const communities = await this.prisma.community.findMany({
+          where: { id: { in: uniqueCommunityIds } }
+        });
+      
+        const communityMap: Record<number, typeof communities[number]> = {};
+        for (const c of communities) {
+          communityMap[c.id] = c;
+        }
+      
+        const communitiesPerPurchase = purchases.map(p => {
+          const cid = memberIdToCommunityId[p.memberId];
+          return communityMap[cid];
+        });
+      
+        return {purchases: purchases, communities: communitiesPerPurchase };
+      }
 
     async getCommunityItems(userId: string, communityName: string){
         const community = await this.prisma.community.findFirst({
@@ -280,10 +295,66 @@ export class StoreService {
         const items = await this.prisma.item.findMany({
             where:{
                 storeId: store.id,
+                available: true
             }
         })
 
-        return items
+        const storage = this.supabaseService.getAdminClient().storage.from(BUCKETS.ITEM_IMAGES)
+        if(!storage){
+            throw new HttpException("The bucket storage does not exist", HttpStatus.BAD_REQUEST)
+        }
+
+        const itemsWithImages = await Promise.all (items.map(async (item) => {
+            const {data, error} = await storage.createSignedUrl(item.imagePath, 3600)
+            console.log(data)
+            if (error) {
+              return { ...item, imageUrl: null };
+            }
+            return { ...item, imageUrl: data };
+        }));
+
+        return itemsWithImages
     }
-    
+
+    async getMemberShopItems(userid: string){
+        const community = await this.prisma.community.findFirst({
+            where:{
+                creatorId: userid
+            }
+        })
+        if(!community){
+            throw new HttpException("The user does not have any community", HttpStatus.BAD_REQUEST)
+        }
+
+        const store = await this.prisma.store.findFirst({
+            where:{
+                communityId: community.id
+            }
+        })
+        if(!store){
+            throw new HttpException("The community is not assigned to any store", HttpStatus.BAD_REQUEST)
+        }
+
+        const items = await this.prisma.item.findMany({
+            where:{
+                storeId: store.id,
+            }
+        })
+
+        const storage = this.supabaseService.getAdminClient().storage.from(BUCKETS.ITEM_IMAGES)
+        if(!storage){
+            throw new HttpException("The bucket storage does not exist", HttpStatus.BAD_REQUEST)
+        }
+
+        const itemsWithImages = await Promise.all (items.map(async (item) => {
+            const {data, error} = await storage.createSignedUrl(item.imagePath, 3600)
+            console.log(data)
+            if (error) {
+              return { ...item, imageUrl: null };
+            }
+            return { ...item, imageUrl: data };
+        }));
+
+        return itemsWithImages
+    }
 }

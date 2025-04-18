@@ -11,7 +11,7 @@
     margin-bottom: 20px;
 }
 
-.task{
+.item{
     display: flex;
     flex-direction: column;
     background-color: black;
@@ -23,7 +23,7 @@
     background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
 }
 
-.imageTask{
+.imageItem{
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -103,13 +103,3 @@
     font-weight: bold;
 }
 
-.difficulty{
-    margin-top: 15px;
-    color: black;
-    font-size: 1.4rem;
-    font-weight: bold;
-}
-
-.difficulty p{
-    margin-top: 0;
-}

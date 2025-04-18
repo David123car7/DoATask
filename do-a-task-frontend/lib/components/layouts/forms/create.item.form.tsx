@@ -2,99 +2,77 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaCoins, FaShoppingCart, CiUser } from "@/lib/icons";
-import styles from "@/app/tasks/create/page.module.css"
-import { CreateTaskSchema, createTaskSchema } from "@/lib/schemas/tasks/create-task-form-schema";
+import styles from "@/app/tasks/create/page.module.css";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from "react-toastify";
 import { ROUTES } from "@/lib/constants/routes";
-import { CreateTask } from "@/lib/api/tasks/create.task";
-import { GetNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
+import { CreateItemSchema, createItemSchema } from "@/lib/schemas/store/create-item-schema";
 import { useState } from "react";
+import { CreateItem } from "@/lib/api/store/create-item";
 
 export default function CreateItemForm() {
-  const { register, handleSubmit,formState: { errors }} = useForm<CreateTaskSchema>({
-    resolver: zodResolver(createTaskSchema),
-  });
+  const {register, handleSubmit, formState: { errors }} = useForm<CreateItemSchema>({resolver: zodResolver(createItemSchema)});
   const router = useRouter();
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files).slice(0, 3);
-      setSelectedImages(files);
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
     }
   };
 
-  const onSubmit = async (data: CreateTaskSchema) => {
+  const onSubmit = async (data: CreateItemSchema) => {
+    if (!selectedImage) {
+      toast.error("Por favor, selecione uma imagem.");
+      return;
+    }
+
     try {
       const formData = new FormData();
-     
-      formData.append("tittle", data.tittle);
-      formData.append("description", data.description);
-      formData.append("difficulty", data.difficulty.toString());
-      formData.append("location", data.location);
-      formData.append("communityName", data.communityName);
-      selectedImages.forEach((image) => {
-        formData.append("images", image);
-      });
+      formData.append("name", data.name);
+      formData.append("price", data.price.toString());
+      formData.append("stock", data.stock.toString());
+      formData.append("image", selectedImage);
 
-      const responseData = await CreateTask(formData);
-      toast.success(responseData.message);
+      const response = await CreateItem(formData);
+      toast.success(response.message);
       router.push(ROUTES.HOME);
     } catch (error: any) {
       toast.error(error.message);
     }
   };
 
-  const difficultyOptions = [
-    { value: 1, label: "Fácil" },
-    { value: 2, label: "Normal" },
-    { value: 3, label: "Difícil" },
-  ];
-
   return (
     <div className="page">
+      <Toaster />
       <main>
-        <Toaster/>
         <div className={styles.formBox}>
-          <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
+          <h1 className={styles.mainTitle}>Criar Item</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Título da tarefa</label>
-              <input type="text" className={styles.input} {...register("tittle")} placeholder="Título" />
-              {errors.tittle && <p className={styles.error_message}>{errors.tittle.message}</p>}
-            </div>
-            <div className={styles.inputGroup}>
-              <label className={styles.label}>Descrição</label>
-              <input type="text" className={styles.input} {...register("description")} placeholder="Descrição"/>
-              {errors.description && <p className={styles.error_message}>{errors.description.message}</p>}
+              <label className={styles.label}>Nome do Item</label>
+              <input type="text" className={styles.input} {...register("name")} />
+              {errors.name && <p className={styles.error_message}>{errors.name.message}</p>}
             </div>
 
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Localização</label>
-              <input type="text" className={styles.input} {...register("location")} placeholder="Localização"/>
-              {errors.location && <p className={styles.error_message}>{errors.location.message}</p>}
+              <label className={styles.label}>Preço</label>
+              <input type="number" className={styles.input} {...register("price", { valueAsNumber: true })} />
+              {errors.price && <p className={styles.error_message}>{errors.price.message}</p>}
             </div>
 
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Dificuldade</label>
-              <select {...register("difficulty", { valueAsNumber: true })} className={styles.input}>
-                {difficultyOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+              <label className={styles.label}>Stock</label>
+              <input type="number" className={styles.input} {...register("stock", { valueAsNumber: true })} />
+              {errors.stock && <p className={styles.error_message}>{errors.stock.message}</p>}
             </div>
 
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Imagens</label>
+              <label className={styles.label}>Imagem</label>
               <input
                 type="file"
                 accept="image/*"
-                multiple
                 className={styles.input}
                 onChange={handleFileChange}
               />
@@ -109,3 +87,4 @@ export default function CreateItemForm() {
     </div>
   );
 }
+

@@ -7,8 +7,7 @@ import React from "react";
 import { GetUserCommunitiesNames } from "@/lib/api/communities/get.user.communities.names";
 import { getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 import TaskNavBar from "@/lib/components/layouts/tasks/navbar/nav.bar";
-import { GetUserData } from "@/lib/api/user/get-user";
-import { userDataSchema } from "@/app/user/schema/user-data-schema";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 
 export default async function ListAllTasksCommunity(){
 
@@ -24,6 +23,7 @@ export default async function ListAllTasksCommunity(){
 
       <HeaderWrapper/>
       <main>
+        <Toaster/>
         <TaskNavBar/>
         <AvaiableTasks community={validatedData}/>
       </main>
