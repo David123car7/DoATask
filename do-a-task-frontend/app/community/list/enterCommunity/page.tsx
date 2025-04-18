@@ -7,6 +7,7 @@ import { GetAllCommunities } from "@/lib/api/communities/get.all.communities";
 import { getCommunitySchemaArray } from "@/lib/schemas/community/get-community-shema";
 import { EnterCommunityButton } from "@/lib/components/layouts/community/enter.community.button";
 import CommunityNavBar from "@/lib/components/layouts/community/navbar/nav.bar";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 
 export default async function CommunitiesListPage(){
     const communitiesData = await GetAllCommunities();
@@ -15,6 +16,7 @@ export default async function CommunitiesListPage(){
     return(
         <div className="page">
             <HeaderWrapper/>
+            <Toaster/>
             <CommunityNavBar/>
             <h2 className={styles.title}>As suas Notificações</h2>
             <main className={styles.main}>
