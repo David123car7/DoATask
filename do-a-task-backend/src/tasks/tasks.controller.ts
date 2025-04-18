@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFiles, Get, HttpException, Delete} from '@nestjs/common';
+import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFile, Get, HttpException, Delete} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTasksDto,EvaluateTaskDto, AssignTaskDto} from './dto/tasks.dto';
 import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
 import { Response } from 'express';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageService } from 'src/storage/storage.service';
 import { BUCKETS } from 'src/lib/constants/storage/buckets';
 import { ParseIntPipe } from '@nestjs/common';
@@ -39,10 +39,10 @@ export class TasksController {
 
     @Post("createTask")
     @UseGuards(JwtAuthGuard)
-    @UseInterceptors(FilesInterceptor("images"))
-    async createTask(@Body() dto: CreateTasksDto, @UploadedFiles() files: Express.Multer.File[] ,@Req() req: RequestWithUser, @Res() res: Response) {
-      const task = await this.tasksService.createTask(dto, req.user.sub);
-      const upload = await this.storageService.uploadImages(BUCKETS.TASK_IMAGES, req.user.sub, dto.tittle, files)
+    @UseInterceptors(FileInterceptor("image"))
+    async createTask(@Body() dto: CreateTasksDto, @UploadedFile() file: Express.Multer.File ,@Req() req: RequestWithUser, @Res() res: Response) {
+      const task = await this.tasksService.createTask(dto, req.user.sub, file.originalname);
+      const upload = await this.storageService.uploadImage(BUCKETS.TASK_IMAGES, req.user.sub, dto.tittle, file)
       return res.json({ message: 'Task was created'});
     }
 

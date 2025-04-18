@@ -3,14 +3,14 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { SupabaseService } from "src/supabase/supabase.service";
 import { AssignTaskDto, CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "src/lib/constants/tasks/tasks.constants";
-import { EvaluateTaskDto } from "./dto/tasks.dto";
 import { TASK_STATES } from "src/lib/constants/tasks/tasks.constants";
+import { BUCKETS } from "src/lib/constants/storage/buckets";
 
 @Injectable({})
 export class TasksService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-    async createTask(dto: CreateTasksDto, userId: string) {
+    async createTask(dto: CreateTasksDto, userId: string, imageName: string) {
         const reward = baseReward[dto.difficulty]
         try{
             const community = await this.prisma.community.findFirst({
@@ -33,6 +33,12 @@ export class TasksService{
             }   
 
             const result = await this.prisma.$transaction(async () => {
+                const image = await this.prisma.image.create({
+                    data:{
+                        imagePath: `${userId}/${dto.tittle}/${imageName}`
+                    }
+                })
+
                 const task = await this.prisma.task.create({
                     data: {
                         title: dto.tittle,
@@ -42,6 +48,7 @@ export class TasksService{
                         coins: reward.coins,
                         points: reward.points,
                         creatorId: member.id,
+                        imageId: image.id,
                     },
                 });
 
@@ -179,7 +186,7 @@ export class TasksService{
                     id: memberTaskId,
                 },
                 include: {
-                    task: true,
+                    Task: true,
                 },
             });
         if(!memberTask){
@@ -195,7 +202,7 @@ export class TasksService{
             throw new HttpException("There is not member assigned to the task", HttpStatus.BAD_REQUEST)
         }
 
-        const { totalCoins, totalPoints } = this.calculateReward(memberTask.task.difficulty, score)
+        const { totalCoins, totalPoints } = this.calculateReward(memberTask.Task.difficulty, score)
 
         const pointsMember = await this.prisma.pointsMember.findFirst({
             where: {
@@ -356,48 +363,80 @@ export class TasksService{
 
     
     async getTaskBeDoneCommunity(communityName: string){
-
-        try{
-
-            const findCommunity = await this.prisma.community.findFirst({
-                where:{
-                    communityName : communityName,
-                },
-            });
+        const community = await this.prisma.community.findFirst({
+            where:{
+                communityName : communityName,
+            },
+        });
+        if(!community){
+            throw new HttpException("The community does not exist", HttpStatus.BAD_REQUEST)
+        }
     
-            const findMemberTaskCreatedCommunity = await this.prisma.member.findMany({
-                where:{
-                    communityId: findCommunity.id
-                },
-                select:{
-                    id:true,
-                },
-            });
+        const member = await this.prisma.member.findMany({
+            where:{
+                communityId: community.id
+            },
+            select:{
+                id:true,
+            },
+        });
+        if(!member){
+            throw new HttpException("Error finding members", HttpStatus.BAD_REQUEST)
+        }
+
+        if(member.length == 0){
+            throw new HttpException("The community does not have any members", HttpStatus.BAD_REQUEST)
+        }
     
             
-            const Task2 = await this.prisma.task.findMany({
-                where:{
-                    creatorId: {in: findMemberTaskCreatedCommunity.map(m => m.id)}
-                },
-            });
+        const task = await this.prisma.task.findMany({
+            where:{
+                creatorId: {in: member.map(m => m.id)}
+            },
+        });
     
-            const MemberTask = await this.prisma.memberTask.findMany({
-                where:{
-                    taskId : {in: Task2.map(t => t.id)},
-                    assignedAt : null
-                },
-            });
+        const memberTask = await this.prisma.memberTask.findMany({
+            where:{
+                taskId : {in: task.map(t => t.id)},
+                assignedAt : null
+            },
+        });
 
-            const Task = await this.prisma.task.findMany({
-                where:{
-                    id: {in: MemberTask.map(m => m.taskId)}
-                },
-            });
-            return {tasks: Task, memberTasks: MemberTask}
+        const taskFilter = await this.prisma.task.findMany({
+            where:{
+                id: {in: memberTask.map(m => m.taskId)}
+            },
+        });
+
+        
+        const images = await this.prisma.image.findMany({
+            where:{
+                id: { in: taskFilter.map(t => t.imageId) }
+            },
+        })
+
+        const imageMap = images.reduce<Record<number, string>>((map, rec) => {
+            map[rec.id] = rec.imagePath;
+            return map;
+        }, {});
+      
+        const storage = this.supabaseService.getAdminClient().storage.from(BUCKETS.TASK_IMAGES)
+        if(!storage){
+            throw new HttpException("The bucket storage does not exist", HttpStatus.BAD_REQUEST)
         }
-        catch(error){
-            this.prisma.handlePrismaError("Gettting community tasks:", error)
-        }
+
+        const tasksWithImages = await Promise.all (taskFilter.map(async (task) => {
+            const path = task.imageId != null ? imageMap[task.imageId] : null;
+
+            const {data, error} = await storage.createSignedUrl(path, 3600)
+            console.log(data)
+            if (error) {
+              return { ...task, imageUrl: null };
+            }
+            return { ...task, imageUrl: data };
+        }));
+
+        return {tasks: tasksWithImages, memberTasks: memberTask}
     }
 
     async verifyAssignTask(userId: string, memberId: number){

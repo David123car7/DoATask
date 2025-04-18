@@ -10,7 +10,6 @@ export const getItemSchema = z.object({
   storeId: z.number().nullable(),
   stock: z.number(),
   available: z.boolean(),
-  imagePath: z.string().nullable(),
 });
 
 export const getItemSchemaArray = z.array(getItemSchema);

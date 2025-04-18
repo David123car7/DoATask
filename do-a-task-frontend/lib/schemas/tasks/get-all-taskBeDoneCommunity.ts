@@ -11,6 +11,10 @@ export const taskSchema = z.object({
   points: z.number().nullable(),
   location: z.string(),
   description: z.string(),
+  imageId: z.number(),
+  imageUrl: z.object({
+    signedUrl: z.string(),
+  }),
 });
 
 export const memberTaskSchema = z.object({

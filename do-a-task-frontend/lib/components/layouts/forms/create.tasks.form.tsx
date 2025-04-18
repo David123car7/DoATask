@@ -18,16 +18,20 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
     resolver: zodResolver(createTaskSchema),
   });
   const router = useRouter();
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files).slice(0, 3);
-      setSelectedImages(files);
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
     }
   };
 
   const onSubmit = async (data: CreateTaskSchema) => {
+    if (!selectedImage) {
+      toast.error("Por favor, selecione uma imagem.");
+      return;
+    }
+
     try {
       const formData = new FormData();
      
@@ -36,9 +40,7 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
       formData.append("difficulty", data.difficulty.toString());
       formData.append("location", data.location);
       formData.append("communityName", data.communityName);
-      selectedImages.forEach((image) => {
-        formData.append("images", image);
-      });
+      formData.append("image", selectedImage);
 
       const responseData = await CreateTask(formData);
       toast.success(responseData.message);

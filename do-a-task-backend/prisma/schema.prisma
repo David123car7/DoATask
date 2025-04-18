@@ -8,37 +8,71 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Member {
-  id           Int            @id @default(autoincrement())
-  userId       String
-  communityId  Int
-  coins        Int
-  tasks        MemberTask[]
-  points       PointsMember[]
-  purchases    Purchase[]
-  createdTasks Task[]         @relation("MemberTasks")
-  community    Community      @relation(fields: [communityId], references: [id])
-  user         User           @relation(fields: [userId], references: [id])
-
-  @@map("member")
+model Address {
+  id         Int     @id @default(autoincrement())
+  port       Int?
+  street     String?
+  postalCode String?
+  userId     String?
+  user       user?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model User {
-  id              String          @id
-  createdAt       DateTime
-  updatedAt       DateTime
-  name            String
-  birthDate       DateTime
-  totalCoins      Int
-  contactId       Int
-  email           String          @unique @default("default@example.com")
-  Address         Address[]
-  Notification    Notification[]
-  userCommunities UserCommunity[]
-  members         Member[]
-  contact         Contact         @relation(fields: [contactId], references: [id])
+model Community {
+  id            Int             @id @default(autoincrement())
+  localityId    Int
+  communityName String
+  creatorId     String
+  Locality      Locality        @relation(fields: [localityId], references: [id])
+  Store         Store[]
+  UserCommunity UserCommunity[]
+  member        member[]
+}
 
-  @@map("user")
+model Contact {
+  id     Int    @id @default(autoincrement())
+  number String
+  user   user[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Image {
+  id        Int    @id @default(autoincrement())
+  imagePath String
+  Item      Item[]
+  Task      Task[]
+}
+
+model Item {
+  id        Int        @id @default(autoincrement())
+  name      String
+  price     Int
+  storeId   Int?
+  stock     Int
+  available Boolean
+  imageId   Int
+  Image     Image      @relation(fields: [imageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Store     Store?     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Item_storeId_fkey1")
+  Purchase  Purchase[]
+}
+
+model Locality {
+  id              Int         @id @default(autoincrement())
+  name            String?
+  maxPostalNumber String
+  minPostalNumber String
+  Community       Community[]
+}
+
+model MemberTask {
+  id          Int       @id @default(autoincrement())
+  status      String
+  assignedAt  DateTime?
+  completedAt DateTime?
+  volunteerId Int?
+  taskId      Int
+  score       Int?
+  Task        Task      @relation(fields: [taskId], references: [id])
+  member      member?   @relation(fields: [volunteerId], references: [id], onDelete: Restrict)
 }
 
 model Notification {
@@ -48,54 +82,37 @@ model Notification {
   read        Boolean  @default(false)
   createdAt   DateTime @default(now())
   recipientId String
-  recipient   User     @relation(fields: [recipientId], references: [id])
+  user        user     @relation(fields: [recipientId], references: [id])
 }
 
-model Community {
-  id              Int             @id @default(autoincrement())
-  localityId      Int
-  communityName   String
-  creatorId       String
-  locality        Locality        @relation(fields: [localityId], references: [id])
-  stores          Store[]
-  userCommunities UserCommunity[]
-  members         Member[]
-}
-
-model Locality {
-  id              Int         @id @default(autoincrement())
-  name            String?
-  maxPostalNumber String
-  minPostalNumber String
-  communities     Community[]
-}
-
-model Address {
-  id         Int     @id @default(autoincrement())
-  port       Int?
-  street     String?
-  postalCode String?
-  userId     String?
-  user       User?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model Contact {
-  id     Int    @id @default(autoincrement())
-  number String
-  users  User[]
-}
-
-model Store {
-  id          Int       @id @default(autoincrement())
-  communityId Int
-  Item        Item[]
-  community   Community @relation(fields: [communityId], references: [id])
+model PointsMember {
+  id       Int    @id @default(autoincrement())
+  points   Int?
+  memberId Int
+  member   member @relation(fields: [memberId], references: [id])
 }
 
 model PostalCode {
   id              Int    @id @default(autoincrement())
   maxPostalNumber String
   minPostalNumber String
+}
+
+model Purchase {
+  id         Int       @id @default(autoincrement())
+  date       DateTime?
+  totalPrice Int?
+  memberId   Int
+  itemId     Int
+  Item       Item      @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  member     member    @relation(fields: [memberId], references: [id])
+}
+
+model Store {
+  id          Int       @id @default(autoincrement())
+  communityId Int
+  Item        Item[]
+  Community   Community @relation(fields: [communityId], references: [id])
 }
 
 model Task {
@@ -107,42 +124,10 @@ model Task {
   points      Int?
   location    String
   description String
-  members     MemberTask[]
-  creator     Member       @relation("MemberTasks", fields: [creatorId], references: [id])
-}
-
-model MemberTask {
-  id          Int       @id @default(autoincrement())
-  status      String
-  assignedAt  DateTime?
-  completedAt DateTime?
-  volunteerId Int?
-  taskId      Int
-  score       Int?
-  task        Task      @relation(fields: [taskId], references: [id])
-  volunteer   Member?   @relation(fields: [volunteerId], references: [id], onDelete: Restrict)
-}
-
-model Item {
-  id        Int        @id @default(autoincrement())
-  name      String
-  price     Int
-  storeId   Int?
-  stock     Int
-  imagePath String
-  available Boolean
-  Store     Store?     @relation(fields: [storeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Item_storeId_fkey1")
-  Purchase  Purchase[]
-}
-
-model Purchase {
-  id         Int       @id @default(autoincrement())
-  date       DateTime?
-  totalPrice Int?
-  memberId   Int
-  itemId     Int
-  Item       Item      @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  member     Member    @relation(fields: [memberId], references: [id])
+  imageId     Int
+  MemberTask  MemberTask[]
+  member      member       @relation(fields: [creatorId], references: [id])
+  Image       Image        @relation(fields: [imageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model UserCommunity {
@@ -150,13 +135,35 @@ model UserCommunity {
   joinedAt    DateTime?
   userId      String
   communityId Int
-  community   Community @relation(fields: [communityId], references: [id])
-  user        User      @relation(fields: [userId], references: [id])
+  Community   Community @relation(fields: [communityId], references: [id])
+  user        user      @relation(fields: [userId], references: [id])
 }
 
-model PointsMember {
-  id       Int    @id @default(autoincrement())
-  points   Int?
-  memberId Int
-  member   Member @relation(fields: [memberId], references: [id])
+model member {
+  id           Int            @id @default(autoincrement())
+  userId       String
+  communityId  Int
+  coins        Int
+  MemberTask   MemberTask[]
+  PointsMember PointsMember[]
+  Purchase     Purchase[]
+  Task         Task[]
+  Community    Community      @relation(fields: [communityId], references: [id])
+  user         user           @relation(fields: [userId], references: [id])
+}
+
+model user {
+  id            String          @id
+  createdAt     DateTime
+  updatedAt     DateTime
+  name          String
+  birthDate     DateTime
+  totalCoins    Int
+  contactId     Int
+  email         String          @unique @default("default@example.com")
+  Address       Address[]
+  Notification  Notification[]
+  UserCommunity UserCommunity[]
+  member        member[]
+  Contact       Contact         @relation(fields: [contactId], references: [id])
 }

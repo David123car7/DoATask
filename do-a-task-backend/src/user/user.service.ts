@@ -47,7 +47,7 @@ export class UserService {
                 data:{
                     name: dto.name,
                     birthDate:dto.birthDate,
-                    contact:{
+                    Contact:{
                         update:{
                             number: dto.number
                         }

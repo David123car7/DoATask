@@ -16,7 +16,6 @@ export function AvaiableTasks({community }: {community: GetNameCommunitySchemaAr
     const [tasks, setTasks] = useState<any[]>([]);
     const [memberTasks, setMemberTasks] = useState<any[]>([]);
 
-
     const handleSelectChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
         const communityName = e.target.value;
         setSelectedCommunity(communityName);
@@ -51,7 +50,7 @@ export function AvaiableTasks({community }: {community: GetNameCommunitySchemaAr
                 tasks.map((tasks, index) =>(
                     <div key={index} className={styles.task}>
                     <div className={styles.imageTask}>
-                        Image
+                        <img src={tasks.imageUrl.signedUrl} alt={tasks.name} className={styles.imageTask}/>
                     </div>
                     <div className={styles.title}>{tasks.title}</div>
                     <p className={styles.description}><strong>Descrição: </strong>{tasks.description}</p>

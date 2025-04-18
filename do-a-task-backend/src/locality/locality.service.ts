@@ -19,7 +19,7 @@ export class LocalityService{
             select:{
                 id:true,
                 name: true,
-                communities: true,
+                Community: true,
             },
         });
         return getData;

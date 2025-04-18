@@ -20,6 +20,12 @@ export class StoreService {
         }
 
         try{
+            const img = await this.prisma.image.create({
+                data:{
+                    imagePath: `${userId}/${itemName}/${imageName}`
+                }
+            })
+
             await this.prisma.item.create({
                 data:{
                    name: itemName,
@@ -27,7 +33,7 @@ export class StoreService {
                    storeId: store.id, 
                    stock: stock,
                    available: true,
-                   imagePath: `${userId}/${itemName}/${imageName}`
+                   imageId: img.id
                 }
             })
         }
@@ -298,6 +304,22 @@ export class StoreService {
                 available: true
             }
         })
+        if(!items){
+            throw new HttpException("Error finding items", HttpStatus.BAD_REQUEST)
+        }
+
+        const images = await this.prisma.image.findMany({
+            where:{
+                id: { in: items.map(i => i.imageId) }
+            },
+        })
+
+        const imageMap = images.reduce<Record<number, string>>((map, rec) => {
+            map[rec.id] = rec.imagePath;
+            return map;
+        }, {});
+      
+
 
         const storage = this.supabaseService.getAdminClient().storage.from(BUCKETS.ITEM_IMAGES)
         if(!storage){
@@ -305,7 +327,9 @@ export class StoreService {
         }
 
         const itemsWithImages = await Promise.all (items.map(async (item) => {
-            const {data, error} = await storage.createSignedUrl(item.imagePath, 3600)
+            const path = item.imageId != null ? imageMap[item.imageId] : null;
+
+            const {data, error} = await storage.createSignedUrl(path, 3600)
             console.log(data)
             if (error) {
               return { ...item, imageUrl: null };
@@ -341,13 +365,26 @@ export class StoreService {
             }
         })
 
+        const images = await this.prisma.image.findMany({
+            where:{
+                id: { in: items.map(i => i.imageId) }
+            },
+        })
+
+        const imageMap = images.reduce<Record<number, string>>((map, rec) => {
+            map[rec.id] = rec.imagePath;
+            return map;
+        }, {});
+
         const storage = this.supabaseService.getAdminClient().storage.from(BUCKETS.ITEM_IMAGES)
         if(!storage){
             throw new HttpException("The bucket storage does not exist", HttpStatus.BAD_REQUEST)
         }
 
         const itemsWithImages = await Promise.all (items.map(async (item) => {
-            const {data, error} = await storage.createSignedUrl(item.imagePath, 3600)
+            const path = item.imageId != null ? imageMap[item.imageId] : null;
+
+            const {data, error} = await storage.createSignedUrl(path, 3600)
             console.log(data)
             if (error) {
               return { ...item, imageUrl: null };
