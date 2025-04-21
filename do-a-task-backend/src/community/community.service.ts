@@ -93,7 +93,7 @@ export class CommunityService{
                 userId: userId,
             },
             select:{
-                community: true,
+                Community: true,
                 coins: true,
             }
         });
@@ -141,7 +141,7 @@ export class CommunityService{
                     } 
                 },
                 select: {
-                    locality:{},
+                    Locality:{},
                     communityName: true,
                 },
             });
@@ -149,9 +149,9 @@ export class CommunityService{
             const validCommunities = [];
 
             for (const community of communities) {
-                console.log(community.locality.minPostalNumber)
-                console.log(community.locality.maxPostalNumber)
-                const verify = await this.addressService.VefifyAdressses(userId, community.locality.minPostalNumber, community.locality.maxPostalNumber);
+                console.log(community.Locality.minPostalNumber)
+                console.log(community.Locality.maxPostalNumber)
+                const verify = await this.addressService.VefifyAdressses(userId, community.Locality.minPostalNumber, community.Locality.maxPostalNumber);
                 if(verify.length != 0){
                     validCommunities.push(community);
                 }
@@ -172,7 +172,7 @@ export class CommunityService{
             select: {
                 id: true,
                     communityName: true,
-                    locality: true
+                    Locality: true
                 }
         })
         if(!community){
@@ -184,7 +184,7 @@ export class CommunityService{
             throw new HttpException("The user allready is in the community", HttpStatus.BAD_REQUEST)
         }
 
-        const addresses = await this.addressService.VefifyAdressses(userId, community.locality.minPostalNumber, community.locality.maxPostalNumber)
+        const addresses = await this.addressService.VefifyAdressses(userId, community.Locality.minPostalNumber, community.Locality.maxPostalNumber)
         if(!addresses){
             throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
         }
@@ -208,7 +208,7 @@ export class CommunityService{
             select: {
                 id: true,
                 communityName: true,
-                locality: true
+                Locality: true
             }
         })
         if(!community)
