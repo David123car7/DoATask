@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
-import style from "@/lib/components/layouts/tasks/availableTasks/page.module.css"
+import style from './page.module.css'
 import { DeleteTask } from "@/lib/api/tasks/delete.task";
 import { useRouter } from 'next/navigation'; 
 

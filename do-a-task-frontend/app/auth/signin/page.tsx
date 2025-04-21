@@ -39,6 +39,7 @@ export default function SignInForm() {
         </div>
         <div className={styles.container_form}>
           <div className={styles.formBox}>
+            <div>Sign In</div>
             <div className={styles.container}>
               <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <div className={styles.inputGroup}>

@@ -14,6 +14,7 @@ export default async function Home() {
 
   const user = await GetUser();
   return (
+    
     <div className="page">
       {!user ?(
         <Header userData={null}/>

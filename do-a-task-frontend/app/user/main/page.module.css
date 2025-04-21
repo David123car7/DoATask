@@ -98,6 +98,7 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 15px;
 }
 
 .error_message{

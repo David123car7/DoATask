@@ -47,11 +47,9 @@
     align-items: center;  
 }
 
-/*Caixa de  fundo do form*/
 .formBox{
     width: fit-content;
     height: fit-content;
-    background-color:transparent;
     border-radius: 20px;
     padding: 50px;
     background: rgb(217,249,255);

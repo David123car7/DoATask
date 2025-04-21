@@ -59,14 +59,19 @@ export function UserCreatedTasks({ taskMemberCreated }: { taskMemberCreated: Get
                         <p className={styles.values}>Tarefa</p>
                         <p className={styles.values}>Descrição</p>
                         <p className={styles.values}>Estado</p>
+                        <p className={styles.hide}>Button</p>
                     </div>  
-                    
+                    {!taskMemberCreated &&(
+                      <div className={styles.rowEmpty}>
+                        <p className={styles.valuesEmpty}> Ainda Não Criou Tarefas</p>
+                      </div>
+                    )} 
                     {taskMemberCreated  && taskMemberCreated.tasks.length > 0 && (
                         taskMemberCreated.tasks.map((task, index) => {
                             const memberTask = taskMemberCreated.memberTasks[index]
                             //const community = taskMemberCreated.community[index]
                             return(
-                                <>
+                                <div className={styles.container}>
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{task.title}</p>
                                     <p className={styles.values}>{task.description}</p>
@@ -80,7 +85,7 @@ export function UserCreatedTasks({ taskMemberCreated }: { taskMemberCreated: Get
                                 {isOpen && (
                                     <div ref={formRef} className={styles.formBox}>
                                     <div className={styles.titleBox}>
-                                        <div className={styles.mainTitle}>Adicionar Nova Morada</div>
+                                        <div className={styles.mainTitle}>Avaliar Tarefa</div>
                                     </div>
                                     <form  onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                                         <input hidden={true} type="number" {...register('memberTaskId', { valueAsNumber: true }) } className={styles.input} value={memberTask.id}/>
@@ -90,7 +95,7 @@ export function UserCreatedTasks({ taskMemberCreated }: { taskMemberCreated: Get
                                     </form>
                                     </div>
                                 )}
-                                </>
+                                </div>
                             )
                         })
                     )}

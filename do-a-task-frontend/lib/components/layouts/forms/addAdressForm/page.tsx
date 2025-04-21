@@ -71,9 +71,13 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
             )}
     
           {isOpen && (
+            <>
+            
+            <div className={styles.overlay}></div>
             <div ref={formRef} className={styles.addressBox}>
+              
               <div className={styles.boxTitle}>
-                <p>Adicionar Nova Morada</p>
+                Adicionar Nova Morada
               </div>
               <form  onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <input type="text" {...register('locality')} placeholder="Localidade"/>
@@ -82,12 +86,13 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
                 {errors.street && <p>{errors.street.message}</p> }
                 <input type="number" {...register('port', {valueAsNumber: true})} placeholder="Porta"/>
                 {errors.port && <p>{errors.port.message}</p> }
-                <input type="text" {...register('postalCode')} placeholder="Código Postal" />
-                {errors.postalCode && <p>{errors.postalCode.message}</p> }
+                <input type="text" {...register('postalCode')} placeholder="Código Postal (1234-567)" />
+                {errors.postalCode && <p className={styles.error_message}>{errors.postalCode.message}</p> }
                 <button type ="submit" className={styles.button}>Guardar</button>
               </form>
 
             </div>
+            </>
           )}
           <button className={styles.addButton} onClick={toggleMenu}>Adicionar Morada</button>
         </div>

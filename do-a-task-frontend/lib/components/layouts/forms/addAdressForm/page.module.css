@@ -6,13 +6,15 @@
     z-index: 1000;
     width: 90%;
     max-width: 600px;
-    background-color: rgba(0, 0, 252, 0.95);
+    background: rgb(217,249,255);
+    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
     padding-top: 0;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     display: flex;
     flex-direction: column;
     gap: 5px;
+    z-index: 1000;
   }
   
   .form {
@@ -37,27 +39,43 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 }
 
 .boxTitle{
     display: flex;
     padding: 20px;
-    background-color: black;
+    background: rgb(217,249,255);
+    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
+    border-radius: 8px 0 0 0;
+    margin-top: 15px;
+    color: black;
+    font-size: 2rem;
     align-items: center;
     justify-content: center;
+    border-bottom: 1px solid black;;
 }
 
 .button{
     display: flex;
     padding: 15px;
     margin: 60px;
-    margin-top: 0;
-    margin-bottom: 30px;
-    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.button:hover{
+    background-color: #6db1ff;
+    color: black;
+    cursor: pointer;
 }
 .button p{
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .overlay {
@@ -120,3 +138,10 @@
     font-size: 14px; 
     color: #333; 
   }
+
+.error_message{
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: start;
+}
