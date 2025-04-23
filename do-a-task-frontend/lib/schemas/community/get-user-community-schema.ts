@@ -17,7 +17,7 @@ const communitySchema = z.object({
 
 // Define the schema for each community entry which includes community, coins, and points.
 const getUserCommunitySchema = z.object({
-  community: communitySchema,
+  Community: communitySchema,
   coins: z.number(),
 });
 

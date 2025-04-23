@@ -14,10 +14,6 @@ export default async function ListAllTasksCommunity(){
   const data = await GetUserCommunitiesNames();
   const validatedData = getNameCommunitySchemaArray.parse(data);
 
-
-
-
-
   return(
     <div className="page">   
 
@@ -29,7 +25,5 @@ export default async function ListAllTasksCommunity(){
       </main>
       <Footer/>
     </div>
-
-
   );
 }
