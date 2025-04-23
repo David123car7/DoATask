@@ -158,7 +158,6 @@ model user {
   updatedAt     DateTime
   name          String
   birthDate     DateTime
-  totalCoins    Int
   contactId     Int
   email         String          @unique @default("default@example.com")
   Address       Address[]

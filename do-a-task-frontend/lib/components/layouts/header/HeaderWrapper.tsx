@@ -12,7 +12,6 @@ export default async function HeaderWrapper() {
   const result = await GetUserData();
   let validatedData
   if(!result){
-    console.log("wdadwad")
     validatedData = null
   }
   else{

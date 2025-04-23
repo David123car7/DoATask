@@ -18,7 +18,6 @@ export class UserController {
         name: userData.user.name,
         email: userData.user.email,
         birthDate: userData.user.birthDate,
-        totalCoins: userData.user.totalCoins
       },
       contact: { 
         number: userData.contact.number

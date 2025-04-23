@@ -9,7 +9,6 @@ const contactSchema = z.object({
       name: z.string(),
       email: z.string().email(),
       birthDate: z.string().datetime(),
-      totalCoins: z.number(),
     }),
     contact: contactSchema
   });

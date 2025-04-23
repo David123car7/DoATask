@@ -38,7 +38,6 @@ export class AuthService{
                 birthDate: new Date(),
                 createdAt: new Date(),
                 updatedAt: new Date(),
-                totalCoins: 0,
                 contactId: contact.id,
                 },
             });

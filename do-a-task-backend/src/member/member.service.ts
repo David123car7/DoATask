@@ -72,5 +72,31 @@ export class MemberService{
             this.prisma.handlePrismaError("Delete Member", error)
         }
     }
+
+    async GetMemberCoins(userId: string, communityName: string){
+        const community = await this.prisma.community.findFirst({
+            where:{
+                communityName: communityName
+            }
+        })
+        if(!community){
+            throw new HttpException("The community does not exist", HttpStatus.BAD_REQUEST)
+        }
+
+        const member = await this.prisma.member.findFirst({
+            where:{
+                userId: userId,
+                communityId: community.id
+            },
+            select:{
+                coins: true
+            }
+        })
+        if(!member){
+            throw new HttpException("User does not belong to this community", HttpStatus.BAD_REQUEST)
+        }
+
+        return member
+    }
 }
 

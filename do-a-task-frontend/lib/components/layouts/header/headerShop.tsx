@@ -9,9 +9,9 @@ import { FaHome } from "@/lib/icons";
 import {ROUTES} from "@/lib/constants/routes"
 import { Notifications } from "../notifications/notifications";
 import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
+import { MemberCoinsSchema } from "@/lib/schemas/member/get.member.coins.schema";
 
-
-export function Header({userData}: {userData: UserDataSchema | null}) {
+export function HeaderShop({userData, memberCoins}: {userData: UserDataSchema | null, memberCoins: MemberCoinsSchema | null}) {
   return (
     <header className={styles.header}>
       <div>
@@ -22,6 +22,9 @@ export function Header({userData}: {userData: UserDataSchema | null}) {
         <li><a href={ROUTES.HOME}><FaHome size={28}></FaHome></a></li>
         {userData && (
           <>
+            <li>
+              <a href=""><FaCoins size={28} />{memberCoins?.memberCoins.coins}</a>
+            </li>
             <li>
               <Notifications/>
             </li>

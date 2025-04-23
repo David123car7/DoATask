@@ -8,20 +8,28 @@ import { getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communi
 import ShopNavBar from "@/lib/components/layouts/shop/navbar/mainPage/nav.bar";
 import { AvaiableItems } from "@/lib/components/layouts/shop/availableItems/page";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { GetUserData } from "@/lib/api/user/get-user";
+import { userDataSchema } from "@/app/user/schema/user-data-schema";
 
 export default async function ShopsPage(){
 
-  const data = await GetUserCommunitiesNames();
-  const validatedData = getNameCommunitySchemaArray.parse(data);
+  const communityData = await GetUserCommunitiesNames();
+  const validatedCommunityData = getNameCommunitySchemaArray.parse(communityData);
+
+  const result = await GetUserData();
+  let validatedUserData
+  if(!result){
+    validatedUserData = null
+  }
+  else{
+    const parseResult = userDataSchema.safeParse(result);
+    validatedUserData = parseResult.success ? parseResult.data : null;
+  }
 
   return(
     <div className="page">   
-
-      <HeaderWrapper/>
       <main>
-        <Toaster/>
-        <ShopNavBar/>
-        <AvaiableItems community={validatedData}/>
+        <AvaiableItems community={validatedCommunityData} userData={validatedUserData}/>
       </main>
       <Footer/>
     </div>

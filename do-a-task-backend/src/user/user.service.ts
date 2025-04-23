@@ -26,7 +26,6 @@ export class UserService {
                   name: user.name,
                   email: user.email,
                   birthDate: user.birthDate,
-                  totalCoins: user.totalCoins,
                 },
                 contact: {
                   number: contact.number,
@@ -62,39 +61,4 @@ export class UserService {
         }
 
     }
-
-    async getUserCoins(userId: string){
-        try{
-            const findUser = await this.prisma.user.findUnique({
-                where:{
-                    id:userId,
-                },
-                select:{
-                    totalCoins:true,
-                }
-            })
-            return findUser?.totalCoins ?? null
-        }
-        catch(error){
-            this.prisma.handlePrismaError("GetUserData", error)
-        }
-    }
-
-    async getUserId(userId:string){
-        try{
-            const findUser = await this.prisma.user.findUnique({
-                where:{
-                    id:userId,
-                },
-                select:{
-                    id:true,
-                }
-            })
-            return findUser?.id ?? null
-        }
-        catch(error){
-            this.prisma.handlePrismaError("GetUserData", error)
-        }
-    }
-
 }
