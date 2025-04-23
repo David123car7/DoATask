@@ -1,27 +1,25 @@
 import { z } from "zod";
 
-// Define the schema for each point in the points array.
-const pointSchema = z.object({
+const pointsMemberSchema = z.object({
   id: z.number(),
   points: z.number().nullable(),
   memberId: z.number(),
 });
 
-// Define the schema for the community object.
-const communitySchema = z.object({
-  id: z.number(),
-  localityId: z.number(),
+const communityInfoSchema = z.object({
+  Locality: z.object({
+    name: z.string(),
+  }),
   communityName: z.string(),
-  creatorId: z.string(),
 });
 
-// Define the schema for each community entry which includes community, coins, and points.
-const getUserCommunitySchema = z.object({
-  Community: communitySchema,
+const communitySchema = z.object({
   coins: z.number(),
+  PointsMember: z.array(pointsMemberSchema),
+  Community: communityInfoSchema,
 });
 
-// Define the top-level schema as an array of community entries.
-export const getUserCommunitySchemaArray = z.array(getUserCommunitySchema);
-
-export type GetUserCommunitySchemaArray = z.infer<typeof getUserCommunitySchemaArray>;
+export const getCommunitiesWithMembersCountSchema = z.object({
+  communities: z.array(communitySchema),
+  membersCount: z.array(z.number()),
+});

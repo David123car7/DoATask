@@ -29,7 +29,7 @@ export async function GetUserCommunities() {
     
     const data = await response.json();
     console.log(data)
-    return data.communities
+    return data
   } catch (error) {
     console.error('Error retrieving notifications:', error);
     throw error;

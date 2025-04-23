@@ -18,3 +18,4 @@ export class EnterExitCommunityDto{
     @IsString()
     communityName: string
 }
+

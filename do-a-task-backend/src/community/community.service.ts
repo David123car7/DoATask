@@ -6,6 +6,7 @@ import { AddressService } from "src/addresses/addresses.service";
 import { MemberService } from "src/member/member.service";
 import { UserCommunityService } from "src/userCommunity/userCommunity.service";
 import { StoreService } from "src/store/store.service";
+import { error } from "console";
 
 @Injectable({})
 export class CommunityService{
@@ -93,11 +94,28 @@ export class CommunityService{
                 userId: userId,
             },
             select:{
-                Community: true,
+                Community: {
+                    select:{
+                        communityName: true,
+                        Locality: {
+                            select:{
+                                name: true,
+                            }
+                        }
+                    },
+                },
+                PointsMember: true,
                 coins: true,
             }
         });
-        return communities;
+
+        const membersCount = []
+        for (const community of communities) {
+            const aux = await this.CountMembers(community.Community.communityName)
+            membersCount.push(aux)
+        }
+
+        return {communities: communities, membersCount: membersCount};
     }
 
         //Gets all communities names the user is in
@@ -147,21 +165,47 @@ export class CommunityService{
             });
 
             const validCommunities = [];
+            const membersCount = []
 
+            let index
             for (const community of communities) {
                 console.log(community.Locality.minPostalNumber)
                 console.log(community.Locality.maxPostalNumber)
                 const verify = await this.addressService.VefifyAdressses(userId, community.Locality.minPostalNumber, community.Locality.maxPostalNumber);
                 if(verify.length != 0){
                     validCommunities.push(community);
+                    const aux = await this.CountMembers(community.communityName)
+                    membersCount.push(aux)
                 }
+                index++
             }
 
-            return validCommunities;
+            console.log(membersCount)
+            return {communities: validCommunities, membersCount: membersCount};
         }
         catch(error){
             this.prisma.handlePrismaError("Get User Communities",error)
         }
+    }
+
+    async CountMembers(communityName: string){
+        const communities = await this.prisma.community.findMany({
+            where: {
+                communityName: communityName
+            }
+        })
+        if(!communities){
+            throw new HttpException("Error finding communities", HttpStatus.BAD_REQUEST)
+        }
+
+        const membersCount = await this.prisma.member.count({
+            where: {
+                communityId: {in: communities.map(c => c.id)},
+            }
+        })
+
+        return membersCount
+
     }
 
     async UserEnterCommunity(userId: string, communityName: string){

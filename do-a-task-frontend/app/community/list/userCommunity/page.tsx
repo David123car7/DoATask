@@ -4,14 +4,14 @@ import Footer from "@/lib/components/layouts/footer/page";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import styles from "./page.module.css"
 import { EnterCommunityButton } from "@/lib/components/layouts/community/enter.community.button";
-import { getUserCommunitySchemaArray } from "@/lib/schemas/community/get-user-community-schema";
+import { getCommunitiesWithMembersCountSchema } from "@/lib/schemas/community/get-user-community-schema";
 import { GetUserCommunities } from "@/lib/api/communities/get.user.communities";
 import { ExitCommunityButton } from "@/lib/components/layouts/community/exit.community.button";
 import CommunityNavBar from "@/lib/components/layouts/community/navbar/nav.bar";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 export default async function CommunitiesListPage(){
     const communitiesData = await GetUserCommunities();
-    const communitiesDataValidated = getUserCommunitySchemaArray.parse(communitiesData)
+    const communitiesDataValidated = getCommunitiesWithMembersCountSchema.parse(communitiesData)
 
     return(
         <div className="page">
@@ -25,18 +25,28 @@ export default async function CommunitiesListPage(){
 
                         <div className={styles.titles}>
                             <p className={styles.values}>Comunidade</p>
+                            <p className={styles.values}>Localidade</p>
                             <p className={styles.values}>Moedas</p>
+                            <p className={styles.values}>Pontos</p>
+                            <p className={styles.values}>Membros</p>
                             <p className={styles.values}></p>
                         </div>  
                         
-                        {communitiesDataValidated.length > 0 && (
-                            communitiesDataValidated.map((community, index) => 
+                        {communitiesDataValidated.communities.length > 0 && (
+                            communitiesDataValidated.communities.map((community, index) => {
+                                const membersCount = communitiesDataValidated.membersCount[index]
+                                const points = communitiesDataValidated.communities[index].PointsMember[index].points
+                                return (
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{community.Community.communityName}</p>
+                                    <p className={styles.values}>{community.Community.Locality.name}</p>
                                     <p className={styles.values}>{community.coins}</p>
+                                    <p className={styles.values}>{points}</p>
+                                    <p className={styles.values}>{membersCount}</p>
                                     <ExitCommunityButton communityName={community.Community.communityName}/>
                                 </div>
-                            )
+                                )
+                            })
                         )}
                     </div>
                 </div>

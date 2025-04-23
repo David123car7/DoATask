@@ -34,8 +34,8 @@ export class CommunityController {
     @Get("getUserCommunities")
     @UseGuards(JwtAuthGuard)
     async GetUserCommunity(@Req() req: RequestWithUser, @Res() res: Response){
-      const communities = await this.communityService.GetUserCommunities(req.user.sub)
-      return res.json({ message: 'Communities get successful', communities: communities});
+      const data = await this.communityService.GetUserCommunities(req.user.sub)
+      return res.json({ message: 'Communities get successful', communities: data.communities, membersCount: data.membersCount});
     }
 
     @Get("getUserCommunitiesNames")
@@ -48,7 +48,14 @@ export class CommunityController {
     @Get("getAllCommunities")
     @UseGuards(JwtAuthGuard)
     async GetAllCommunity(@Res() res: Response, @Req() req: RequestWithUser){
-      const communities = await this.communityService.GetAllCommunitiesWithLocality(req.user.sub)
-      return res.json({ message: 'Communities get successful', communities: communities});
+      const data = await this.communityService.GetAllCommunitiesWithLocality(req.user.sub)
+      return res.json({ message: 'Communities get successful', communities: data.communities, membersCount: data.membersCount});
     }
+
+    @Get("membersCount")
+    @UseGuards(JwtAuthGuard)
+    async GetMembersCount(){
+
+    }
+
 }
