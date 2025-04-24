@@ -7,19 +7,83 @@ describe('Auth module (e2e)', () => {
   });
   afterAll(() => closeE2E());
 
+  //#region SignIn
   it('Should sign in', async () => {
-    await pactum
+    const message = await pactum
       .spec()
       .post('/auth/signin')
       .withJson({ email: 'david123car7@gmail.com', password: '123456' })
-      .expectStatus(200);
+      .expectStatus(200)
+      .returns("res.body.message")
+      .stores('JWT', 'session.access_token');   // <- saves the token into $S{JWT}
+
+
+    console.log('⬅️  Should sign in:', message);
   });
 
   it('Should not sign in (wrong credentials)', async () => {
-    await pactum
+    const message = await pactum
       .spec()
       .post('/auth/signin')
       .withJson({ email: 'david123car7@gmail.com', password: 'wrongPassword' })
-      .expectStatus(400);
+      .expectStatus(400)
+      .returns("res.body.message")
+
+      console.log('⬅️  Should not sign in (wrong credentials):', message);
   });
+
+  it('Should not sign in (empty body)', async () => {
+    const message = await pactum
+      .spec()
+      .post('/auth/signin')
+      .withJson({ email: '', password: '' })
+      .expectStatus(400)
+      .returns("res.body.message")
+
+      console.log('⬅️  Should not sign in (empty body):', message);
+  });
+  //#endregion
+
+  //#region SignUp
+  it('Should not sign up (email allready registred)', async () => {
+    const message = await pactum
+      .spec()
+      .post('/auth/signup')
+      .withJson({ email: 'david123car7@gmail.com', password: '123456', name: "name", birthDate:"2025-03-18T19:29:22.247Z", contactNumber: "111222333"})
+      .expectStatus(422)
+      .returns("res.body.message")
+
+    console.log('⬅️  Should not sign up (email allready registred):', message);
+  });
+  //#endregion
+
+  //#region ChangePassword
+  it('Should not change password (new password equals to currentPassword)', async () => {
+    const message = await pactum
+      .spec()
+      .post('/auth/changePassword')
+      .withHeaders({
+        Authorization: 'Bearer $S{JWT}',        
+      })
+      .withJson({ currentPassword: '123456', newPassword: '123456', newPassword2: "123456"})
+      .expectStatus(400)
+      .returns("res.body.message")
+
+    console.log('⬅️  Should not change password (new password equals to currentPassword):', message);
+  });
+
+  it('Should not change password (the password is incorrect)', async () => {
+    const message = await pactum
+      .spec()
+      .post('/auth/changePassword')
+      .withHeaders({
+        Authorization: 'Bearer $S{JWT}',        
+      })
+      .withJson({ currentPassword: '123', newPassword: '123456', newPassword2: "123456"})
+      .expectStatus(400)
+      .returns("res.body.message")
+
+    console.log('⬅️  Should not change password (the password is incorrect):', message);
+  });
+  //#endregion
 });

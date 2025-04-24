@@ -37,11 +37,9 @@ export class AuthController{
     @Post("signin")
     async signIn(@Body() dto: AuthDtoSignin, @Res() res: Response)
     {
-      console.log(dto.email)
-      console.log(dto.password)
       const data = await this.authService.signIn(dto);
-      //this.setCookies.setAuthCookie(res, data.session.access_token);
-      //this.setCookies.setRefreshCookie(res, data.session.refresh_token);
+      await this.setCookies.setAuthCookie(res, data.session.access_token);
+      await this.setCookies.setRefreshCookie(res, data.session.refresh_token);
       return res.json({ message: 'Signin successful', user: data.user, session: data.session});
     }
 
