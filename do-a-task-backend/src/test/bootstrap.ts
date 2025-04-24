@@ -5,13 +5,6 @@ import { AppModule } from '../app.module';
 
 let app: INestApplication;
 
-/**
- * Call this in your beforeAll() in every e2e spec.
- * It will:
- *   – create TestingModule
- *   – init the Nest app
- *   – tell Pactum where to send requests
- */
 export async function bootstrapE2E() {
   if (!app) {
     const moduleRef = await Test.createTestingModule({
@@ -26,9 +19,6 @@ export async function bootstrapE2E() {
   return app;
 }
 
-/**
- * Call this in your afterAll() if you want to tear down
- */
 export async function closeE2E() {
   if (app) {
     await app.close();
