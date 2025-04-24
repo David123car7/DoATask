@@ -35,11 +35,13 @@ export class AuthController{
   
     @HttpCode(HttpStatus.OK)
     @Post("signin")
-    async sighin(@Body() dto: AuthDtoSignin, @Res() res: Response)
+    async signIn(@Body() dto: AuthDtoSignin, @Res() res: Response)
     {
-      const data = await this.authService.sighin(dto);
-      this.setCookies.setAuthCookie(res, data.session.access_token);
-      this.setCookies.setRefreshCookie(res, data.session.refresh_token);
+      console.log(dto.email)
+      console.log(dto.password)
+      const data = await this.authService.signIn(dto);
+      //this.setCookies.setAuthCookie(res, data.session.access_token);
+      //this.setCookies.setRefreshCookie(res, data.session.refresh_token);
       return res.json({ message: 'Signin successful', user: data.user, session: data.session});
     }
 

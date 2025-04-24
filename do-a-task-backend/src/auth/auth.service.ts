@@ -2,8 +2,8 @@ import {HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { AuthDtoSignup, AuthDtoSignin, AuthDtoChangePassword, AuthDtoResetPassword, AuthDtoRequestResetPassword} from "./dto";
 import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
-import { FRONTEND_ROUTES } from "src/lib/constants/routes/frontend";
-import { NotificationsService } from "src/notifications/notifications.service";
+import { FRONTEND_ROUTES } from "../lib/constants/routes/frontend";
+import { NotificationsService } from "../notifications/notifications.service";
 
 @Injectable({})
 export class AuthService{
@@ -47,7 +47,7 @@ export class AuthService{
 
     }
     
-    async sighin(dto: AuthDtoSignin){
+    async signIn(dto: AuthDtoSignin){
         const email = dto.email;
         const password = dto.password;
 
@@ -57,6 +57,7 @@ export class AuthService{
         });
 
         if (error) {
+            console.log("dwadaw")
             this.supabaseService.handleSupabaseError(error, "SignIn User");
         }
 

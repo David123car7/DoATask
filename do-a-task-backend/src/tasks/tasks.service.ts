@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
-import { SupabaseService } from "src/supabase/supabase.service";
+import { PrismaService } from "../prisma/prisma.service";
+import { SupabaseService } from "../supabase/supabase.service";
 import { AssignTaskDto, CreateTasksDto } from "./dto/tasks.dto";
-import { baseReward } from "src/lib/constants/tasks/tasks.constants";
-import { TASK_STATES } from "src/lib/constants/tasks/tasks.constants";
-import { BUCKETS } from "src/lib/constants/storage/buckets";
+import { baseReward } from "../lib/constants/tasks/tasks.constants";
+import { TASK_STATES } from "../lib/constants/tasks/tasks.constants";
+import { BUCKETS } from "../lib/constants/storage/buckets";
 
 @Injectable({})
 export class TasksService{

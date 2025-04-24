@@ -5,14 +5,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthGuard } from './guard/jwt.auth.guard';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { SupabaseModule } from 'src/supabase/supabase.module';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { SupabaseModule } from '../supabase/supabase.module';
+import { PrismaModule } from '../prisma/prisma.module';
 import { SupabaseStrategy } from './strategies/supabase.strategy';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { SetAuthCookies } from './cookies/set.cookies';
 import { DeleteAuthCookies } from './cookies/delete.cookies';
-import { NotificationModule } from 'src/notifications/notifications.module';
-import { NotificationsService } from 'src/notifications/notifications.service';
+import { NotificationModule } from '../notifications/notifications.module';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Module({
     imports: [

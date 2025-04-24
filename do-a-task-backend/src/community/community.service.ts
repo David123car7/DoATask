@@ -2,11 +2,10 @@ import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { CreateCommunityDto } from "./dto/community.dto";
-import { AddressService } from "src/addresses/addresses.service";
-import { MemberService } from "src/member/member.service";
-import { UserCommunityService } from "src/userCommunity/userCommunity.service";
-import { StoreService } from "src/store/store.service";
-import { error } from "console";
+import { AddressService } from "../addresses/addresses.service";
+import { MemberService } from "../member/member.service";
+import { UserCommunityService } from "../userCommunity/userCommunity.service";
+import { StoreService } from "../store/store.service";
 
 @Injectable({})
 export class CommunityService{

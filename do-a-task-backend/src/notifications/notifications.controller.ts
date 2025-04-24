@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, UseGuards, Req, Res} from '@nestjs/common';
 import { NotificationsService} from './notifications.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
-import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
+import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
+import { RequestWithUser } from '../auth/types/jwt-payload.type';
 import { Response } from "express";
 
 @Controller('notifications')

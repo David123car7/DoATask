@@ -1,8 +1,8 @@
 import { Body, Controller, Post, Get, UseGuards, Req, Res } from "@nestjs/common";
 import { AddressService } from "./addresses.service";
 import { CreateAddressDto } from "./dto/addresses.dto";
-import { JwtAuthGuard } from "src/auth/guard/jwt.auth.guard";
-import { RequestWithUser } from "src/auth/types/jwt-payload.type";
+import { JwtAuthGuard } from "../auth/guard/jwt.auth.guard";
+import { RequestWithUser } from "../auth/types/jwt-payload.type";
 import { Response } from 'express';
 
 @Controller("addresses")

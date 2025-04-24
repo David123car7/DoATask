@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { SupabaseModule } from 'src/supabase/supabase.module';
+import { PrismaModule } from '../prisma/prisma.module';
+import { SupabaseModule } from '../supabase/supabase.module';
 import { MemberController } from './member.controller';
 import { MemberService } from './member.service';
-import { LocalityService } from 'src/locality/locality.service';
-import { CommunityService } from 'src/community/community.service';
-import { AddressService } from 'src/addresses/addresses.service';
+import { LocalityService } from '../locality/locality.service';
+import { CommunityService } from '../community/community.service';
+import { AddressService } from '../addresses/addresses.service';
 
 @Module({
     imports: [PrismaModule, SupabaseModule],

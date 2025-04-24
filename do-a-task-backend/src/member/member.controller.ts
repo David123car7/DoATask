@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post , Query, Req, Res, UseGuards} from "@nestjs/common";
 import { MemberService } from "./member.service";
 import { Response } from "express";
-import { RequestWithUser } from "src/auth/types/jwt-payload.type";
-import { JwtAuthGuard } from "src/auth/guard/jwt.auth.guard";
+import { RequestWithUser } from "../auth/types/jwt-payload.type";
+import { JwtAuthGuard } from "../auth/guard/jwt.auth.guard";
 
 @Controller("member")
 export class MemberController {

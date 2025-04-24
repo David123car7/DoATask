@@ -1,7 +1,7 @@
 import { Controller, HttpException, HttpStatus, Post, UploadedFiles, UseGuards, UseInterceptors, Res, Body, Req, Delete} from '@nestjs/common';
 import { StorageService } from './storage.service';
 import { BUCKETS } from '../lib/constants/storage/buckets';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
 import { Response } from "express";
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { RequestWithUser } from '../auth/types/jwt-payload.type';

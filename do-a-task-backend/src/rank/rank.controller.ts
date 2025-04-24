@@ -1,6 +1,6 @@
 import { Controller, Query, HttpStatus, Req, Res, Get, HttpException} from '@nestjs/common';
-import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
+import { RequestWithUser } from '../auth/types/jwt-payload.type';
+import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
 import { Response } from 'express';
 import { RankService } from './rank.service';
 import { UseGuards } from '@nestjs/common';

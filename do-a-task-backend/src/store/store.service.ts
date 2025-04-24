@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { SupabaseService } from 'src/supabase/supabase.service';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { BUCKETS } from 'src/lib/constants/storage/buckets';
+import { SupabaseService } from '../supabase/supabase.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { BUCKETS } from '../lib/constants/storage/buckets';
 
 @Injectable()
 export class StoreService {

@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Put, Get, Param, Req, UseGuards, Res, Delete} from '@nestjs/common';
 import { CommunityService } from './community.service';
 import { CreateCommunityDto, EnterExitCommunityDto} from './dto/community.dto';
-import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
+import { RequestWithUser } from '../auth/types/jwt-payload.type';
+import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
 import { Response } from 'express';
 
 @Controller('community')

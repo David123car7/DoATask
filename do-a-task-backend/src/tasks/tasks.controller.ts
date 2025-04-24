@@ -1,12 +1,12 @@
 import { Controller, Post, Body, Query,  Put, HttpCode,HttpStatus, Req, UseGuards, Res, UseInterceptors, UploadedFile, Get, HttpException, Delete} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTasksDto,EvaluateTaskDto, AssignTaskDto} from './dto/tasks.dto';
-import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
+import { RequestWithUser } from '../auth/types/jwt-payload.type';
+import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { StorageService } from 'src/storage/storage.service';
-import { BUCKETS } from 'src/lib/constants/storage/buckets';
+import { StorageService } from '../storage/storage.service';
+import { BUCKETS } from '../lib/constants/storage/buckets';
 import { ParseIntPipe } from '@nestjs/common';
 
 @Controller('tasks')

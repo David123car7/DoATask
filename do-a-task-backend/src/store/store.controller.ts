@@ -1,14 +1,14 @@
 import { Controller, Post, Body, Req, Res, UseGuards, UseInterceptors, Query, Put, HttpException, HttpStatus, Get} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { StoreService } from './store.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.auth.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
 import { CreateItemDto } from './dto/store.dto';
 import { UploadedFile } from '@nestjs/common';
-import { RequestWithUser } from 'src/auth/types/jwt-payload.type';
+import { RequestWithUser } from '../auth/types/jwt-payload.type';
 import { Response } from 'express';
-import { StorageService } from 'src/storage/storage.service';
+import { StorageService } from '../storage/storage.service';
 import { ParseIntPipe } from '@nestjs/common';
-import { BUCKETS } from 'src/lib/constants/storage/buckets';
+import { BUCKETS } from '../lib/constants/storage/buckets';
 
 @Controller('store')
 export class StoreController {

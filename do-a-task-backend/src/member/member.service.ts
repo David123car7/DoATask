@@ -1,8 +1,6 @@
 import { SupabaseService } from "../supabase/supabase.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { LocalityService } from "src/locality/locality.service";
-import { CommunityService } from "src/community/community.service";
 
 
 @Injectable({})
