@@ -1,6 +1,9 @@
 .optionsContainer{
     display: flex;
     flex-direction: column;
+    width: 100%;
+    color: black;
+    background-color: white;
 }
 
 .options{
@@ -8,17 +11,15 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    border: 1px solid black;
+    border-top: 1px solid black;
 }
 
 .singleOption{
     text-align: center;
     height: 100%;
     width: 100%;
-    border-left: 1px solid black;
-    border-right: 1px solid black ;
-    padding: 1.5rem;
-    font-size: 1.5rem;
+    padding: 1.3rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -88,4 +89,8 @@
     font-weight: bold;
     color: black;
     text-transform: uppercase;
+}
+
+.active{
+    border-bottom: 3px solid black;
 }

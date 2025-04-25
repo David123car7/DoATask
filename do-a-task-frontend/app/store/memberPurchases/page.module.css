@@ -6,11 +6,12 @@
     gap: 20px; 
 }
 .title {
-    position: absolute;
-    top: 9%; 
+    position: relative;
+    top: 15%; 
     left: 50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%, 50%); 
     font-size: 24px;
+    color: black;
 }
 
 .container {
