@@ -12,7 +12,7 @@ export class TasksService{
 
     async createTask(dto: CreateTasksDto, userId: string, imageName: string) {
         const reward = baseReward[dto.difficulty]
-        try{
+        console.log(dto.tittle)
             const community = await this.prisma.community.findFirst({
                 where:{
                     communityName: dto.communityName
@@ -32,37 +32,39 @@ export class TasksService{
                 throw new HttpException("The user is not a member of the community", HttpStatus.BAD_REQUEST)
             }   
 
-            const result = await this.prisma.$transaction(async () => {
-                const image = await this.prisma.image.create({
-                    data:{
-                        imagePath: `${userId}/${dto.tittle}/${imageName}`
-                    }
-                })
-
-                const task = await this.prisma.task.create({
-                    data: {
-                        title: dto.tittle,
-                        description: dto.description,
-                        difficulty: parseInt(dto.difficulty),
-                        location: dto.location,
-                        coins: reward.coins,
-                        points: reward.points,
-                        creatorId: member.id,
-                        imageId: image.id,
-                    },
+            try{
+                const result = await this.prisma.$transaction(async () => {
+                    const image = await this.prisma.image.create({
+                        data:{
+                            imagePath: `${userId}/${dto.tittle}/${imageName}`
+                        }
+                    })
+    
+                    const task = await this.prisma.task.create({
+                        data: {
+                            title: dto.tittle,
+                            description: dto.description,
+                            difficulty: parseInt(dto.difficulty),
+                            location: dto.location,
+                            coins: reward.coins,
+                            points: reward.points,
+                            creatorId: member.id,
+                            imageId: image.id,
+                        },
+                    });
+    
+                    await this.prisma.memberTask.create({
+                        data: {
+                            status: "Por Aceitar",
+                            taskId: task.id,
+                        },
+                    });
                 });
-
-                await this.prisma.memberTask.create({
-                    data: {
-                        status: "Por Aceitar",
-                        taskId: task.id,
-                    },
-                });
-            });
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Creating Task" ,error)
-        }
+                return true
+            }
+            catch(error){
+                this.prisma.handlePrismaError("Creating Task", error)
+            }
     }
 
     async assignTask(userId: string, taskId: number){
@@ -135,7 +137,7 @@ export class TasksService{
         if(!memberTaskId)
             throw new HttpException("The memberTaskId is invalid", HttpStatus.BAD_REQUEST)
 
-        try{
+        
             const memberTask = await this.prisma.memberTask.findFirst({
                 where: {
                     id: memberTaskId
@@ -144,7 +146,7 @@ export class TasksService{
             if(!memberTask){
                 throw new HttpException("The memberTask does not exist", HttpStatus.BAD_REQUEST)
             }
-
+        try{
             await this.prisma.memberTask.update({
                 where: {
                     id: memberTask.id
@@ -302,9 +304,7 @@ export class TasksService{
             
             return {tasks: tasks, memberTasks: memberTasks, community: community};
     }
-    catch(error){
-        console.error('Error getting done tasks in community:', error); 
-    }
+
 
     async GetTasksMemberCreated(userId: string){
         const member = await this.prisma.member.findMany({
