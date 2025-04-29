@@ -38,4 +38,25 @@ export class SupabaseService {
 
     throw new HttpException(`${context}: Unknown Supabase error occurred`, HttpStatus.INTERNAL_SERVER_ERROR);
   }
+
+ /**
+   * Deletes all users in Supabase Auth via the Admin API.
+   * Use this in end-to-end tests to reset auth state.
+   */
+ async cleanAuthUsers(): Promise<void> {
+  // Supabase Admin API supports listing and deleting users
+  const { data, error: listError } = await this.adminClient.auth.admin.listUsers();
+  if (listError) {
+    this.handleSupabaseError(listError, 'Clean Auth Users - list');
+  }
+  // data contains users array and pagination info
+  const users = data?.users ?? [];
+  for (const user of users) {
+    const { error: deleteError } = await this.adminClient.auth.admin.deleteUser(user.id);
+    if (deleteError) {
+      // Log and continue
+      console.error(`Failed to delete user ${user.id}:`, deleteError.message);
+    }
+  }
+}
 }

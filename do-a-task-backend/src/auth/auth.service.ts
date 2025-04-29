@@ -39,7 +39,7 @@ export class AuthService{
             });
         });
         
-        return { message: "Signup successful", user: data.user };
+        return { message: "Signup successful", user: data.user, session: data.session};
     }
     
     async signIn(dto: AuthDtoSignin){

@@ -41,6 +41,9 @@ export class TasksController {
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor("image"))
     async createTask(@Body() dto: CreateTasksDto, @UploadedFile() file: Express.Multer.File ,@Req() req: RequestWithUser, @Res() res: Response) {
+      if(!file){
+        throw new HttpException("The file does not exist", HttpStatus.BAD_REQUEST)
+      }
       const task = await this.tasksService.createTask(dto, req.user.sub, file.originalname);
       const upload = await this.storageService.uploadImage(BUCKETS.TASK_IMAGES, req.user.sub, dto.tittle, file)
       return res.json({ message: 'Task was created'});
