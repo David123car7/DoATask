@@ -21,42 +21,28 @@ export class CommunityService{
             }
         })
         if(countCommunitys.length >= 1){
-            throw new HttpException("You allready have a community", HttpStatus.BAD_REQUEST)
+            throw new HttpException("The user allready has a community", HttpStatus.BAD_REQUEST)
         }
 
-        const checkName = await this.prisma.community.findFirst({
+        const community = await this.prisma.community.findFirst({
             where:{
-            communityName: dto.communityName
+                communityName: dto.communityName
             }
         })
-        if(checkName){
+        if(community){
             throw new HttpException("Community with this name allready exists", HttpStatus.BAD_REQUEST)
         }
 
        
-        const checkName2 = await this.prisma.locality.findFirst({
+        const locality = await this.prisma.locality.findFirst({
             where:{
                 name: dto.location
             }
         })
-        if(!checkName2){
+        if(!locality){
             throw new HttpException("Location with this name does not exist", HttpStatus.BAD_REQUEST)
         }
         
- 
-
-        let locality
-        try{
-            locality = await this.prisma.locality.findFirst({
-                where:{
-                    name: dto.location,
-                }
-            })
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Find Community", error)
-        }
-
         try{
             const result = await this.prisma.$transaction(async (prisma) => {
                 const c = await this.prisma.community.create({
@@ -117,94 +103,84 @@ export class CommunityService{
         return {communities: communities, membersCount: membersCount};
     }
 
-        //Gets all communities names the user is in
-        async GetUserCommunitiesNames(userId: string){
-        
-            const userCommunitys = await this.prisma.userCommunity.findMany({
-                where:{
-                    userId: userId
-                }
-            });
-            if(!userCommunitys){
-                throw new HttpException("User does not belong to any community", HttpStatus.BAD_REQUEST)
+    //Gets all communities names the user is in
+    async GetUserCommunitiesNames(userId: string){
+        const userCommunitys = await this.prisma.userCommunity.findMany({
+            where:{
+                userId: userId
             }
-
-            const communities = await this.prisma.community.findMany({
-                where:{
-                    id: {
-                        in: userCommunitys.map(c => c.communityId)
-                    } 
-                },
-                select:{
-                    communityName: true
-                 }
-            });
-            return communities;
+        });
+        if(!userCommunitys){
+            throw new HttpException("User does not belong to any community", HttpStatus.BAD_REQUEST)
         }
+
+        const communities = await this.prisma.community.findMany({
+            where:{
+                id: {
+                    in: userCommunitys.map(c => c.communityId)
+                } 
+            },
+            select:{
+                communityName: true
+                }
+        });
+        return communities;
+    }
 
     //Gets all communities that the user is not in and has address in the community location
     async GetAllCommunitiesWithLocality(userId: string){
-        try{
-            const userCommunities = await this.prisma.userCommunity.findMany({
-                where:{
-                    userId: userId
-                }
-            });
-
-            const communities = await this.prisma.community.findMany({
-                where:{
-                    id: {
-                        notIn: userCommunities.map(c => c.communityId)
-                    } 
-                },
-                select: {
-                    Locality:{},
-                    communityName: true,
-                },
-            });
-
-            const validCommunities = [];
-            const membersCount = []
-
-            let index
-            for (const community of communities) {
-                console.log(community.Locality.minPostalNumber)
-                console.log(community.Locality.maxPostalNumber)
-                const verify = await this.addressService.VefifyAdressses(userId, community.Locality.minPostalNumber, community.Locality.maxPostalNumber);
-                if(verify.length != 0){
-                    validCommunities.push(community);
-                    const aux = await this.CountMembers(community.communityName)
-                    membersCount.push(aux)
-                }
-                index++
+        const userCommunities = await this.prisma.userCommunity.findMany({
+            where:{
+                userId: userId
             }
+        });
 
-            console.log(membersCount)
-            return {communities: validCommunities, membersCount: membersCount};
+        const communities = await this.prisma.community.findMany({
+            where:{
+                id: {
+                    notIn: userCommunities.map(c => c.communityId)
+                } 
+            },
+            select: {
+                Locality:{},
+                communityName: true,
+            },
+        });
+
+        const validCommunities = [];
+        const membersCount = []
+
+        let index
+        for (const community of communities) {
+            const verify = await this.addressService.VefifyAdressses(userId, community.Locality.minPostalNumber, community.Locality.maxPostalNumber);
+            if(verify.length != 0){
+                validCommunities.push(community);
+                const aux = await this.CountMembers(community.communityName)
+                membersCount.push(aux)
+            }
+            index++
         }
-        catch(error){
-            this.prisma.handlePrismaError("Get User Communities",error)
-        }
+        return {communities: validCommunities, membersCount: membersCount};
     }
+    
 
     async CountMembers(communityName: string){
-        const communities = await this.prisma.community.findMany({
+        const community = await this.prisma.community.findFirst({
             where: {
                 communityName: communityName
             }
         })
-        if(!communities){
+        if(!community){
             throw new HttpException("Error finding communities", HttpStatus.BAD_REQUEST)
         }
 
         const membersCount = await this.prisma.member.count({
             where: {
-                communityId: {in: communities.map(c => c.id)},
+                communityId: community.id
             }
         })
 
         return membersCount
-
     }
 
     async UserEnterCommunity(userId: string, communityName: string){
@@ -223,7 +199,7 @@ export class CommunityService{
         }
 
         const check = await this.CheckUserBelongsCommunity(userId, community.id)
-            if(check){
+        if(check){
             throw new HttpException("The user allready is in the community", HttpStatus.BAD_REQUEST)
         }
 
@@ -231,6 +207,7 @@ export class CommunityService{
         if(!addresses){
             throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
         }
+
         try{
             const result = await this.prisma.$transaction(async (prisma) => {
                 await this.userCommunityService.CreateUserCommunity(userId, community.id)
@@ -241,7 +218,6 @@ export class CommunityService{
             this.prisma.handlePrismaError("Enter Community",error)
         }
     }
-
 
     async ExitCommunity(userid: string, communityName: string){
         const community = await this.prisma.community.findFirst({
@@ -269,22 +245,17 @@ export class CommunityService{
     }
 
     async CheckUserBelongsCommunity(userId: string, communityId: number){
-        try{
-            const userCommunity = await this.prisma.userCommunity.findFirst({
-                where:{
-                    userId: userId,
-                    communityId: communityId,
-                }
-            })
-            if(!userCommunity){
-                return false
+        const userCommunity = await this.prisma.userCommunity.findFirst({
+            where:{
+                userId: userId,
+                communityId: communityId,
             }
-            else{
-                return true
-            }
+        })
+        if(!userCommunity){
+            return false
         }
-        catch(error){
-            this.prisma.handlePrismaError("Check User",error)
+        else{
+            return true
         }
     }
 }

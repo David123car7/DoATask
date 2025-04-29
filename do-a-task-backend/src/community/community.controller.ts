@@ -12,7 +12,7 @@ export class CommunityController {
     @Post("createCommunity")
     @UseGuards(JwtAuthGuard)
     async createTask(@Body() dto: CreateCommunityDto, @Req() req: RequestWithUser ,@Res() res: Response) {
-      const task = await this.communityService.createCommunity(dto, req.user.sub);
+      await this.communityService.createCommunity(dto, req.user.sub);
       return res.json({ message: 'Communitie created'});
     }
 
