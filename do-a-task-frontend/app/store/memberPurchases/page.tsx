@@ -16,7 +16,7 @@ export default async function MemberPurchasesPage(){
         <div className="page">
             <HeaderWrapper/>
             <ShopNavBar/>
-            <h2 className={styles.title}>Historio de compras</h2>
+            <p className={styles.title}>Historico de compras</p>
             <main className={styles.main}>
                 <div className={styles.container}>
                     <div className={styles.table}>
@@ -27,8 +27,15 @@ export default async function MemberPurchasesPage(){
                             <p className={styles.values}>Data</p>
                             <p className={styles.values}>Comunidade</p>
                         </div>  
+
+                        <div className={styles.row}>
+                            <p className={styles.values}>Pau</p>
+                            <p className={styles.values}>15</p>
+                            <p className={styles.values}>16/05/2005 15:59</p>
+                            <p className={styles.values}>OsEstroncas</p>
+                        </div>
                         
-                        {purchasesValidated.purchases.length > 0 && (
+                        {/*{purchasesValidated.purchases.length > 0 && (
                             purchasesValidated.purchases.map((purchase, index) => {
                                 const community = purchasesValidated.communities[index];
                                 return (
@@ -37,10 +44,12 @@ export default async function MemberPurchasesPage(){
                                         <p className={styles.values}>{purchase.Item.price}</p>
                                         <p className={styles.values}>{purchase.date ? purchase.date.toLocaleDateString() : 'N/A'}</p>
                                         <p className={styles.values}>{community.communityName}</p>
+                                    
+
                                     </div>
                                 );
                             })
-                        )}
+                        )}*/}
                     </div>
                 </div>
             </main>
