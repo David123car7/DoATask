@@ -13,17 +13,17 @@ const itemSchema = z.object({
   price: z.number(),
   storeId: z.number().nullable(),
   stock: z.number(),
-  imagePath: z.string().nullable(),
+  imageId: z.number(),
   available: z.boolean()
 });
 
 const purchaseSchema = z.object({
+  Item: itemSchema,
   id: z.number(),
   date: z.coerce.date().nullable(), 
   totalPrice: z.number().nullable(),
   memberId: z.number(),
   itemId: z.number(),
-  Item: itemSchema,
 });
 
 export const getMemberPurchasesSchema = z.object({

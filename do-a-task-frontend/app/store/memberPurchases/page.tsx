@@ -9,8 +9,8 @@ import { getMemberPurchasesSchema } from "@/lib/schemas/store/get-member-purchas
 import ShopNavBar from "@/lib/components/layouts/shop/navbar/mainPage/nav.bar";
 export default async function MemberPurchasesPage(){
 
-    const purchases = await GetMemberPurchases();
-    const purchasesValidated = getMemberPurchasesSchema.parse(purchases)
+    const purchasess = await GetMemberPurchases();
+    const purchasesValidated = getMemberPurchasesSchema.parse(purchasess)
 
     return(
         <div className="page">
@@ -47,4 +47,5 @@ export default async function MemberPurchasesPage(){
             <Footer/>
         </div>
     );
+    
 }

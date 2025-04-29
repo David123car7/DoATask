@@ -26,7 +26,7 @@ export async function GetMemberPurchases() {
     }
 
     const data =  await response.json();
-    return {purchases: data.purchases, communities: data.communities}
+    return data
   } catch (error) {
     console.error('Error retrieving tasks:', error);
     throw error;
