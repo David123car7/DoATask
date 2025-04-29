@@ -33,7 +33,6 @@ export class NotificationsController {
     return await this.notificationsService.countNotifications(req.user.sub)
   }
 
-  
   @Post("setNotifications")
   @UseGuards(JwtAuthGuard)
   async setNotifications(@Req() req: RequestWithUser, @Res() res: Response){
