@@ -11,88 +11,40 @@ export class AddressService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
     async createAddress(dto: CreateAddressDto, userId: string){
+      
+        const address = await this.prisma.address.findFirst({
+            where:{
+                port: dto.port,
+                street: dto.street,
+                postalCode: dto.postalCode
+            }
+        })
+        if(address){
+            throw new HttpException("The address allready exist", HttpStatus.BAD_REQUEST)
+        }
+    
+        const locality = await this.prisma.locality.findFirst({
+            where:{
+                name: dto.locality
+            }
+        });
+        if(!locality){
+            throw new HttpException("The Locality does not exist", HttpStatus.BAD_REQUEST)
+        }
 
         try{
-            const searchAddress = await this.prisma.address.findFirst({
-                where:{
-                    port: dto.port,
-                    street: dto.street,
-                    postalCode: dto.postalCode
-                }
-            });
-            if(searchAddress){
-
-                const addAddress = await this.prisma.address.update({
-                    where:{
-                        id: searchAddress.id
-                    },
-                    data:{
-                        userId : userId
-                    }
-                })
-
-                return addAddress
-            };
-    
-            const locality = await this.prisma.locality.findFirst({
-                where:{
-                    name: dto.locality
-                }
-            });
-
-            if(!locality){
-                throw new HttpException("The Locality does not exist", HttpStatus.BAD_REQUEST)
-            }
-
             const createAddress = await this.prisma.address.create({
                 data:{
                     port: dto.port,
                     street: dto.street,
-                    postalCode: dto.postalCode
+                    postalCode: dto.postalCode,
+                    userId: userId,
                 }
             });
-
-            const addAddress = await this.prisma.address.update({
-                where:{
-                    id: createAddress.id
-                },
-                data:{
-                    userId : userId
-                }
-            })
-            return  addAddress;
-        }catch(error){
-            this.prisma.handlePrismaError("Create Address",error);
         }
-}
-
-
-    async updateAddress(dto: CreateAddressDto, addressId: number){
-         
-        const findAddress = await this.prisma.address.findFirst({
-            where:{
-                id: addressId 
-            }
-        });
-
-        if(!findAddress){
-            throw new Error("Morada Inválida");
-
-        }else{
-
-            const updateAddress = await this.prisma.address.update({
-                where:{
-                    id: addressId,
-                },
-                data:{
-                    port: dto.port,
-                    street: dto.street,
-                }
-            });
-
-            return updateAddress;
+        catch(error){
+            this.prisma.handlePrismaError("Create Adresses", error);
         }
-
     }
 
     async getAllAddresses(userId:string){
