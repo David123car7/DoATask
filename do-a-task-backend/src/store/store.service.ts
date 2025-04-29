@@ -394,4 +394,28 @@ export class StoreService {
 
         return itemsWithImages
     }
+
+    async userStoreExists(userId: string){
+
+         const community = await this.prisma.community.findFirst({
+            where:{
+                creatorId: userId
+            }
+         })
+
+        if(!community){
+            return false
+        }
+
+        const store = await this.prisma.store.findFirst({
+            where:{
+                communityId: community.id
+            }
+        })
+
+        if(!store){
+            return false
+        }
+        return true;
+    }
 }

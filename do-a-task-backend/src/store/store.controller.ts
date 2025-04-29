@@ -70,4 +70,11 @@ export class StoreController {
         const data = await this.storeService.getMemberShopItems(req.user.sub)
         return res.json(data);
     }
+
+    @Get("getUserStore")
+    @UseGuards(JwtAuthGuard)
+    async getUserStore(@Req() req: RequestWithUser, @Res() res: Response){
+        const data = await this.storeService.userStoreExists(req.user.sub)
+        return res.json(data);
+    }
 }

@@ -7,15 +7,16 @@ import { ExitCommunityButton } from "@/lib/components/layouts/community/exit.com
 import { GetMemberPurchases } from "@/lib/api/store/get-member-purchases";
 import { getMemberPurchasesSchema } from "@/lib/schemas/store/get-member-purchases-schema";
 import ShopNavBar from "@/lib/components/layouts/shop/navbar/mainPage/nav.bar";
+import { GetUserStores } from "@/lib/api/store/get-userStores";
 export default async function MemberPurchasesPage(){
 
     const purchasess = await GetMemberPurchases();
     const purchasesValidated = getMemberPurchasesSchema.parse(purchasess)
-
+    const UserStore = await GetUserStores();
     return(
         <div className="page">
             <HeaderWrapper/>
-            <ShopNavBar/>
+            <ShopNavBar UserStore={!!UserStore}/>
             <p className={styles.title}>Historico de compras</p>
             <main className={styles.main}>
                 <div className={styles.container}>
@@ -27,15 +28,8 @@ export default async function MemberPurchasesPage(){
                             <p className={styles.values}>Data</p>
                             <p className={styles.values}>Comunidade</p>
                         </div>  
-
-                        <div className={styles.row}>
-                            <p className={styles.values}>Pau</p>
-                            <p className={styles.values}>15</p>
-                            <p className={styles.values}>16/05/2005 15:59</p>
-                            <p className={styles.values}>OsEstroncas</p>
-                        </div>
-                        
-                        {/*{purchasesValidated.purchases.length > 0 && (
+            
+                        {purchasesValidated.purchases.length > 0 && (
                             purchasesValidated.purchases.map((purchase, index) => {
                                 const community = purchasesValidated.communities[index];
                                 return (
@@ -49,7 +43,7 @@ export default async function MemberPurchasesPage(){
                                     </div>
                                 );
                             })
-                        )}*/}
+                        )}
                     </div>
                 </div>
             </main>
