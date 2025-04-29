@@ -9,10 +9,6 @@ import { NotificationsService } from "../notifications/notifications.service";
 export class AuthService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private notifications: NotificationsService) {}
 
-    async testNotifications(userId: string, tittle: string, message: string){
-        const not = await this.notifications.sendNotification(userId, tittle, message)
-    }
-
     async signup(dto: AuthDtoSignup) {
         const email = dto.email;
         const password = dto.password;
@@ -25,10 +21,10 @@ export class AuthService{
             this.supabaseService.handleSupabaseError(error, "SignUp User")
         }
 
-            const result = await this.prisma.$transaction(async (prisma) => {
-                const contact = await prisma.contact.create({
-                    data: { number: dto.contactNumber },
-                });
+        const result = await this.prisma.$transaction(async (prisma) => {
+            const contact = await prisma.contact.create({
+                data: { number: dto.contactNumber },
+            });
               
             const user = await prisma.user.create({
                 data: {
@@ -44,7 +40,6 @@ export class AuthService{
         });
         
         return { message: "Signup successful", user: data.user };
-
     }
     
     async signIn(dto: AuthDtoSignin){
@@ -57,7 +52,6 @@ export class AuthService{
         });
 
         if (error) {
-            console.log("dwadaw")
             this.supabaseService.handleSupabaseError(error, "SignIn User");
         }
 
