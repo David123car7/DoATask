@@ -8,14 +8,13 @@ import { CancelTaskButton } from '../buttons/cancel.task.butto';
 export function UserTasks({ data }: { data: GetTasksMemberDoingSchema | null }) {
   return (
     <div className={styles.optionsContainer}>
-      <div>
-          <div className={styles.mainTitle}>Tarefas em progresso</div>
+       <div className={styles.title}>Tarefas em progresso</div>
+      <div className={styles.container}>
           <div className={styles.table}>
             <div className={styles.titles}>
               <p className={styles.values}>Título</p>
               <p className={styles.values}>Estado</p>
               <p className={styles.values}>Comunidade</p>
-              <p className={styles.values}>Ação</p>
             </div>
               {data && data.tasks.length > 0 ?  (
                 data.tasks.map((task, index) => {

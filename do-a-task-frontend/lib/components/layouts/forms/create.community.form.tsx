@@ -1,6 +1,7 @@
 'use client'; // Mark this as a Client Component
 
 import { useForm } from 'react-hook-form';
+import { use, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateCommunity } from '@/lib/api/communities/create.community';
 import styles from '@/app/community/create/page.module.css'
@@ -10,11 +11,27 @@ import Link from 'next/link';
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 import { CreateCommunitySchema, createCommunitySchema } from '@/lib/schemas/community/create-community-schema';
+import { GetLocalityUser } from '@/lib/api/locality/get-localityUser';
+import { useEffect } from 'react';
+
 
 export default function CreateCommunityForm() {
   const { register, handleSubmit, formState: { errors }} = useForm<CreateCommunitySchema>({resolver: zodResolver(createCommunitySchema)});
   const router = useRouter(); 
-  
+  const [locality, setLocality] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchLocality() {
+      try{
+        const response = await GetLocalityUser();
+        setLocality(response.locality);
+      }catch (error) {
+        console.error('Error fetching locality:', error);
+      }
+    }
+    fetchLocality();
+  }, []);
+
   const onSubmit = async (data: CreateCommunitySchema) => {
     try {
       const responseData = await CreateCommunity(data);
@@ -24,11 +41,11 @@ export default function CreateCommunityForm() {
       toast.error(error.message)
     }
   };
-  
+
   return (
-    <div className="page-auth">
-      <main>
-        <Toaster/>
+        <>
+        
+        <Toaster />
         <div className={styles.titleBox}>
           <div className={styles.mainTitle}>Criar Comunidades</div>
         </div>
@@ -41,17 +58,17 @@ export default function CreateCommunityForm() {
                   <input type="text" className={styles.input} {...register('communityName')} placeholder="Nome da comunidade"/>
                   {errors.communityName && <p className={styles.error_message}>{errors.communityName.message}</p>}
                 </div>
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Localidade</label>
-                  <input type="text" className={styles.input} {...register('location')} placeholder="Nome da localidade"/>
-                  {errors.location && <p className={styles.error_message}>{errors.location.message}</p>}
-                </div>
+                <select {...register('location')} disabled={locality.length == 0} className={styles.select}>
+                  <option value="">Selecione Uma Localidade</option>
+                  {locality.map((locality, index) => (
+                    <option key={index} value={locality.name}>{locality.name}</option>
+                  ))}
+                </select>
                 <button type="submit" className={styles.submitButton}>Submeter</button>
               </form>
             </div>
           </div>
         </div>
-      </main>
-    </div>
+        </>
   );
 }

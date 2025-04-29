@@ -11,6 +11,7 @@ import { HideItemButton } from "@/lib/components/layouts/shop/buttons/hide.item.
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { ShowItemButton } from "@/lib/components/layouts/shop/buttons/show.item.button";
 
+
 export default async function MemberShopPage(){
 
     const items = await GetMemberShopItems();
@@ -21,7 +22,7 @@ export default async function MemberShopPage(){
             <HeaderWrapper/>
             <Toaster/>
             <MyShopNavBar/>
-            <h2 className={styles.title}>Minha Loja</h2>
+            <p className={styles.title}>Minha Loja</p>
             <main className={styles.main}>
                 <div className={styles.container}>
                         <div className={styles.itemsGrid}>
@@ -47,7 +48,9 @@ export default async function MemberShopPage(){
                                     </div>
                                 ))
                             ):(
-                                <h1>A sua loja nao possui itens á venda</h1>
+                                <div className={styles.noInfo}>
+                                    <h1>A sua loja nao possui itens á venda</h1>
+                                </div>
                             )}         
                         </div>
                 </div>

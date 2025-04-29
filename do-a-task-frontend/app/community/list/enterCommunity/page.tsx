@@ -18,7 +18,7 @@ export default async function CommunitiesListPage(){
             <HeaderWrapper/>
             <Toaster/>
             <CommunityNavBar/>
-            <h2 className={styles.title}>As suas Notificações</h2>
+            <h2 className={styles.title}>Comunidades Perto De Si</h2>
             <main className={styles.main}>
                 <div className={styles.container}>
                     <div className={styles.table}>
@@ -37,7 +37,10 @@ export default async function CommunitiesListPage(){
                                         <p className={styles.values}>{community.communityName}</p>
                                         <p className={styles.values}>{community.Locality.name}</p>
                                         <p className={styles.values}>{memberCount}</p>
-                                        <EnterCommunityButton communityName={community.communityName} />
+                                    <div className={'${styles.values} ${styles.buttonBox}'}>
+                                        <EnterCommunityButton  communityName={community.communityName}/>
+                                    </div>
+                                        
                                     </div>
                                 );
                             })

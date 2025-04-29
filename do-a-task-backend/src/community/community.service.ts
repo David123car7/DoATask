@@ -258,4 +258,52 @@ export class CommunityService{
             return true
         }
     }
+
+    async GetLocalityUser(userId: string) {
+        
+        const user = await this.prisma.user.findFirst({
+          where: { id: userId }
+        });
+      
+        if (!user) {
+          throw new HttpException("User does not exist", HttpStatus.BAD_REQUEST);
+        }
+      
+        
+        const addresses = await this.prisma.address.findMany({
+          where: { userId }
+        });
+      
+        if (addresses.length === 0) {
+          throw new HttpException("User does not have any address", HttpStatus.BAD_REQUEST);
+        }
+      
+        
+        const allLocalities = await this.prisma.locality.findMany();
+      
+       
+        const matchingLocalities = new Set<number>(); 
+        const result: typeof allLocalities = [];
+      
+        
+        for (const address of addresses) {
+          if (!address.postalCode) continue; 
+      
+          const cleanedPostalCode = address.postalCode.replace(/\D/g, '');
+          const postalCode = parseInt(cleanedPostalCode);
+      
+          
+          for (const loc of allLocalities) {
+            const min = parseInt(loc.minPostalNumber.replace(/\D/g, '')); 
+            const max = parseInt(loc.maxPostalNumber.replace(/\D/g, ''));
+      
+            if (postalCode >= min && postalCode <= max && !matchingLocalities.has(loc.id)) {
+              matchingLocalities.add(loc.id); 
+              result.push(loc); 
+            }
+          }
+        }
+      
+        return result; 
+    }
 }

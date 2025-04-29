@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 import { ExitCommunity } from "@/lib/api/communities/exit.community";
+import styles from "./navbar/page.module.css"
 
 export function ExitCommunityButton({communityName} : {communityName: string}){
   const { register, handleSubmit} = useForm<EnterExitCommunitySchema>({resolver: zodResolver(enterExitCommunitySchema)});
@@ -20,12 +21,12 @@ export function ExitCommunityButton({communityName} : {communityName: string}){
   };
   
     return(
-        <>
+        <div className={styles.buttonBox}>
             <Toaster/>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.formButton}>
             <input type="hidden" value={communityName} {...register("communityName")} />  
-            <button type="submit">Sair</button>
+            <button type="submit" className={styles.button}>Sair</button>
             </form>
-        </>
+        </div>
     )
 }

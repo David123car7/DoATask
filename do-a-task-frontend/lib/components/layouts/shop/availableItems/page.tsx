@@ -13,7 +13,7 @@ import { HeaderShop } from "../../header/headerShop";
 import ShopNavBar from "../navbar/mainPage/nav.bar";
 import { Toaster } from "../../toaster/toaster";
 
-export function AvaiableItems({community, userData}: {community: GetNameCommunitySchemaArray | null, userData: UserDataSchema | null}){
+export function AvaiableItems({community, userData, UserStore}: {community: GetNameCommunitySchemaArray | null, userData: UserDataSchema | null, UserStore: true | false}){
     const [selectedCommunity, setSelectedCommunity] = useState('');
     const [selectMemberCoins, setMemberCoins] = useState<MemberCoinsSchema>({ memberCoins: { coins: 0 } });
     const [items, setItems] = useState<any[]>([]);
@@ -37,7 +37,7 @@ export function AvaiableItems({community, userData}: {community: GetNameCommunit
         <>
             <HeaderShop userData={userData} memberCoins={selectMemberCoins}></HeaderShop>
             <Toaster/>
-            <ShopNavBar/>
+            <ShopNavBar UserStore={UserStore} />
             <div className={styles.container}>
                 <select onChange={handleSelectChange}
                     className={styles.selectCustom}>

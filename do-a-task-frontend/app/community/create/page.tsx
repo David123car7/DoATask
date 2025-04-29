@@ -8,11 +8,14 @@ export default async function CreateCommunityPage() {
 
   
   return (
-    <>
+    <div className='page-auth'>
       <HeaderWrapper/>
-      <Toaster/>
-      <CreateCommunityForm/>
+      <main>
+        <Toaster/>
+        <CreateCommunityForm/>
+      </main>
+
       <Footer/>
-    </>
+    </div>
   );
 }
