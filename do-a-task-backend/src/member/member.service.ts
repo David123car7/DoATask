@@ -8,6 +8,15 @@ export class MemberService{
     constructor(private supabaseService: SupabaseService, private prisma: PrismaService) {}
 
     async createMember(userId: string, communityId: number){
+        const member = await this.prisma.member.findFirst({
+            where:{
+                userId: userId
+            }
+        })
+        if(member){
+            throw new HttpException("User is allready a member", HttpStatus.BAD_REQUEST)
+        }
+
         try{
             const result = await this.prisma.$transaction(async () => {
                 const member = await this.prisma.member.create({

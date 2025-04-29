@@ -15,7 +15,7 @@ export default async function MemberShopPage(){
 
     const items = await GetMemberShopItems();
     const itemsValidated = getItemSchemaArray.parse(items)
-
+    
     return(
         <div className="page">
             <HeaderWrapper/>
