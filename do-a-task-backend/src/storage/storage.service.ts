@@ -47,7 +47,7 @@ export class StorageService {
     async createBucket(bucketName:  string){
         const {data, error} = await this.supabaseService.getAdminClient().storage.createBucket(bucketName)
         if(error){
-            this.supabaseService.handleSupabaseError(error, "Upload Image")
+            this.supabaseService.handleSupabaseError(error, "Create Bucket")
         }
         return data
     }

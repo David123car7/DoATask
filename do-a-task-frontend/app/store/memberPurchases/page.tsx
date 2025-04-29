@@ -13,6 +13,7 @@ export default async function MemberPurchasesPage(){
     const purchasess = await GetMemberPurchases();
     const purchasesValidated = getMemberPurchasesSchema.parse(purchasess)
     const UserStore = await GetUserStores();
+    console.log("dDWADA", UserStore)
     return(
         <div className="page">
             <HeaderWrapper/>

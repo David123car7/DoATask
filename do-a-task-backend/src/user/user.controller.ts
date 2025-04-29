@@ -9,10 +9,10 @@ import {ChangeUserDataDto} from './dto/user.dto'
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
-  @Get('getUser')
+  @Get('getUserData')
   @UseGuards(JwtAuthGuard)
   async getUserData(@Req() req: RequestWithUser, @Res() res: Response) {
-    const userData = await this.userService.getUserData(req.user.email)
+    const userData = await this.userService.getUserData(req.user.sub)
     return res.json({ message: 'User was found', 
       user: {
         name: userData.user.name,
@@ -28,7 +28,7 @@ export class UserController {
   @Post("changeUserData")
   @UseGuards(JwtAuthGuard)
   async changeUserData(@Body() dto: ChangeUserDataDto, @Req() req: RequestWithUser, @Res() res: Response){
-    
+
     const userData = await this.userService.changeUserData(dto, req.user.sub)
     return res.json({ message: 'User updated'})
   }

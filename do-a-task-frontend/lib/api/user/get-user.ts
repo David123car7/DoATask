@@ -12,7 +12,7 @@ export async function GetUserData() {
         }
             
         // Send the data to the backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user/getUser`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user/getUserData`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',
