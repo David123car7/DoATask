@@ -37,9 +37,7 @@ export default async function MemberPurchasesPage(){
                                         <p className={styles.values}>{purchase.Item.name}</p>
                                         <p className={styles.values}>{purchase.Item.price}</p>
                                         <p className={styles.values}>{purchase.date ? purchase.date.toLocaleDateString() : 'N/A'}</p>
-                                        <p className={styles.values}>{community.communityName}</p>
-                                    
-
+                                        <p className={styles.values}>{community.communityName}</p>                                
                                     </div>
                                 );
                             })

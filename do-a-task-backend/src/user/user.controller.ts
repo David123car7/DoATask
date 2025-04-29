@@ -28,6 +28,7 @@ export class UserController {
   @Post("changeUserData")
   @UseGuards(JwtAuthGuard)
   async changeUserData(@Body() dto: ChangeUserDataDto, @Req() req: RequestWithUser, @Res() res: Response){
+    
     const userData = await this.userService.changeUserData(dto, req.user.sub)
     return res.json({ message: 'User updated'})
   }

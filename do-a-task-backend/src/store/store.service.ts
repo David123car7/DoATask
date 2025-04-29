@@ -20,21 +20,23 @@ export class StoreService {
         }
 
         try{
-            const img = await this.prisma.image.create({
-                data:{
-                    imagePath: `${userId}/${itemName}/${imageName}`
-                }
-            })
+            const result = await this.prisma.$transaction(async (prisma) => {
+                const img = await this.prisma.image.create({
+                    data:{
+                        imagePath: `${userId}/${itemName}/${imageName}`
+                    }
+                })
 
-            await this.prisma.item.create({
-                data:{
-                   name: itemName,
-                   price: itemPrice,
-                   storeId: store.id, 
-                   stock: stock,
-                   available: true,
-                   imageId: img.id
-                }
+                await this.prisma.item.create({
+                    data:{
+                    name: itemName,
+                    price: itemPrice,
+                    storeId: store.id, 
+                    stock: stock,
+                    available: true,
+                    imageId: img.id
+                    }
+                })
             })
         }
         catch(error){

@@ -9,7 +9,6 @@ import { getDefaultResultOrder } from "dns";
 export class LocalityService{
     constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
 
-
     async getLocalityDataById(localityId: number){
 
         const getData  = await this.prisma.locality.findUnique({
