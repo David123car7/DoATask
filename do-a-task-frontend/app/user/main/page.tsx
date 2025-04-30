@@ -24,8 +24,10 @@ export default async function UserMainPage() {
     const user = await GetUserData();
     const validatedData = userDataSchema.parse(user);
     
-    
+    console.log(validatedData.user.birthDate)
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
+    
+
     const data = await GetAllAddresses();
     const validatedAddresses = addressSchemaData.parse(data);
 
