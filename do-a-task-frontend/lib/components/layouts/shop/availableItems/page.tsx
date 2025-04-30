@@ -66,7 +66,7 @@ export function AvaiableItems({community, userData, UserStore}: {community: GetN
                             </div>
                         ))
                     ):(
-                        <h1>A loja nao possui itens á venda</h1>
+                        <h1></h1>
                     )}         
                 </div>
             </div>

@@ -49,7 +49,7 @@ export default async function MemberShopPage(){
                                 ))
                             ):(
                                 <div className={styles.noInfo}>
-                                    <h1>A sua loja nao possui itens á venda</h1>
+                                    <h1></h1>
                                 </div>
                             )}         
                         </div>
