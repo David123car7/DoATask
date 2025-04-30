@@ -41,7 +41,7 @@ export function AvaiableItems({community, userData, UserStore}: {community: GetN
             <div className={styles.container}>
                 <select onChange={handleSelectChange}
                     className={styles.selectCustom}>
-                    <option value=""></option>
+                    <option value="" disabled selected>Selecione Uma Comunidade</option>
                     {(community ??[]).map((c, index) => (
                         <option key={index} value={c.communityName}>
                             {c.communityName}

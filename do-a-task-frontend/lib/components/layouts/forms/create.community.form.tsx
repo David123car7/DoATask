@@ -44,10 +44,9 @@ export default function CreateCommunityForm() {
 
   return (
         <>
-        
         <Toaster />
         <div className={styles.titleBox}>
-          <div className={styles.mainTitle}>Criar Comunidades</div>
+          <div className={styles.title}>Criar Comunidades</div>
         </div>
         <div className={styles.container_form}>
           <div className={styles.formBox}>

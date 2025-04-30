@@ -22,7 +22,6 @@
 }
 
 .container_form {
-  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,18 +33,20 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 100%;
   gap: 20px;
+  height: 100vh;
 }
 
 /* Caixa de fundo do form */
 .formBox {
-  width: 100%;
-  max-width: auto;
+  min-width: 800px;
+  max-width: 1000px;
   height: auto;
   border-radius: 20px;
   padding: 50px;
-  background: linear-gradient(90deg, rgb(0, 174, 255) 0%, rgb(0, 68, 255) 100%);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: rgb(217,249,255);
+  background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
 }
 
 .form {
@@ -57,7 +58,7 @@
 
 .inputGroup {
   flex: 1;
-  min-width: 500px;
+  width: 100%;
 }
 
 .label {
