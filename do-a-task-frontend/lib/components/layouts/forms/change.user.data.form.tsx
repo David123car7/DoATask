@@ -19,7 +19,8 @@ export default function ChangeUserDataForm({ schemaForm }: { schemaForm: UserDat
       toast.error(error.message)
     }
   };
-  
+  const formattedBirthDate = schemaForm.user.birthDate.split('T')[0];
+
   return (
     <div className={styles.forms}>
       <Toaster />
@@ -36,7 +37,7 @@ export default function ChangeUserDataForm({ schemaForm }: { schemaForm: UserDat
           <div className={styles.inputGroup}>
             <label htmlFor="birthDate" className={styles.label}>Data de Nascimento</label>
             <div className={styles.inlineInput}>
-              <input type="date" defaultValue={schemaForm.user.birthDate} className={styles.input} {...register('birthDate')} placeholder=""/>
+              <input type="date" defaultValue={formattedBirthDate} className={styles.input} {...register('birthDate')} placeholder=""/>
               {errors.birthDate && <p className={styles.error_message}>{errors.birthDate.message}</p>}
             </div>
           </div>
