@@ -5,7 +5,7 @@ import { AssignTaskDto, CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "../lib/constants/tasks/tasks.constants";
 import { TASK_STATES } from "../lib/constants/tasks/tasks.constants";
 import { BUCKETS } from "../lib/constants/storage/buckets";
-import { NotificationsService } from "src/notifications/notifications.service";
+import { NotificationsService } from "../notifications/notifications.service";
 
 @Injectable({})
 export class TasksService{
