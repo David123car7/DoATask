@@ -179,7 +179,7 @@ a.secondary {
 }
 
   .letter {
-    font-size: 25px;
+    font-size: 24px;
     color: black;
     line-height: 1.2;
     margin-left: 3rem;
@@ -202,7 +202,17 @@ a.secondary {
     cursor: pointer;
     display: inline-block;
     margin: 1rem;
-}
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+  }
+
+  .buttons a:hover{
+    background: #222; 
+    transform: scale(1.05);
+  }
+
 
   .image{
     max-width: 100%;
@@ -260,8 +270,9 @@ a.secondary {
 
 /* === Container Principal === */
 .section {
+
   max-width: 900px;
-  margin: 0 auto;
+  margin: 4rem 0;
   padding: 40px 24px;
   font-family: sans-serif; /* Altere conforme sua fonte */
 }
@@ -319,3 +330,4 @@ a.secondary {
   text-align: center;
   padding-top: 1.5rem;
 }
+
