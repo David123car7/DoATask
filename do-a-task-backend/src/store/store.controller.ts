@@ -18,6 +18,9 @@ export class StoreController {
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor("image"))
     async createItem(@Body() dto: CreateItemDto, @UploadedFile() file: Express.Multer.File ,@Req() req: RequestWithUser, @Res() res: Response){
+        if(!file){
+            throw new HttpException("File is invalid", HttpStatus.BAD_REQUEST)
+        }
         await this.storeService.createItem(req.user.sub, dto.name, dto.price, dto.stock, file.originalname)
         await this.storageService.uploadImage(BUCKETS.ITEM_IMAGES, req.user.sub, dto.name, file)
         return res.json({ message: 'Item was created'});

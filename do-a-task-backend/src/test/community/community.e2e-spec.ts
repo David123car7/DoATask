@@ -3,11 +3,17 @@ import * as pactum from 'pactum';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../../supabase/supabase.service';
 
-// Test data constants
 const userDTO = {
   id: 'userID',
   name: 'userName',
   email: 'test@gmail.com',
+  password: '123456',
+};
+
+const user2DTO = {
+  id: 'user2ID',
+  name: 'user2Name',
+  email: 'test2@gmail.com',
   password: '123456',
 };
 const contactDTO = {
@@ -26,7 +32,9 @@ const communityDTO = {
 describe('Community API Integration with Pactum (E2E)', () => {
   let prisma: PrismaService;
   let supabase: SupabaseService;
-  let access_token: string;
+  let access_tokenUser1: string;
+  let access_tokenUser2: string;
+
 
   beforeAll(async () => {
     const app = await bootstrapE2E();
@@ -35,9 +43,17 @@ describe('Community API Integration with Pactum (E2E)', () => {
     prisma = app.get<PrismaService>(PrismaService);
     await prisma.cleanDatabase();
 
+    
+    const user1Response = await supabase.getPublicClient().auth.signUp({ email: userDTO.email, password: userDTO.password });
+    const user2Response = await supabase.getPublicClient().auth.signUp({ email: user2DTO.email, password: user2DTO.password });
+    access_tokenUser1 = user1Response.data.session.access_token;
+    access_tokenUser2 = user2Response.data.session.access_token;
+
     const contact = await prisma.contact.create({ data: { number: contactDTO.number } });
+    const contact2 = await prisma.contact.create({ data: { number: contactDTO.number } });
+
     await prisma.user.create({ data: {
-      id: userDTO.id,
+      id: user1Response.data.user.id,
       name: userDTO.name,
       email: userDTO.email,
       birthDate: new Date(),
@@ -46,10 +62,16 @@ describe('Community API Integration with Pactum (E2E)', () => {
       updatedAt: new Date(),
     }});
 
+    await prisma.user.create({ data: {
+      id: user2Response.data.user.id,
+      name: user2DTO.name,
+      email: user2DTO.email,
+      birthDate: new Date(),
+      contactId: contact2.id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }});
     await prisma.locality.create({ data: localityDTO });
-
-    const { data, error } = await supabase.getPublicClient().auth.signUp({ email: userDTO.email, password: userDTO.password });
-    access_token = data.session.access_token;
   });
 
   afterAll(async () => {
@@ -60,53 +82,37 @@ describe('Community API Integration with Pactum (E2E)', () => {
     it('should create a community', async () => {
       await pactum.spec()
         .post('/community/createCommunity')
-        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withHeaders('Authorization', `Bearer ${access_tokenUser1}`)
         .withJson(communityDTO)
         .expectStatus(201)
     });
 
-    it('should return 400 if user already has a community', async () => {
+    it('should not create a community if user already has a community', async () => {
       await pactum.spec()
         .post('/community/createCommunity')
-        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withHeaders('Authorization', `Bearer ${access_tokenUser1}`)
         .withJson(communityDTO)
         .expectStatus(400);
     });
 
-    it('should return 400 if community name exists', async () => {
-      // new user with no community
-      const newUser = await prisma.user.create({ data: {
-        id: 'user2', name: 'User2', email: 'test2@gmail.com', birthDate: new Date(), contactId: (await prisma.contact.create({ data: { number: '222333444' }})).id, createdAt: new Date(), updatedAt: new Date()
-      }});
-      // get fresh token
-      const { data, error } = await supabase.getPublicClient().auth.signUp({ email: 'test2@gmail.com', password: '123456' });
-      const token2 = data.session.access_token;
-
-      // first creation succeeds
+    it('should not create community if community name exists', async () => {
       await pactum.spec()
         .post('/community/createCommunity')
-        .withHeaders('Authorization', `Bearer ${token2}`)
-        .withJson(communityDTO)
-        .expectStatus(201);
-
-      // second creation with same name fails
-      await pactum.spec()
-        .post('/community/createCommunity')
-        .withHeaders('Authorization', `Bearer ${token2}`)
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
         .withJson(communityDTO)
         .expectStatus(400);
     });
 
-    it('should return 400 if location does not exist', async () => {
+    it('should not create a community if location does not exist', async () => {
       const badCommunity = { communityName: 'NewComm', location: 'NoWhere' };
       await pactum.spec()
         .post('/community/createCommunity')
-        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withHeaders('Authorization', `Bearer ${access_tokenUser1}`)
         .withJson(badCommunity)
         .expectStatus(400);
     });
 
-    it('should return 401 if unauthorized', async () => {
+    it('should not create a community if user is unauthorized', async () => {
       await pactum.spec()
         .post('/community/createCommunity')
         .withJson(communityDTO)
