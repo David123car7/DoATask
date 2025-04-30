@@ -45,12 +45,16 @@
   }
   
   .options li {
+    width: 100%;
     padding: 12px 16px;
     margin-bottom: 8px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1.5rem;
     transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    margin-left: 15rem;
   }
 
   .options li svg{
@@ -89,7 +93,8 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    background-color: rgb(45, 159, 235);
+    background: rgb(106,187,255);
+    background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
     border-bottom: 2px solid rgb(0, 0, 0);
     width: 100%;
     padding: 2rem;

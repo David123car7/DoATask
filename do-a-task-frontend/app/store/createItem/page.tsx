@@ -8,10 +8,10 @@ import Footer from "@/lib/components/layouts/footer/page";
 
 export default async function PublishTask() {
   return (
-    <>
+    <div className="page">
       <HeaderWrapper/>
       <CreateItemForm/>
       <Footer/>
-    </>
+    </div>
   );
 }
