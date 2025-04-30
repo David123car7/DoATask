@@ -23,7 +23,7 @@ export function DeleteTaskButton({taskId} : {taskId: number}){
   
     return(
         <>
-            <button className={style.buttonTask} onClick={onClick}>Eliminar</button>
+            <button className={style.button} onClick={onClick}>Eliminar</button>
         </>
     )
 }

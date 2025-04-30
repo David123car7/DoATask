@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 import { FinishTask } from "@/lib/api/tasks/finish.task";
-import { useRouter } from 'next/navigation';    
+import { useRouter } from 'next/navigation';   
+import styles from './page.module.css' 
 
 
 export function FinishTaskButton({memberTaskId} : {memberTaskId: number}){
@@ -25,7 +26,7 @@ export function FinishTaskButton({memberTaskId} : {memberTaskId: number}){
   
     return(
         <>
-            <button onClick={onClick}>Terminar</button>
+            <button className={styles.button} onClick={onClick} >Terminar</button>
         </>
     )
 }
