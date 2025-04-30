@@ -1,3 +1,4 @@
+
 "use server";
 
 import styles from './page.module.css';
@@ -14,7 +15,6 @@ export default async function Home() {
 
   const user = await GetUser();
   return (
-    
     <div className="page">
       {!user ?(
         <Header userData={null}/>
@@ -22,7 +22,9 @@ export default async function Home() {
         <HeaderWrapper/>
       )}
       
+
       <main>
+      {/* Hero Section */}
       <section className={styles.letter}>
         <p>Ajude a sua comunidade e seja recompensado! No DoaTask, pode publicar ou aceitar tarefas, desde apoiar vizinhos idosos até organizar eventos locais. Ao completar tarefas, ganha pontos e moedas que pode trocar por brindes ou bilhetes para eventos.</p>
         <ul className={styles.lis}>
