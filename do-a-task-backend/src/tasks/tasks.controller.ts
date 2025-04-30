@@ -82,8 +82,8 @@ export class TasksController {
     async evaluateTask(@Body() dto: EvaluateTaskDto, @Res() res: Response) {
       console.log("Score", dto.score)
       console.log("Id", dto.memberTaskId)
-        await this.tasksService.evaluateTask(dto.memberTaskId, dto.score);
-        await this.tasksService.assignBonus(dto.memberTaskId, dto.score)
-        return res.json({ message: 'Task was evaluated'});
+      await this.tasksService.evaluateTask(dto.memberTaskId, dto.score);
+      await this.tasksService.assignBonus(dto.memberTaskId, dto.score)
+      return res.json({ message: 'Task was evaluated'});
     }
 }

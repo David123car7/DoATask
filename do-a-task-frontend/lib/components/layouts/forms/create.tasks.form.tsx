@@ -44,7 +44,7 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
 
       const responseData = await CreateTask(formData);
       toast.success(responseData.message);
-      router.push(ROUTES.TASKS_CREATE);
+      router.push(ROUTES.TASKS_USER_CREATED_LIST);
     } catch (error: any) {
       toast.error(error.message);
     }

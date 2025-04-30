@@ -50,7 +50,6 @@ export function UserCreatedTasks({ taskMemberCreated }: { taskMemberCreated: Get
 
     return(
     <main className={styles.main}>
-        <Toaster/>
         <h2 className={styles.title}>As minhas tarefas</h2>
             <div className={styles.container}>
                 <div className={styles.table}>

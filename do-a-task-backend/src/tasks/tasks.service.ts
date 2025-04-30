@@ -5,10 +5,11 @@ import { AssignTaskDto, CreateTasksDto } from "./dto/tasks.dto";
 import { baseReward } from "../lib/constants/tasks/tasks.constants";
 import { TASK_STATES } from "../lib/constants/tasks/tasks.constants";
 import { BUCKETS } from "../lib/constants/storage/buckets";
+import { NotificationsService } from "src/notifications/notifications.service";
 
 @Injectable({})
 export class TasksService{
-    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService) {}
+    constructor(private readonly supabaseService: SupabaseService, private prisma: PrismaService, private notificationService: NotificationsService) {}
 
     async createTask(dto: CreateTasksDto, userId: string, imageName: string) {
         const reward = baseReward[dto.difficulty]
@@ -127,25 +128,42 @@ export class TasksService{
                         volunteerId: memberUser.id,
                     }
                 })
+                this.notificationService.sendNotification(member.userId, `Tarefa: ${task.title}`, `Tarefa ${task.title} foi aceite`)
             }
             catch(error){
                 this.prisma.handlePrismaError("Assign Task" ,error)
             }
+
     }
 
     async finishTask(memberTaskId: number){
         if(!memberTaskId)
             throw new HttpException("The memberTaskId is invalid", HttpStatus.BAD_REQUEST)
 
-        
-            const memberTask = await this.prisma.memberTask.findFirst({
-                where: {
-                    id: memberTaskId
-                }
-            })
-            if(!memberTask){
-                throw new HttpException("The memberTask does not exist", HttpStatus.BAD_REQUEST)
+        const memberTask = await this.prisma.memberTask.findFirst({
+            where: {
+                id: memberTaskId
             }
+        })
+        if(!memberTask){
+            throw new HttpException("The memberTask does not exist", HttpStatus.BAD_REQUEST)
+        }
+
+        const task = await this.prisma.task.findFirst({
+            where:{
+                id: memberTask.taskId
+            }
+        })
+
+        const creator = await this.prisma.member.findFirst({
+            where:{
+                id: task.creatorId
+            }
+        })
+        if(!creator){
+            throw new HttpException("The task has no creator", HttpStatus.BAD_REQUEST)
+        }
+
         try{
             await this.prisma.memberTask.update({
                 where: {
@@ -156,6 +174,7 @@ export class TasksService{
                     completedAt: new Date(), 
                 }
             })
+            this.notificationService.sendNotification(creator.userId, `Tarefa: ${task.title}`, `Tarefa ${task.title} foi terminada`)
         }
         catch(error){
             this.prisma.handlePrismaError("Finish Task" , error);
@@ -194,6 +213,12 @@ export class TasksService{
         if(!memberTask){
             throw new HttpException("No memberTask found with the id", HttpStatus.BAD_REQUEST)
         }
+
+        const task = await this.prisma.task.findFirst({
+            where:{
+                id: memberTask.taskId
+            }
+        })
 
         const member = await this.prisma.member.findFirst({
             where:{
@@ -236,6 +261,7 @@ export class TasksService{
                             },
                         },
                 });
+                this.notificationService.sendNotification(member.userId, `Tarefa: ${task.title}`, `Tarefa ${task.title} foi avaliada`)
             })
         }
         catch(error){
@@ -517,6 +543,16 @@ export class TasksService{
             throw new HttpException("The task is allready completed", HttpStatus.BAD_REQUEST)
         }
 
+        const creator = await this.prisma.member.findFirst({
+            where:{
+                id: task.creatorId
+            }
+        })
+        if(!creator){
+            throw new HttpException("The task has no creator", HttpStatus.BAD_REQUEST)
+        }
+
+
         try{
             const result = await this.prisma.$transaction(async () => {
                 await this.prisma.memberTask.update({
@@ -529,6 +565,7 @@ export class TasksService{
                         status: TASK_STATES.NOT_ACCEPTED,
                     }
                 })
+                this.notificationService.sendNotification(creator.userId, `Tarefa: ${task.title}`, `Tarefa ${task.title} foi cancelada`)
             })
         }
         catch(error){
