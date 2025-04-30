@@ -25,7 +25,7 @@ export async function GetLocalityUser() {
     if (!response.ok) {
       const errorData = await response.json();
       console.log('Backend Error:', errorData);
-      throw new Error(errorData.message || 'An unexpected error occurred');
+      return errorData.message;
     }
 
     // Await response.json() to actually resolve the JSON data

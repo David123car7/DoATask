@@ -57,9 +57,10 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
   ];
 
   return (
-    <div className="page">
+    <div className="page-auth">
       <main>
-        <div className={styles.formBox}>
+      <div className={styles.container}>
+      <div className={styles.formBox}>
           <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <div className={styles.inputGroup}>
@@ -116,7 +117,8 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
             </button>
           </form>
         </div>
+      </div>
       </main>
-    </div>
+      </div>
   );
 }
