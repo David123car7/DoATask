@@ -44,9 +44,9 @@ export default function CreateItemForm() {
   };
 
   return (
-    <div className="page">
-      <Toaster />
-      <main>
+         
+        <div className={styles.container}>
+          <Toaster />
         <div className={styles.formBox}>
           <h1 className={styles.mainTitle}>Criar Item</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -83,8 +83,7 @@ export default function CreateItemForm() {
             </button>
           </form>
         </div>
-      </main>
-    </div>
+        </div>
   );
 }
 

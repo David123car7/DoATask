@@ -35,15 +35,18 @@ export function AvaiableTasks({community }: {community: GetNameCommunitySchemaAr
     
     return(
         <div className={styles.container}>
-            <select onChange={handleSelectChange}
-                    className={styles.selectCustom}>
-                    <option value=""></option>
-                        {(community ??[]).map((c, index) => (
-                            <option key={index} value={c.communityName}>
-                            {c.communityName}
-                            </option>
-                        ))}      
-            </select>
+            <select
+                onChange={handleSelectChange}
+                className={styles.selectCustom}
+                value={selectedCommunity} 
+                >
+                <option value="" disabled>Selecione Uma Comunidade</option>
+                {(community ?? []).map((c, index) => (
+                    <option key={index} value={c.communityName}>
+                    {c.communityName}
+                    </option>
+                ))}
+                </select>
             <div className={styles.taskGrid}>
             
             {tasks.length > 0 ?(
@@ -68,7 +71,7 @@ export function AvaiableTasks({community }: {community: GetNameCommunitySchemaAr
                 ))
                 
             ):(
-                <h1>Sem tarefas</h1>
+                <h1></h1>
             )}    
             </div>
         </div>

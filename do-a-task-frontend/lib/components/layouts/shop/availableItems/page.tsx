@@ -39,14 +39,17 @@ export function AvaiableItems({community, userData, UserStore}: {community: GetN
             <Toaster/>
             <ShopNavBar UserStore={UserStore} />
             <div className={styles.container}>
-                <select onChange={handleSelectChange}
-                    className={styles.selectCustom}>
-                    <option value="" disabled selected>Selecione Uma Comunidade</option>
-                    {(community ??[]).map((c, index) => (
-                        <option key={index} value={c.communityName}>
-                            {c.communityName}
-                        </option>
-                    ))}      
+            <select
+                onChange={handleSelectChange}
+                className={styles.selectCustom}
+                value={selectedCommunity} 
+                >
+                <option value="" disabled>Selecione Uma Comunidade</option>
+                {(community ?? []).map((c, index) => (
+                    <option key={index} value={c.communityName}>
+                    {c.communityName}
+                    </option>
+                ))}
                 </select>
                 <div className={styles.itemsGrid}>
                     {items.length > 0 ?(
