@@ -11,6 +11,7 @@ export class RankController {
     constructor(private rankService: RankService) {}
 
     @Get('getRankByCommunity')
+    @UseGuards(JwtAuthGuard)
     async GetRankCommunity(@Query('communityName') communityName: string,@Res() res: Response) {
       console.log('Received communityName in backend:', communityName); 
       if (!communityName) {

@@ -1,10 +1,9 @@
 import { bootstrapE2E, closeE2E } from '../bootstrap';
-import * as pactum from 'pactum';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../../supabase/supabase.service';
+import * as pactum from 'pactum';
 import { join } from 'path';
 
-// Test data constants
 const userDTO = {
   name: 'UserName',
   email: 'test@gmail.com',
@@ -22,7 +21,9 @@ const communityDTO = {
   communityName: 'TestCommunity',
 };
 
-describe('Tasks API Integration with Pactum (E2E)', () => {
+const itemDTO = { name: 'ItemA', price: "10", stock: "5" };
+
+describe('Store API Integration with Pactum (E2E)', () => {
   let prisma: PrismaService;
   let supabase: SupabaseService;
   let access_token: string;
@@ -39,7 +40,7 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
     await closeE2E();
   });
 
-  describe('POST /tasks/createTask', () => {
+  describe('POST /store/createItem', () => {
     beforeAll(async () => {
       const { data, error } = await supabase.getPublicClient().auth.signUp({ email: userDTO.email, password: userDTO.password });
       access_token = data.session.access_token;
@@ -68,6 +69,8 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
         creatorId: data.user.id,
       }});
 
+      const store = await prisma.store.create({data:{communityId: com.id}})
+
       await prisma.member.create({ data: {
         userId: data.user.id,
         communityId: com.id,
@@ -75,59 +78,42 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
       }});
     });
 
-    it('should create a task with image upload', async () => {
+    it('should create an item with image upload', async () => {
       const imagePath = join(__dirname, '../images/testImage.png');
 
       await pactum.spec()
-        .post('/tasks/createTask')
+        .post('/store/createItem')
         .withHeaders('Authorization', `Bearer ${access_token}`)
         .withFile('image', imagePath)
-        .withMultiPartFormData('tittle', 'Pactum Task')
-        .withMultiPartFormData('description', 'Integration test')
-        .withMultiPartFormData('difficulty', '3')
-        .withMultiPartFormData('location', localityDTO.name)
-        .withMultiPartFormData('communityName', communityDTO.communityName)
-        .expectStatus(201);
+        .withMultiPartFormData('name', itemDTO.name)
+        .withMultiPartFormData('price', itemDTO.price)
+        .withMultiPartFormData('stock', itemDTO.stock)
+        .expectStatus(201)
+        .expectJson({ message: 'Item was created' });
     });
 
-    it('should not create task if community does not exist', async () => {
+    it('should not create the item if item allready exists', async () => {
       const imagePath = join(__dirname, '../images/testImage.png');
 
       await pactum.spec()
-        .post('/tasks/createTask')
+        .post('/store/createItem')
         .withHeaders('Authorization', `Bearer ${access_token}`)
-        .withFile('file', imagePath)
-        .withMultiPartFormData('tittle', 'Another Task')
-        .withMultiPartFormData('description', 'Integration test')
-        .withMultiPartFormData('difficulty', '3')
-        .withMultiPartFormData('location', localityDTO.name)
-        .withMultiPartFormData('communityName', 'NonExistent')
+        .withFile('image', imagePath)
+        .withMultiPartFormData('name', itemDTO.name)
+        .withMultiPartFormData('price', itemDTO.price)
+        .withMultiPartFormData('stock', itemDTO.stock)
         .expectStatus(400);
     });
 
-    it('should not create task if file missing', async () => {
-      await pactum.spec()
-        .post('/tasks/createTask')
-        .withHeaders('Authorization', `Bearer ${access_token}`)
-        .withMultiPartFormData('tittle', 'No File Task')
-        .withMultiPartFormData('description', 'No file provided')
-        .withMultiPartFormData('difficulty', '2')
-        .withMultiPartFormData('location', localityDTO.name)
-        .withMultiPartFormData('communityName', communityDTO.communityName)
-        .expectStatus(400);
-    });
-
-    it('should not create task if user unauthorized', async () => {
+    it('should not create item if unauthorized', async () => {
       const imagePath = join(__dirname, '../images/testImage.png');
 
       await pactum.spec()
-        .post('/tasks/createTask')
-        .withFile('file', imagePath)
-        .withMultiPartFormData('tittle', 'Task')
-        .withMultiPartFormData('description', 'Integration unauthorized')
-        .withMultiPartFormData('difficulty', '1')
-        .withMultiPartFormData('location', localityDTO.name)
-        .withMultiPartFormData('communityName', communityDTO.communityName)
+        .post('/store/createItem')
+        .withFile('image', imagePath)
+        .withMultiPartFormData('name', itemDTO.name)
+        .withMultiPartFormData('price', itemDTO.price)
+        .withMultiPartFormData('stock', itemDTO.stock)
         .expectStatus(401);
     });
   });
