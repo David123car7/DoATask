@@ -96,25 +96,30 @@
 
 
 .row {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 1fr; /* Adjust ratios as needed */
+    align-items: center;
     padding: 12px 16px;
     background-color: white;
     border-bottom: 1px solid rgb(204, 204, 204);
-    justify-content: center;
-    align-items: center;
-  }
+    text-align: center;
+    width: 100%;
+}
+
+.titles, .row {
+    grid-template-columns: minmax(150px, 2fr) minmax(200px, 3fr) minmax(150px, 2fr) minmax(100px, 1fr);
+}
 
 
-.button{
-    background-color: #f3f4f6; 
-    color: #111827;
-    font-size: 1.2rem;;  
-    padding: 5px;
-    cursor: pointer;       
-    transition: all 0.2s; 
+.button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    color: white;
+    background-color: rgb(93, 120, 243);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 

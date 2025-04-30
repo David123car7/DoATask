@@ -6,9 +6,9 @@ import { useForm } from "react-hook-form";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from 'react-toastify';
 import { AssignTask } from "@/lib/api/tasks/assign.task";
-import style from "@/lib/components/layouts/tasks/availableTasks/page.module.css"
 import { useRouter } from 'next/navigation';
 import { ROUTES } from "@/lib/constants/routes";
+import style from './page.module.css'
 
 export function AssignTaskButton({taskId} : {taskId: number}){
   const {handleSubmit} = useForm<any>()
@@ -27,7 +27,7 @@ export function AssignTaskButton({taskId} : {taskId: number}){
   
     return(
         <>
-            <button className={style.buttonTask} onClick={onClick}>
+            <button className={style.button} onClick={onClick}>
               Aceitar Tarefa
             </button>
         </>

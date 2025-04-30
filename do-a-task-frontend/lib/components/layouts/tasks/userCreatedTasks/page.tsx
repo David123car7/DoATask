@@ -70,8 +70,9 @@ export function UserCreatedTasks({ taskMemberCreated }: { taskMemberCreated: Get
                             const memberTask = taskMemberCreated.memberTasks[index]
                             //const community = taskMemberCreated.community[index]
                             return(
-                                <div className={styles.container}>
-                                <div className={styles.row} key={index}>
+                                <div className={styles.container} key={index}>
+                                
+                                <div className={styles.row}>
                                     <p className={styles.values}>{task.title}</p>
                                     <p className={styles.values}>{task.description}</p>
                                     <p className={styles.values}>{memberTask.status}</p>
