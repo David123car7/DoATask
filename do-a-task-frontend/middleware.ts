@@ -9,29 +9,9 @@ import { AUTH_COOKIES } from './lib/constants/auth/cookies';
 
 export async function middleware(request: NextRequest) {
   const accessToken = await getCookie(AUTH_COOKIES.ACCESS_TOKEN);
-  const refreshToken = await getCookie(AUTH_COOKIES.REFRESH_TOKEN);
   const isProtectedRoute = PROTECTED_ROUTES.has(request.nextUrl.pathname);
   console.log('Access Token:', accessToken); 
-  console.log('Refresh Token:', refreshToken); 
   console.log('isProtectedRoute:', isProtectedRoute);
-
-  if(!accessToken && refreshToken) {
-    try{
-      const data = await refreshSession(refreshToken);
-      if (!data.state) {
-        console.error('No session returned from refreshSession');
-        await deleteAuthCookie(AUTH_COOKIES.ACCESS_TOKEN);
-        await deleteAuthCookie(AUTH_COOKIES.REFRESH_TOKEN);
-        return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
-      }
-      await setAccessCookie(data.session.access_token);
-      await setRefreshCookie(data.session.refresh_token);
-      return NextResponse.redirect(request.nextUrl);
-    }
-    catch (error) {
-      throw new Error(typeof error === 'string' ? error : 'An unknown error occurred');
-    }
-  }
 
   if(isProtectedRoute) { 
     if (!accessToken) {
@@ -42,8 +22,10 @@ export async function middleware(request: NextRequest) {
     if (verification.valid === true) {
       return NextResponse.next();
     }
-    else
+    else{
+      await deleteAuthCookie(AUTH_COOKIES.ACCESS_TOKEN)
       return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
+    }
   }
   return NextResponse.next();
 }

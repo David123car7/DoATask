@@ -34,7 +34,6 @@ export class AuthController{
     {
       const data = await this.authService.signIn(dto);
       await this.setCookies.setAuthCookie(res, data.session.access_token);
-      await this.setCookies.setRefreshCookie(res, data.session.refresh_token);
       return res.json({ message: 'Signin successful', user: data.user, session: data.session});
     }
 
@@ -68,6 +67,7 @@ export class AuthController{
     @UseGuards(JwtAuthGuard)
     async logout(@Res() res: Response) {
       await this.authService.signout();
+      this.deleteCookies.deleteCookie(res, AUTH_COOKIES.ACCESS_TOKEN)
       return res.json({ message: 'Logged out successfully' });
     }
 

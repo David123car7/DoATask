@@ -24,6 +24,7 @@ export async function SignoutUser() {
             throw new Error(errorData.message || 'An unexpected error occurred');
         }
 
+        deleteAuthCookie(access_token)
         return response.json();
     } catch (error) {
       console.error('Error signing up:', error);
