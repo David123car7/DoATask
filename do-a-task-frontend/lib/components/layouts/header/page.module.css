@@ -1,53 +1,47 @@
-.loginBox{
-    width: 60px;
-    height: 40px;
-    background-color:black;
-    color: white;
-    padding: 3px;
-    border-radius: 8px;
-    text-align: center;
-    line-height: 35px;    
-}
-
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10x 40px;
+.header {
     background-color: #fdfdfd;
     color: black;
     height: 130px;
-    font-family: sans-serif;
-}
-
-.logo_title{
-    margin-left: 40px;
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 👈 spread it out */
+  }
+  
+  .headerContent {
+    display: flex;
+    justify-content: space-between; /* 👈 push logo and nav apart */
+    align-items: center;
+    width: 100%;
+  }
+  
+  
+  .logo_container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .logo_image {
+    width: 100px;
+    height: auto;
+  }
+  
+  .logo_title {
     font-size: 60px;
     font-weight: bold;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
-.nav{
+  }
+  
+  .nav {
     margin-right: 20px;
-}
-
-.nav ul{
+  }
+  
+  .navList {
     list-style-type: none;
     padding: 0;
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    gap: 20px;
     align-items: center;
-    font-size: 13px
-}
+  }
   
-.nav ul li{
-    display: inline;
-    color: black;
-    font-size: 20;
-}
-  
-.nav ul li a{
-    text-decoration: none;
-    color: black; 
-}

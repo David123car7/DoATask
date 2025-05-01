@@ -14,9 +14,14 @@ import { MemberCoinsSchema } from "@/lib/schemas/member/get.member.coins.schema"
 export function HeaderShop({userData, memberCoins}: {userData: UserDataSchema | null, memberCoins: MemberCoinsSchema | null}) {
   return (
     <header className={styles.header}>
-      <div>
-        <h1 className={styles.logo_title}>DOATASK</h1>
-      </div>
+      <div className={styles.logo_container}>
+          <img 
+            src="/assets/notext.png" 
+            alt="DOATASK logo" 
+            className={styles.logo_image}
+          />
+          <h1 className={styles.logo_title}>DOATASK</h1>
+        </div>
       <nav className={styles.nav}>
         <ul>
         <li><a href={ROUTES.HOME}><FaHome size={28}></FaHome></a></li>
