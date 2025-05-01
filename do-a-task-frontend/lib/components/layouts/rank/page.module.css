@@ -16,11 +16,11 @@
 .title_rank h1 {
     font-size: 70px;
     margin-bottom: 0.5rem;
-    color: #ffffff;
+    color: #000000;
 }
 
 .title_rank p {
-    color: #5f5f5f;
+    color: #3f3e3e;
     font-size: 16px;
     font-weight: normal;
 }
@@ -58,6 +58,7 @@
 
 .ranking_table th {
     background-color: #f2f2f2;
+    color : #000000;
     font-weight: bold;
 }
 
@@ -94,7 +95,6 @@
 }
 
 
-
 .update_notice {
     text-align: center;
     margin-top: 20px;
@@ -126,6 +126,9 @@
     text-align: start;
 }
 
+.text_black {
+    color: black;
+}
 
 .container_main {
     position: relative;

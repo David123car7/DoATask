@@ -74,7 +74,7 @@ export function ShowRank({community} : {community: GetNameCommunitySchemaArray |
                 ))
                 ) : (
                 <tr>
-                    <td colSpan={3}>Sem Membros</td>
+                    <td className={styles.text_black}colSpan={3}>Sem Membros</td>
                 </tr>
                 )}
             </tbody>
