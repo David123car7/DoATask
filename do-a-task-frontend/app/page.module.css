@@ -187,6 +187,17 @@ a.secondary {
     padding-top: 1rem;
   }
 
+  .letter2{
+    font-size: 24px;
+    color: black;
+    line-height: 1.2;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
   .lis{
     font-size: 25px;
     color: black;
@@ -250,19 +261,9 @@ a.secondary {
     margin: 0 3rem;         /* Margem nas laterais */
     padding-top: 1rem;
     line-height: 1.2;
+    justify-content: center; /* Centraliza o conteúdo */
   }
-  
-  .textContent {
-    flex: 1;                /* Ocupa o espaço disponível */
-  }
-  
-  .advantage {
-    margin-bottom: 1.5rem;
-  }
-  
-  .advantage h4 {
-    margin-bottom: 0.5rem;
-  }
+
   
   .imageContainer {
     flex-shrink: 0;         /* Evita que a imagem diminua */
@@ -287,6 +288,7 @@ a.secondary {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   border-radius: 1px solid black;
+  margin: 0 1rem; /* Margem nas laterais */
 }
 
 /* Citação (texto principal) */
