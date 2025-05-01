@@ -60,8 +60,8 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
               </div>
             )}
           </div>
-          {/* Navigation options */}
-          <ul className={styles.options}>
+          {userData && (
+            <ul className={styles.options}>
             <li>
              <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>  <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
             </li>
@@ -75,6 +75,7 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
               <a href={ROUTES.SHOPS}><TiShoppingCart size={26}/></a> <a href={ROUTES.SHOPS}>Loja</a>
             </li>
           </ul>
+          )}
           {userData ? (
           <div className={styles.logoutBox}>
             <a href={API_ROUTES.SIGNOUT}>Terminar Sessao</a>
