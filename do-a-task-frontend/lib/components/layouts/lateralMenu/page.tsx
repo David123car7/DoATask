@@ -63,16 +63,16 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
           {/* Navigation options */}
           <ul className={styles.options}>
             <li>
-              <FaRegUserCircle size={26}/> <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
+             <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>  <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
             </li>
             <li>
-              <FaTasks size={26}/><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
+              <a href={ROUTES.TASKS_USER_CREATED_LIST}><FaTasks size={26}/></a><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
             </li>
             <li>
-              <RiUserCommunityFill size={26}/> <a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
+              <a href={ROUTES.USER_COMMUNITY}><RiUserCommunityFill size={26}/></a> <a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
             </li>
             <li>
-              <TiShoppingCart size={26}/> <a href={ROUTES.SHOPS}>Loja</a>
+              <a href={ROUTES.SHOPS}><TiShoppingCart size={26}/></a> <a href={ROUTES.SHOPS}>Loja</a>
             </li>
           </ul>
           {userData ? (
