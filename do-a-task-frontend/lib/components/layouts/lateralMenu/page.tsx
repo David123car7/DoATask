@@ -63,13 +63,13 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
           {userData && (
             <ul className={styles.options}>
             <li>
-             <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>  <a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
+             <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a><a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
             </li>
             <li>
               <a href={ROUTES.TASKS_USER_CREATED_LIST}><FaTasks size={26}/></a><a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas</a>
             </li>
             <li>
-              <a href={ROUTES.USER_COMMUNITY}><RiUserCommunityFill size={26}/></a> <a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
+              <a href={ROUTES.USER_COMMUNITY}><RiUserCommunityFill size={26}/></a><a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
             </li>
             <li>
               <a href={ROUTES.SHOPS}><TiShoppingCart size={26}/></a> <a href={ROUTES.SHOPS}>Loja</a>
