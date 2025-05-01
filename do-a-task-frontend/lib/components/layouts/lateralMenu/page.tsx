@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { useRouter } from 'next/navigation';
 import { ROUTES, API_ROUTES} from "@/lib/constants/routes";
-import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart} from "@/lib/icons"
+import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart, PiRankingLight} from "@/lib/icons"
 
 export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,6 +70,9 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
             </li>
             <li>
               <a href={ROUTES.USER_COMMUNITY}><RiUserCommunityFill size={26}/></a><a href={ROUTES.USER_COMMUNITY}>Comunidades</a>
+            </li>
+            <li>
+              <a href={ROUTES.USER_COMMUNITY}><PiRankingLight size={26}/></a><a href={ROUTES.RANKS}>Ranks</a>
             </li>
             <li>
               <a href={ROUTES.SHOPS}><TiShoppingCart size={26}/></a> <a href={ROUTES.SHOPS}>Loja</a>
