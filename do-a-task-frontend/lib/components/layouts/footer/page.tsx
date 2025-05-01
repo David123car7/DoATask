@@ -9,14 +9,6 @@ export default function Footer() {
             <p>DOATASK</p>
             <div className={styles.footerlogo}>
                 <nav className={styles.footerNav}>
-                <ul>
-                    <li>
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    <Image src="/assets/linkdinlogo.png" alt="Logo" width={30} height={30} />
-                    </li>
-                </ul>
                 </nav>
             </div>
             </div>

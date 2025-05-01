@@ -269,23 +269,20 @@ export class CommunityService{
           throw new HttpException("User does not exist", HttpStatus.BAD_REQUEST);
         }
       
-        
+        const result: typeof allLocalities = [];
+
         const addresses = await this.prisma.address.findMany({
           where: { userId }
         });
-      
         if (addresses.length === 0) {
-          throw new HttpException("User does not have any address", HttpStatus.BAD_REQUEST);
+          return result
         }
       
-        
         const allLocalities = await this.prisma.locality.findMany();
       
-       
         const matchingLocalities = new Set<number>(); 
-        const result: typeof allLocalities = [];
       
-        
+    
         for (const address of addresses) {
           if (!address.postalCode) continue; 
       

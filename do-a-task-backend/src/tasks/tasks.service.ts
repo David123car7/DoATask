@@ -88,6 +88,11 @@ export class TasksService{
                 throw new HttpException("The task has no creator", HttpStatus.BAD_REQUEST)
             }
 
+            if(member.userId == userId){
+                throw new HttpException("The task creator cant accept the task", HttpStatus.BAD_REQUEST)
+
+            }
+
             const community = await this.prisma.community.findFirst({
                 where:{
                     id: member.communityId
@@ -551,7 +556,6 @@ export class TasksService{
         if(!creator){
             throw new HttpException("The task has no creator", HttpStatus.BAD_REQUEST)
         }
-
 
         try{
             const result = await this.prisma.$transaction(async () => {

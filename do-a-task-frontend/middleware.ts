@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
   if(isProtectedRoute) { 
     if (!accessToken) {
-      return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
+      return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
     }
 
     const verification = await verifySession(accessToken);
@@ -23,7 +23,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     else{
-      await deleteAuthCookie(AUTH_COOKIES.ACCESS_TOKEN)
       return NextResponse.redirect(new URL(ROUTES.SIGNIN, request.url));
     }
   }

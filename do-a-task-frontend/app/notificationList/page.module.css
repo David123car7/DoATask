@@ -6,11 +6,11 @@
     gap: 20px; 
 }
 .title {
-    position: absolute;
-    top: 9%; 
-    left: 50%;
-    transform: translateX(-50%); 
-    font-size: 24px;
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: black;
+    margin-top: 8rem;
 }
 
 .container {
@@ -23,7 +23,7 @@
     flex-direction: column;
     border: 2px solid rgb(204, 204, 204);
     border-radius: 8px; 
-    width: 100%;
+    width: 40%;
     margin: 5rem; 
 }
 

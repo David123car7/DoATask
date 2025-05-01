@@ -22,14 +22,12 @@ export default async function NotificationList(){
                         <div className={styles.titles}>
                             <p className={styles.values}>Mensagem</p>
                             <p className={styles.values}>Recebida Ás</p>
-                            <p className={styles.values}>Lida Ás</p>
                         </div>  
                         
                         {notifications.length > 0 && (
                             notifications.map((notification, index) => (
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{notification.message}</p>
-                                    <p className={styles.values}>{notification.createdAt}</p>
                                     <p className={styles.values}>{notification.createdAt}</p>
                                 </div>
                             ))
