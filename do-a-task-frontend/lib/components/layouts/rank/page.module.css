@@ -165,13 +165,15 @@
     font-weight: bold;
   }
 
- .selectCustom {
-    position: relative;
+  .selectCustom {
     text-align: center;
-    top: 0%;
-    left:2%;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    height: auto;
+    margin-top: 15px;
+    margin-left: 25px;
+    min-width: 350px;
+    width: 500px;
+    border-radius: 5px;
+    border: 2px solid black;
     padding: 1.5rem;
     font-size: 1.5rem;
     font-weight: bold;
@@ -180,4 +182,5 @@
     cursor: pointer; 
     text-transform: uppercase;
     color: black;
+    background-color: white;
 }
