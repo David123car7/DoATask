@@ -57,7 +57,7 @@ export function AvaiableTasks({community }: {community: GetNameCommunitySchemaAr
                     </div>
                     <div className={styles.title}>{tasks.title}</div>
                     <p className={styles.description}><strong>Descrição: </strong>{tasks.description}</p>
-                    <p className={styles.location}><strong>Morada: </strong><FaLocationPin/> {tasks.location}</p>
+                    <p className={styles.location}><strong>Localização: </strong>{tasks.location}</p>
                         <p className={styles.description}><strong>Dificuldade: </strong> {tasks.difficulty}</p>
                         <div className={styles.difficulty}>Recompensas:
                         <p>- {tasks.coins}Moedas</p>

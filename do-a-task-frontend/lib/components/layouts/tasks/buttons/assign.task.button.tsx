@@ -27,7 +27,7 @@ export function AssignTaskButton({taskId} : {taskId: number}){
   
     return(
         <>
-            <button className={style.button} onClick={onClick}>
+            <button className={style.button3} onClick={onClick}>
               Aceitar Tarefa
             </button>
         </>

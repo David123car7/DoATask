@@ -28,7 +28,7 @@ export class TasksController {
     }
 
     @Get('getTasksByCommunity')
-    async GetTasksMemberCommunity(@Query('communityName') communityName: string,@Req() req,@Res() res: Response) {
+    async GetTasksMemberCommunity(@Query('communityName') communityName: string, @Res() res: Response) {
       console.log('Received communityName in backend:', communityName); 
       if (!communityName) {
         throw new HttpException("Community name is required", HttpStatus.BAD_REQUEST)
