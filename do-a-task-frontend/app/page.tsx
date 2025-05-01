@@ -110,10 +110,10 @@ export default async function Home() {
       <div className={styles.space}></div>
 
       {/* Testimonials */}
+      <h2 className={styles.letter}>Experiências...</h2>
       <section className={styles.section}>
-        <h2 className={styles.letter}>Experiências...</h2>
         
-        <div className={styles.container3}>
+        
           {/* Citação 1 */}
           <div className={styles.box}>
             <p className={styles.quote}>"Adorei ajudar e receber por isso"</p>
@@ -134,7 +134,7 @@ export default async function Home() {
             <p className={styles.author}>Ricardo</p>
             <p className={styles.details}>DoAtask User</p>
           </div>
-        </div>
+     
       </section>
 
       <div className={styles.space}></div>
