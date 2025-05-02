@@ -40,10 +40,10 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
               </>
             )}
             <li>
-              <Menu userData={userData} />
+              <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>
             </li>
             <li>
-              <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a><a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
+              <Menu userData={userData} />
             </li>
           </ul>
         </nav>

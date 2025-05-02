@@ -146,8 +146,8 @@ export default async function Home() {
         <div className={styles.content}>
           <h2>Participa!</h2>
             <div className={styles.buttons}>
-              <a href={ROUTES.HOME}>Realiza uma tarefa</a>
-              <a href={ROUTES.HOME}>Cria uma tarefa!</a>
+              <a href={ROUTES.TASKS_AVAILABLE}>Realiza uma tarefa</a>
+              <a href={ROUTES.TASKS_CREATE}>Cria uma tarefa!</a>
             </div>
           </div>
       </section>
