@@ -21,7 +21,7 @@ describe('CommunityService', () => {
     } as any,
     locality: { findFirst: jest.fn() } as any,
     userCommunity: { findMany: jest.fn(), findFirst: jest.fn() } as any,
-    member: { findMany: jest.fn(), count: jest.fn(), findFirst: jest.fn()} as any,
+    member: { findMany: jest.fn(), count: jest.fn() } as any,
     $transaction: jest.fn(),
     handlePrismaError: jest.fn().mockImplementation((ctx, err) => { throw err; }),
   } as any;
@@ -75,7 +75,6 @@ describe('CommunityService', () => {
       (mockPrisma.community!.findMany as jest.Mock).mockResolvedValue([]);
       (mockPrisma.community!.findFirst as jest.Mock).mockResolvedValue(null);
       (mockPrisma.locality!.findFirst as jest.Mock).mockResolvedValue({ id: 5 } as any);
-      (mockAddress.VefifyAdressses as jest.Mock).mockResolvedValue([{}]);
       (mockPrisma.community!.create as jest.Mock).mockResolvedValue({ id: 5 } as any);
       (mockPrisma.$transaction as jest.Mock).mockImplementation(async fn => fn(mockPrisma));
 
@@ -166,6 +165,13 @@ describe('CommunityService', () => {
       await expect(service.UserEnterCommunity(userId, name)).rejects.toThrow(HttpException);
     });
 
+    it('errors: no address', async () => {
+      (mockPrisma.community!.findFirst as jest.Mock).mockResolvedValue({ id: 5, Locality: { minPostalNumber: 0, maxPostalNumber: 10 } } as any);
+      jest.spyOn(service, 'CheckUserBelongsCommunity').mockResolvedValue(false as any);
+      (mockAddress.VefifyAdressses as jest.Mock).mockResolvedValue(null);
+      await expect(service.UserEnterCommunity(userId, name)).rejects.toThrow(HttpException);
+    });
+
     it('enters successfully', async () => {
       (mockPrisma.community!.findFirst as jest.Mock).mockResolvedValue({ id: 5, Locality: { minPostalNumber: 0, maxPostalNumber: 10 } } as any);
       jest.spyOn(service, 'CheckUserBelongsCommunity').mockResolvedValue(false as any);
@@ -188,7 +194,6 @@ describe('CommunityService', () => {
 
     it('exits successfully', async () => {
       (mockPrisma.community!.findFirst as jest.Mock).mockResolvedValue({ id: 9 } as any);
-      (mockPrisma.member.findFirst as jest.Mock).mockResolvedValue([{}] as any);
       (mockPrisma.$transaction as jest.Mock).mockImplementation(fn => fn(mockPrisma));
 
       await expect(service.ExitCommunity(userId, name)).resolves.toBeUndefined();

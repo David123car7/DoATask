@@ -5,7 +5,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { CreateTasksDto } from './dto/tasks.dto';
 import { TASK_STATES } from '../lib/constants/tasks/tasks.constants';
-import { NotificationsService } from '../notifications/notifications.service';
 
 // Mock PrismaService fully typed via casting
 const mockPrismaService = {
@@ -26,10 +25,6 @@ const mockSupabaseService: Partial<SupabaseService> = {
   }) as any,
 };
 
-const mockNotificationsService = {
-  sendNotification: jest.fn(), // return void or a resolved promise
-};
-
 describe('TasksService', () => {
   let service: TasksService;
 
@@ -40,8 +35,6 @@ describe('TasksService', () => {
         TasksService,
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: SupabaseService, useValue: mockSupabaseService },
-        { provide: NotificationsService, useValue: mockNotificationsService },
-
       ],
     }).compile();
     service = module.get<TasksService>(TasksService);
