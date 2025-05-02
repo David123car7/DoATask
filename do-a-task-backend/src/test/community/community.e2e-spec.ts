@@ -202,4 +202,30 @@ describe('Community API Integration with Pactum (E2E)', () => {
         .expectStatus(401);
     });
   });
+  
+  describe('DELETE /community/exitCommunity', () => {
+    it('should allow user2 to exit the community', async () => {
+      await pactum.spec()
+        .delete('/community/exitCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(200)
+        .expectBodyContains('Exit community successful');
+    });
+
+    it('should not allow exiting if not a member', async () => {
+      await pactum.spec()
+        .delete('/community/exitCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(400);
+    });
+
+    it('should require authentication', async () => {
+      await pactum.spec()
+        .delete('/community/exitCommunity')
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(401);
+    });
+  });
 });
