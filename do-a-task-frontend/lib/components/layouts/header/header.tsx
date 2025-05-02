@@ -17,12 +17,16 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
     <header className={styles.header}>
       <div className={styles.headerContent}>
         <div className={styles.logo_container}>
+          <a href={ROUTES.HOME}>
           <img 
             src="/assets/notext.png" 
             alt="DOATASK logo" 
             className={styles.logo_image}
           />
+          </a>
+          <a href={ROUTES.HOME}>
           <h1 className={styles.logo_title}>DOATASK</h1>
+          </a>
         </div>
         
         <nav className={styles.nav}>
