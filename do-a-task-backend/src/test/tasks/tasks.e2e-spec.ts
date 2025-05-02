@@ -33,6 +33,8 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
     await supabase.cleanAuthUsers();
     prisma = app.get<PrismaService>(PrismaService);
     await prisma.cleanDatabase();
+
+    
   });
 
   afterAll(async () => {

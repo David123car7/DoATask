@@ -228,15 +228,20 @@ export class CommunityService{
         const community = await this.prisma.community.findFirst({
             where:{
                 communityName: communityName
-            },
-            select: {
-                id: true,
-                communityName: true,
-                Locality: true
             }
         })
         if(!community)
             throw new HttpException("The community with this name does not exist", HttpStatus.BAD_REQUEST)
+
+        const member = await this.prisma.member.findFirst({
+            where:{
+                userId: userid,
+                communityId: community.id
+            }
+        })
+        if(!member){
+            throw new HttpException("The user does not belong to this community", HttpStatus.BAD_REQUEST)
+        }
         
         try{
             const result = await this.prisma.$transaction(async (prisma) => {

@@ -204,7 +204,7 @@ describe('Community API Integration with Pactum (E2E)', () => {
   });
   
   describe('DELETE /community/exitCommunity', () => {
-    it('should allow user2 to exit the community', async () => {
+    it('should allow user to exit the community', async () => {
       await pactum.spec()
         .delete('/community/exitCommunity')
         .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
