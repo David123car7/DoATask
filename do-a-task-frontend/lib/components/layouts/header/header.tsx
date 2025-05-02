@@ -39,9 +39,15 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
                 </li>
               </>
             )}
-            <li>
-              <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>
-            </li>
+            {!userData ? (
+              <li>
+              <a href={ROUTES.SIGNIN}><FaRegUserCircle size={26}/></a>
+              </li>
+            ) :(
+              <li>
+                <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>
+              </li>
+            )}
             <li>
               <Menu userData={userData} />
             </li>

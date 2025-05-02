@@ -14,6 +14,7 @@ import { Header } from '@/lib/components/layouts/header/header';
 export default async function Home() {
 
   const user = await GetUser();
+
   return (
     <div className="page">
       {!user ?(
@@ -142,7 +143,8 @@ export default async function Home() {
       <div className={styles.space}></div>
 
       {/* Call to Action */}
-      <section className={styles.fundo}>
+      {user ? (
+        <section className={styles.fundo}>
         <div className={styles.content}>
           <h2>Participa!</h2>
             <div className={styles.buttons}>
@@ -151,6 +153,18 @@ export default async function Home() {
             </div>
           </div>
       </section>
+      ):(
+        <section className={styles.fundo}>
+          <div className={styles.content}>
+            <h2>Participa!</h2>
+              <div className={styles.buttons}>
+                <a href={ROUTES.SIGNIN}>Realiza uma tarefa</a>
+                <a href={ROUTES.SIGNIN}>Cria uma tarefa!</a>
+              </div>
+            </div>
+        </section>
+      )}
+      
       </main>
 
       <Footer/>
