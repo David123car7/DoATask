@@ -34,7 +34,7 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
     prisma = app.get<PrismaService>(PrismaService);
     await prisma.cleanDatabase();
 
-
+    
   });
 
   afterAll(async () => {
@@ -58,8 +58,7 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
         updatedAt: new Date(),
       }});
 
-      const loc = await prisma.locality.create({ 
-      data: {
+      const loc = await prisma.locality.create({ data: {
         name: localityDTO.name,
         maxPostalNumber: localityDTO.maxPostalNumber,
         minPostalNumber: localityDTO.minPostalNumber,
@@ -133,5 +132,104 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
         .withMultiPartFormData('communityName', communityDTO.communityName)
         .expectStatus(401);
     });
+
+    it('should not create task if community does not exist', async () => {
+      const imagePath = join(__dirname, '../images/testImage.png');
+
+      await pactum.spec()
+        .post('/tasks/createTask')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withFile('image', imagePath)
+        .withMultiPartFormData('tittle', 'Another Task')
+        .withMultiPartFormData('description', 'Integration test')
+        .withMultiPartFormData('difficulty', '3')
+        .withMultiPartFormData('location', localityDTO.name)
+        .withMultiPartFormData('communityName', 'NonExistent')
+        .expectStatus(400);
+    });
+
+    it('should not create task if file missing', async () => {
+      await pactum.spec()
+        .post('/tasks/createTask')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withMultiPartFormData('tittle', 'No File Task')
+        .withMultiPartFormData('description', 'No file provided')
+        .withMultiPartFormData('difficulty', '2')
+        .withMultiPartFormData('location', localityDTO.name)
+        .withMultiPartFormData('communityName', communityDTO.communityName)
+        .expectStatus(400)
+        .expectBodyContains('The file does not exist');
+    });
+
+    it('should not create task if user unauthorized', async () => {
+      const imagePath = join(__dirname, '../images/testImage.png');
+
+      await pactum.spec()
+        .post('/tasks/createTask')
+        .withFile('image', imagePath)
+        .withMultiPartFormData('tittle', 'Task')
+        .withMultiPartFormData('description', 'Integration unauthorized')
+        .withMultiPartFormData('difficulty', '1')
+        .withMultiPartFormData('location', localityDTO.name)
+        .withMultiPartFormData('communityName', communityDTO.communityName)
+        .expectStatus(401);
+    });
   });
-});
+
+
+  describe('GET /tasks/getTasksMemberDoing', () => {
+    it('should return tasks the member is doing', async () => {
+      await pactum.spec()
+        .get('/tasks/getTasksMemberDoing')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .expectStatus(200)
+        .expectJsonLike({ message: 'Task Found' })
+        .expectJsonMatch({
+          tasks: [], // você pode deixar vazio se espera isso no início
+          memberTasks: [],
+          community: [
+            { communityName: communityDTO.communityName }
+          ]
+        });
+    });
+
+    it('should require authentication', async () => {
+      await pactum.spec()
+        .get('/tasks/getTasksMemberDoing')
+        .expectStatus(401);
+    });
+  });
+
+  describe('GET /tasks/getTasksByCommunity', () => {
+    it('should return tasks by community', async () => {
+      await pactum.spec()
+        .get('/tasks/getTasksByCommunity')
+        .withQueryParams('communityName', communityDTO.communityName)
+        .expectStatus(200)
+        .expectJsonLike({ message: 'Task Found' });
+    });
+
+    it('should fail without communityName', async () => {
+      await pactum.spec()
+        .get('/tasks/getTasksByCommunity')
+        .expectStatus(400)
+        .expectBodyContains('Community name is required');
+    });
+  });
+
+  describe('PUT /tasks/assignTask', () => {
+    it('should assign the task to the member', async () => {
+      await pactum.spec()
+        .put('/tasks/assignTask')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('taskId',82)
+        .expectStatus(200)
+        .expectBodyContains('Task was assigned');
+    });
+  });
+
+
+  });
+  
+
+  
