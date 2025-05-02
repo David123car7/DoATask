@@ -9,6 +9,8 @@ import { FaHome } from "@/lib/icons";
 import { ROUTES } from "@/lib/constants/routes";
 import { Notifications } from "../notifications/notifications";
 import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
+import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart, PiRankingLight} from "@/lib/icons"
+
 
 export function Header({ userData }: { userData: UserDataSchema | null }) {
   return (
@@ -39,6 +41,9 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
             )}
             <li>
               <Menu userData={userData} />
+            </li>
+            <li>
+              <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a><a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
             </li>
           </ul>
         </nav>
