@@ -69,7 +69,6 @@ export class TasksService{
     }
 
     async assignTask(userId: string, taskId: number){
-        
             const task = await this.prisma.task.findFirst({
                 where:{
                     id: taskId

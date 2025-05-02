@@ -33,14 +33,6 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
             {userData && (
               <>
                 <li>
-                  <a href="">
-                    <FaCoins size={28} />
-                  </a>
-                </li>
-                <li>
-                  <p>{userData.user.totalCoins}</p>
-                </li>
-                <li>
                   <Notifications />
                 </li>
               </>

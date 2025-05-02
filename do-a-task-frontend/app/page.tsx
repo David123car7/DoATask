@@ -73,13 +73,13 @@ export default async function Home() {
 
       {/* Advantages */}
       <section className={styles.container2}>
-        <div className={styles.textContent}>
+        <div>
           <h2>Vantagens</h2>
-          <div className={styles.advantage}>
+          <div>
             <h4>Bom samaritano</h4>
             <p>Sê uma boa pessoa, um bom samaritano!</p>
           </div>
-          <div className={styles.advantage}>
+          <div>
             <h4>Ganho de Altruísmo</h4>
             <p>Preocupa-te mais com os outros!</p>
           </div>
@@ -110,31 +110,33 @@ export default async function Home() {
       <div className={styles.space}></div>
 
       {/* Testimonials */}
+      <section className={styles.letter2}>
+        <h2>Experiências...</h2>
+      </section>
       <section className={styles.section}>
-        <h2 className={styles.letter}>Experiências...</h2>
         
-        <div className={styles.container3}>
-          {/* Citação 1 */}
-          <div className={styles.box}>
-            <p className={styles.quote}>"Adorei ajudar e receber por isso"</p>
-            <p className={styles.author}>João</p>
-            <p className={styles.details}>DoAtask User</p>
-          </div>
-
-          {/* Citação 2 */}
-          <div className={styles.box}>
-            <p className={styles.quote}>"Já comprei um telemóvel com as recompensas!!"</p>
-            <p className={styles.author}>Luísa</p>
-            <p className={styles.details}>3 anos de Conta!</p>
-          </div>
-
-          {/* Citação 3 */}
-          <div className={styles.box}>
-            <p className={styles.quote}>"Ajudar é uma sensação incrível"</p>
-            <p className={styles.author}>Ricardo</p>
-            <p className={styles.details}>DoAtask User</p>
-          </div>
+        {/* Citação 1 */}
+        <div className={styles.box}>
+          <p className={styles.quote}>"Adorei ajudar e receber por isso"</p>
+          <p className={styles.author}>João</p>
+          <p className={styles.details}>DoAtask User</p>
         </div>
+
+        {/* Citação 2 */}
+        <div className={styles.box}>
+          <p className={styles.quote}>"Já comprei um telemóvel com as recompensas!!"</p>
+          <p className={styles.author}>Luísa</p>
+          <p className={styles.details}>3 anos de Conta!</p>
+        </div>
+
+        {/* Citação 3 */}
+        <div className={styles.box}>
+          <p className={styles.quote}>"Ajudar é uma sensação incrível"</p>
+          <p className={styles.author}>Ricardo</p>
+          <p className={styles.details}>DoAtask User</p>
+        </div>
+        
+     
       </section>
 
       <div className={styles.space}></div>

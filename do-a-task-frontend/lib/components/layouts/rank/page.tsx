@@ -33,13 +33,17 @@ export function ShowRank({community} : {community: GetNameCommunitySchemaArray |
         }
         return(
             <div>
-                <select onChange={handleSelectChange} className={styles.selectCustom}>
-                        <option value=""></option>
-                            {(community ??[]).map((c, index) => (
-                                <option key={index} value={c.communityName}>
-                                {c.communityName}
-                                </option>
-                            ))}      
+                <select
+                    onChange={handleSelectChange}
+                    className={styles.selectCustom}
+                    value={selectedCommunity} 
+                    >
+                    <option value="" disabled>Selecione Uma Comunidade</option>
+                    {(community ?? []).map((c, index) => (
+                        <option key={index} value={c.communityName}>
+                        {c.communityName}
+                        </option>
+                    ))}
                 </select>
 
                 <div className={styles.container_main}>
@@ -74,7 +78,7 @@ export function ShowRank({community} : {community: GetNameCommunitySchemaArray |
                 ))
                 ) : (
                 <tr>
-                    <td colSpan={3}>Sem Membros</td>
+                    <td className={styles.text_black}colSpan={3}>Sem Membros</td>
                 </tr>
                 )}
             </tbody>

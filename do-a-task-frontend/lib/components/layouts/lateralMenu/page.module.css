@@ -54,7 +54,6 @@
     display: flex;
     align-items: center;
     margin-left: 15rem;
-    
   }
 
   .options li svg{
@@ -64,9 +63,8 @@
   }
   
   .options li:hover {
-    background-color: #c9c5c5;
-    width: fit-content;
-    margin-left: 15px;
+    background-color: #f0f0f0;
+
   }
   
   @keyframes slideIn {
