@@ -11,7 +11,7 @@ export class CommunityController {
 
     @Post("createCommunity")
     @UseGuards(JwtAuthGuard)
-    async createTask(@Body() dto: CreateCommunityDto, @Req() req: RequestWithUser ,@Res() res: Response) {
+    async createCommunity(@Body() dto: CreateCommunityDto, @Req() req: RequestWithUser ,@Res() res: Response) {
       await this.communityService.createCommunity(dto, req.user.sub);
       return res.json({ message: 'Communitie created'});
     }
@@ -23,7 +23,6 @@ export class CommunityController {
       return res.json({ message: 'User entered community'});
     }
 
-    
     @Delete("exitCommunity")
     @UseGuards(JwtAuthGuard)
     async ExitCommunity(@Body() dto: EnterExitCommunityDto, @Req() req: RequestWithUser, @Res() res: Response){

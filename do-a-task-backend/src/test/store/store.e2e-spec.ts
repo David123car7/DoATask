@@ -21,12 +21,13 @@ const communityDTO = {
   communityName: 'TestCommunity',
 };
 
-const itemDTO = { name: 'ItemA', price: "10", stock: "5" };
+const itemDTO = { name: 'ItemA', price: 1, stock: 1 };
 
 describe('Store API Integration with Pactum (E2E)', () => {
   let prisma: PrismaService;
   let supabase: SupabaseService;
   let access_token: string;
+  let item
 
   beforeAll(async () => {
     const app = await bootstrapE2E();
@@ -57,6 +58,7 @@ describe('Store API Integration with Pactum (E2E)', () => {
         updatedAt: new Date(),
       }});
 
+
       const loc = await prisma.locality.create({ data: {
         name: localityDTO.name,
         maxPostalNumber: localityDTO.maxPostalNumber,
@@ -74,7 +76,17 @@ describe('Store API Integration with Pactum (E2E)', () => {
       await prisma.member.create({ data: {
         userId: data.user.id,
         communityId: com.id,
-        coins: 0,
+        coins: 1,
+      }});
+
+      const img = await prisma.image.create({data:{imagePath: 'testPath'}})
+      item = await prisma.item.create({data:{
+        name: itemDTO.name,
+        price: itemDTO.price,
+        stock: itemDTO.stock,
+        storeId: store.id,
+        imageId: img.id,
+        available: true,
       }});
     });
 
@@ -85,9 +97,9 @@ describe('Store API Integration with Pactum (E2E)', () => {
         .post('/store/createItem')
         .withHeaders('Authorization', `Bearer ${access_token}`)
         .withFile('image', imagePath)
-        .withMultiPartFormData('name', itemDTO.name)
-        .withMultiPartFormData('price', itemDTO.price)
-        .withMultiPartFormData('stock', itemDTO.stock)
+        .withMultiPartFormData('name', "NewItem")
+        .withMultiPartFormData('price', itemDTO.price.toString())
+        .withMultiPartFormData('stock', itemDTO.stock.toString())
         .expectStatus(201)
         .expectJson({ message: 'Item was created' });
     });
@@ -100,8 +112,8 @@ describe('Store API Integration with Pactum (E2E)', () => {
         .withHeaders('Authorization', `Bearer ${access_token}`)
         .withFile('image', imagePath)
         .withMultiPartFormData('name', itemDTO.name)
-        .withMultiPartFormData('price', itemDTO.price)
-        .withMultiPartFormData('stock', itemDTO.stock)
+        .withMultiPartFormData('price', itemDTO.price.toString())
+        .withMultiPartFormData('stock', itemDTO.stock.toString())
         .expectStatus(400);
     });
 
@@ -112,8 +124,64 @@ describe('Store API Integration with Pactum (E2E)', () => {
         .post('/store/createItem')
         .withFile('image', imagePath)
         .withMultiPartFormData('name', itemDTO.name)
-        .withMultiPartFormData('price', itemDTO.price)
-        .withMultiPartFormData('stock', itemDTO.stock)
+        .withMultiPartFormData('price', itemDTO.price.toString())
+        .withMultiPartFormData('stock', itemDTO.stock.toString())
+        .expectStatus(401);
+    });
+  });
+
+  describe('PUT /store/buyItem', () => {
+    it('should buy an item successfully', async () => {
+      await pactum.spec()
+        .put('/store/buyItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('communityName', communityDTO.communityName)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(200)
+    });
+
+
+    it('should return 400 if community does not exist', async () => {
+      await pactum.spec()
+        .put('/store/buyItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('communityName', 'NoSuch')
+        .withQueryParams('itemId', item.id)
+        .expectStatus(400);
+    });
+
+    it('should return 400 if item does not exist', async () => {
+      await pactum.spec()
+        .put('/store/buyItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('communityName', communityDTO.communityName)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(400);
+    });
+
+    it('should return 400 if out of stock', async () => {
+      await pactum.spec()
+        .put('/store/buyItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('communityName', communityDTO.communityName)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(400);
+    });
+
+    it('should return 400 if insufficient coins', async () => {
+      await pactum.spec()
+        .put('/store/buyItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('communityName', communityDTO.communityName)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(400);
+    });
+
+    it('should return 401 if unauthorized', async () => {
+      await pactum.spec()
+        .put('/store/buyItem')
+        .withQueryParams('communityName', communityDTO.communityName)
+        .withQueryParams('itemId', item.id)
         .expectStatus(401);
     });
   });

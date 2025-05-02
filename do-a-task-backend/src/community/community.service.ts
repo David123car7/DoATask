@@ -42,6 +42,11 @@ export class CommunityService{
         if(!locality){
             throw new HttpException("Location with this name does not exist", HttpStatus.BAD_REQUEST)
         }
+
+        const addresses = await this.addressService.VefifyAdressses(userId, locality.minPostalNumber, locality.maxPostalNumber)
+        if(addresses.length == 0){
+            throw new HttpException("The user has not any address that belongs to this location", HttpStatus.BAD_REQUEST)
+        }
         
         try{
             const result = await this.prisma.$transaction(async (prisma) => {
@@ -204,7 +209,7 @@ export class CommunityService{
         }
 
         const addresses = await this.addressService.VefifyAdressses(userId, community.Locality.minPostalNumber, community.Locality.maxPostalNumber)
-        if(!addresses){
+        if(addresses.length == 0){
             throw new HttpException("The user has not any address that belongs to the community location", HttpStatus.BAD_REQUEST)
         }
 
