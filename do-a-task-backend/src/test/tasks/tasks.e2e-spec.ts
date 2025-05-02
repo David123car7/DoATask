@@ -34,7 +34,7 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
     prisma = app.get<PrismaService>(PrismaService);
     await prisma.cleanDatabase();
 
-    
+
   });
 
   afterAll(async () => {
@@ -58,7 +58,8 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
         updatedAt: new Date(),
       }});
 
-      const loc = await prisma.locality.create({ data: {
+      const loc = await prisma.locality.create({ 
+      data: {
         name: localityDTO.name,
         maxPostalNumber: localityDTO.maxPostalNumber,
         minPostalNumber: localityDTO.minPostalNumber,
@@ -132,7 +133,5 @@ describe('Tasks API Integration with Pactum (E2E)', () => {
         .withMultiPartFormData('communityName', communityDTO.communityName)
         .expectStatus(401);
     });
-
-    
   });
 });

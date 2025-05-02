@@ -58,7 +58,6 @@ describe('Store API Integration with Pactum (E2E)', () => {
         updatedAt: new Date(),
       }});
 
-
       const loc = await prisma.locality.create({ data: {
         name: localityDTO.name,
         maxPostalNumber: localityDTO.maxPostalNumber,
@@ -181,6 +180,70 @@ describe('Store API Integration with Pactum (E2E)', () => {
       await pactum.spec()
         .put('/store/buyItem')
         .withQueryParams('communityName', communityDTO.communityName)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(401);
+    });
+  });
+
+  describe('PUT /store/showItem', () => {
+    it('should show the item', async () => {
+      await pactum.spec()
+        .put('/store/showItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(200)
+    });
+
+    it('should return 400 if item does not exist', async () => {
+      await pactum.spec()
+        .put('/store/showItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('itemId', 999999)
+        .expectStatus(400);
+    });
+
+    it('should return 400 if missing itemId', async () => {
+      await pactum.spec()
+        .put('/store/showItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .expectStatus(400);
+    });
+
+    it('should return 401 if unauthorized', async () => {
+      await pactum.spec()
+        .put('/store/showItem')
+        .withQueryParams('itemId', item.id)
+        .expectStatus(401);
+    });
+  });
+
+  describe('PUT /store/hideItem', () => {
+    it('should hide the visible item', async () => {
+      await pactum.spec()
+        .put('/store/hideItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('itemId', item.id)
+        .expectStatus(200)
+    });
+
+    it('should return 400 if item does not exist', async () => {
+      await pactum.spec()
+        .put('/store/hideItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .withQueryParams('itemId', 999999)
+        .expectStatus(400);
+    });
+
+    it('should return 400 if missing itemId', async () => {
+      await pactum.spec()
+        .put('/store/hideItem')
+        .withHeaders('Authorization', `Bearer ${access_token}`)
+        .expectStatus(400);
+    });
+
+    it('should return 401 if unauthorized', async () => {
+      await pactum.spec()
+        .put('/store/hideItem')
         .withQueryParams('itemId', item.id)
         .expectStatus(401);
     });

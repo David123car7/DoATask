@@ -51,17 +51,10 @@ export class CommunityController {
       return res.json({ message: 'Communities get successful', communities: data.communities, membersCount: data.membersCount});
     }
 
-    @Get("membersCount")
-    @UseGuards(JwtAuthGuard)
-    async GetMembersCount(){
-
-    }
-
     @Get("getLocalityUser")
     @UseGuards(JwtAuthGuard)
     async getLocalityUser(@Res() res: Response, @Req() req: RequestWithUser){
       const data = await this.communityService.GetLocalityUser(req.user.sub)
       return res.json({ message: 'Communities get successful', locality: data});
     }
-
 }
