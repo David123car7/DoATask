@@ -119,4 +119,66 @@ describe('Community API Integration with Pactum (E2E)', () => {
         .expectStatus(401);
     });
   });
+  
+  describe('POST /community/enterCommunity', () => {
+    it('should allow user2 to enter the existing community', async () => {
+      await pactum.spec()
+        .post('/community/enterCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(201)
+        .expectBodyContains('User entered community');
+    });
+
+    it('should not allow entering again', async () => {
+      await pactum.spec()
+        .post('/community/enterCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(400)
+        .expectBodyContains('The user allready is in the community');
+    });
+
+    it('should not allow entering non-existent community', async () => {
+      await pactum.spec()
+        .post('/community/enterCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: 'NoCommunity' })
+        .expectStatus(400)
+        .expectBodyContains('Community with this name does not exist');
+    });
+
+    it('should require authentication', async () => {
+      await pactum.spec()
+        .post('/community/enterCommunity')
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(401);
+    });
+  });
+
+  describe('DELETE /community/exitCommunity', () => {
+    it('should allow user2 to exit the community', async () => {
+      await pactum.spec()
+        .delete('/community/exitCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(200)
+    });
+
+    it('should allow user2 to exit the community', async () => {
+      await pactum.spec()
+        .delete('/community/exitCommunity')
+        .withHeaders('Authorization', `Bearer ${access_tokenUser2}`)
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(400)
+    });
+
+    it('should require authentication', async () => {
+      await pactum.spec()
+        .delete('/community/exitCommunity')
+        .withJson({ communityName: communityDTO.communityName })
+        .expectStatus(401);
+    });
+
+  });
 });
