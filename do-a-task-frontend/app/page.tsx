@@ -32,7 +32,7 @@ export default async function Home() {
           <li>Ganhe recompensas</li>
           <li>Melhore a sua classificação</li>
         </ul>
-        <p>Junte-se ao DoaTask e transforme boas ações em benefícios!</p>
+        <p>Junte-se ao DoATask e transforme boas ações em benefícios!</p>
           <div className={styles.buttons}>
             <a href={ROUTES.HOME}>Sobre</a>
           </div>
