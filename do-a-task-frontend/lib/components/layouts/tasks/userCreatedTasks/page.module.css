@@ -14,7 +14,7 @@
 .rowEmpty{
     padding: 3rem;
     text-align: center;
-    background-color: #f5f5f5b4; 
+    background-color: #d6fff6; 
 }
 
 .valuesEmpty{
@@ -55,12 +55,12 @@
 .table {
     display: flex;
     flex-direction: column;
-    border: 2px solid rgb(204, 204, 204);
+    border: 2px solid #D6FFF6;
     border-radius: 15px; 
     width: 100%;
     margin: 5rem;
     padding-bottom: 15rem; 
-    background-color: white;
+    background-color:  #D6FFF6;
     max-width: 50%;
     min-width: 45%;
     max-height: 600px;
@@ -89,7 +89,7 @@
     padding: 12px 16px;
     text-align: center;
     font-weight: bold;
-    background-color: white;
+    background-color:  #D6FFF6;
     border-bottom: 3px solid #333; 
     border-radius: 15px 15px 0 0;
 }
@@ -100,8 +100,8 @@
     grid-template-columns: 2fr 3fr 2fr 1fr; /* Adjust ratios as needed */
     align-items: center;
     padding: 12px 16px;
-    background-color: white;
-    border-bottom: 1px solid rgb(204, 204, 204);
+    background-color: #D6FFF6;
+    border-bottom: 1px solid  #D6FFF6;
     text-align: center;
     width: 100%;
 }
@@ -114,7 +114,7 @@
 .button {
     padding: 8px 16px;
     font-size: 1rem;
-    color: white;
+    color: #D6FFF6;
     background-color: rgb(93, 120, 243);
     border: none;
     border-radius: 8px;
@@ -131,8 +131,7 @@
     z-index: 1000;
     width: 90%;
     max-width: 600px;
-    background: rgb(217,249,255);
-    background: linear-gradient(90deg, rgba(217,249,255,1) 0%, rgba(255,255,255,1) 100%);
+    background:  #D6FFF6;
     padding-top: 0;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
@@ -158,8 +157,8 @@
     width: 100%;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid #ccc;
-    background-color: white;
+    border: 1px solid  #D6FFF6c;
+    background-color:  #D6FFF6;
     color: black;
 }
 
@@ -220,7 +219,7 @@
 }
 
 .noTasks{
-    background-color: #f5f5f598; ;
+    background-color:  #D6FFF6 ;
     padding: 5rem;
     text-align: center;
     color: black;

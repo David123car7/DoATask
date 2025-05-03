@@ -5,7 +5,6 @@ import { useState } from "react";
 import { GetNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 import { GetTasksBeDone } from "@/lib/api/tasks/get.all.taskBeDoneCommunity";
 import { taskResponseSchema } from "@/lib/schemas/tasks/get-all-taskBeDoneCommunity";
-import { FaLocationPin, FaCoins } from "@/lib/icons/index";
 import { AssignTaskButton } from "../buttons/assign.task.button";
 import { GetUser } from "@/lib/utils/supabase/user/get-user";
 

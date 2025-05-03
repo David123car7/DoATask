@@ -2,8 +2,8 @@
 .page-auth{
   display: flex;
   flex-direction: column;
-  background: rgb(106,187,255);
-  background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
+  background: var(--background);
+  background: radial-gradient(circle, --background 88%, #578fc4 12%);
   overflow: hidden; /* Remove a barra de rolagem */
   height: 100vh;
 }
@@ -11,8 +11,8 @@
 .page{
   display: flex;
   flex-direction: column;
-  background: rgb(106,187,255);
-  background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
+  background: var(--background);
+  background: radial-gradient(circle, --background 88%, #578fc4 12%);
   min-height: 100vh;
   margin: 0;
 }
@@ -63,7 +63,7 @@ nav ul{
 nav ul li{
   display: inline;
   color: black;
-  font-size: 20;
+  font-size: 20px;
 }
 
 nav ul li a{
@@ -118,14 +118,14 @@ main{
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #3674b5;
+  --foreground: #D1F8EF;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #D1F8EF;
+    --foreground: #3674b5;
   }
 }
 
