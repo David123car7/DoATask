@@ -25,6 +25,30 @@ export default async function Home() {
       
 
       <main>
+
+      {/* Call to Action */}
+      {user ? (
+        <section className={styles.fundo}>
+        <div className={styles.content}>
+          <h2>Participa!</h2>
+            <div className={styles.buttons}>
+              <a href={ROUTES.TASKS_AVAILABLE}>Realiza uma tarefa</a>
+              <a href={ROUTES.TASKS_CREATE}>Cria uma tarefa!</a>
+            </div>
+          </div>
+      </section>
+      ):(
+        <section className={styles.fundo}>
+          <div className={styles.content}>
+            <h2>Participa!</h2>
+              <div className={styles.buttons}>
+                <a href={ROUTES.SIGNIN}>Realiza uma tarefa</a>
+                <a href={ROUTES.SIGNIN}>Cria uma tarefa!</a>
+              </div>
+            </div>
+        </section>
+      )}
+      
       {/* Hero Section */}
       <section className={styles.letter}>
         <p>Ajude a sua comunidade e seja recompensado! No DoaTask, pode publicar ou aceitar tarefas, desde apoiar vizinhos idosos até organizar eventos locais. Ao completar tarefas, ganha pontos e moedas que pode trocar por brindes ou bilhetes para eventos.</p>
@@ -36,6 +60,7 @@ export default async function Home() {
         <p>Junte-se ao DoATask e transforme boas ações em benefícios!</p>
           <div className={styles.buttons}>
             <a href={ROUTES.HOME}>Sobre</a>
+            <a href={ROUTES.HOME}>Descobre como</a>
           </div>
       </section>
 
@@ -141,29 +166,6 @@ export default async function Home() {
       </section>
 
       <div className={styles.space}></div>
-
-      {/* Call to Action */}
-      {user ? (
-        <section className={styles.fundo}>
-        <div className={styles.content}>
-          <h2>Participa!</h2>
-            <div className={styles.buttons}>
-              <a href={ROUTES.TASKS_AVAILABLE}>Realiza uma tarefa</a>
-              <a href={ROUTES.TASKS_CREATE}>Cria uma tarefa!</a>
-            </div>
-          </div>
-      </section>
-      ):(
-        <section className={styles.fundo}>
-          <div className={styles.content}>
-            <h2>Participa!</h2>
-              <div className={styles.buttons}>
-                <a href={ROUTES.SIGNIN}>Realiza uma tarefa</a>
-                <a href={ROUTES.SIGNIN}>Cria uma tarefa!</a>
-              </div>
-            </div>
-        </section>
-      )}
       
       </main>
 

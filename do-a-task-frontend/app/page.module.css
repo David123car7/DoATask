@@ -182,8 +182,8 @@ a.secondary {
     font-size: 24px;
     color: black;
     line-height: 1.2;
-    margin-left: 3rem;
-    margin-right: 3rem;
+    margin-left: 10%;
+    margin-right: 10%;
     padding-top: 1rem;
   }
 
@@ -249,7 +249,7 @@ a.secondary {
   }
 
   .space{
-    margin: 100px;
+    margin: 50px;
   }
 
   .container2 {
