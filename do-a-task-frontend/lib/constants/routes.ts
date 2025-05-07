@@ -18,7 +18,8 @@ export const ROUTES = {
   MEMBER_PURCHASES: "/store/memberPurchases",
   CREATE_ITEM: "/store/createItem",
   RANKS: "/rank",
-  FINDOUT: "/findout"
+  FINDOUT: "/findout",
+  ABOUT: "/about"
 };
 
 export const API_ROUTES = {
