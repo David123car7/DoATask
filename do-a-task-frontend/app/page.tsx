@@ -22,7 +22,6 @@ export default async function Home() {
       ):(
         <HeaderWrapper/>
       )}
-      
 
       <main>
 
@@ -60,7 +59,7 @@ export default async function Home() {
         <p>Junte-se ao DoATask e transforme boas ações em benefícios!</p>
           <div className={styles.buttons}>
             <a href={ROUTES.HOME}>Sobre</a>
-            <a href={ROUTES.HOME}>Descobre como</a>
+            <a href={ROUTES.FINDOUT}>Descobre como</a>
           </div>
       </section>
 
