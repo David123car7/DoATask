@@ -58,7 +58,7 @@ export default async function Home() {
         </ul>
         <p>Junte-se ao DoATask e transforme boas ações em benefícios!</p>
           <div className={styles.buttons}>
-            <a href={ROUTES.HOME}>Sobre</a>
+            <a href={ROUTES.ABOUT}>Sobre</a>
             <a href={ROUTES.FINDOUT}>Descobre como</a>
           </div>
       </section>
