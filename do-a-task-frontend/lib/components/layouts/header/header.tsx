@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { CiCircleInfo } from "react-icons/ci";
 import { FaCoins } from "react-icons/fa6";
@@ -9,8 +9,15 @@ import { FaHome } from "@/lib/icons";
 import { ROUTES } from "@/lib/constants/routes";
 import { Notifications } from "../notifications/notifications";
 import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
-import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart, PiRankingLight} from "@/lib/icons"
-
+import {
+  RiUserCommunityFill,
+  MdOutlineSupport,
+  FaRegUserCircle,
+  FaTasks,
+  CiUser,
+  TiShoppingCart,
+  PiRankingLight,
+} from "@/lib/icons";
 
 export function Header({ userData }: { userData: UserDataSchema | null }) {
   return (
@@ -18,17 +25,17 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
       <div className={styles.headerContent}>
         <div className={styles.logo_container}>
           <a href={ROUTES.HOME}>
-          <img 
-            src="/assets/notext.png" 
-            alt="DOATASK logo" 
-            className={styles.logo_image}
-          />
+            <img
+              src="/assets/notext.png"
+              alt="DOATASK logo"
+              className={styles.logo_image}
+            />
           </a>
           <a href={ROUTES.HOME}>
-          <h1 className={styles.logo_title}>DOATASK</h1>
+            <h1 className={styles.logo_title}>DOATASK</h1>
           </a>
         </div>
-        
+
         <nav className={styles.nav}>
           <ul className={styles.navList}>
             <li>
@@ -45,11 +52,15 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
             )}
             {!userData ? (
               <li>
-              <a href={ROUTES.SIGNIN}><FaRegUserCircle size={26}/></a>
+                <a href={ROUTES.SIGNIN}>
+                  <FaRegUserCircle size={26} />
+                </a>
               </li>
-            ) :(
+            ) : (
               <li>
-                <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a>
+                <a href={ROUTES.USER_MAIN}>
+                  <FaRegUserCircle size={26} />
+                </a>
               </li>
             )}
             <li>

@@ -1,0 +1,68 @@
+/* page.module.css */
+.aboutcontainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.aboutheader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.abouttitle {
+  font-size: 2.8rem;
+  color: #2e3a4d;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #3c94e7, #3498db);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aboutsubtitle {
+  font-size: 1.5rem;
+  color: #3ca0e7;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.aboutcontent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.abouttext {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #ffffff;
+  text-align: center;
+}
+
+.abouthighlight {
+  color: #3493ff;
+  font-weight: 600;
+}
+
+.aboutdivider {
+  height: 4px;
+  background: linear-gradient(90deg, #ffffff, #3498db);
+  width: 100px;
+  margin: 2rem auto;
+  border-radius: 2px;
+}
+
+.aboutfooter {
+  width: 100%;
+  background-color: #ffffff;
+  color: #000;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;
+  position: relative;
+}
