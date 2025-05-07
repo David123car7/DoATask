@@ -23,7 +23,7 @@ export default function SignInForm() {
     try {
       const responseData = await SigninUser(data);
       toast.success(responseData.message)
-      router.push(ROUTES.HOME)
+      router.push(ROUTES.USER_MAIN);
     } catch (error: any) {
       toast.error(error.message)
     }

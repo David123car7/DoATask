@@ -18,5 +18,6 @@ export { IoPersonOutline } from "react-icons/io5";
 export { BiTask } from "react-icons/bi";
 export { PiRankingLight } from "react-icons/pi";
 export { IoMenu } from "react-icons/io5";
-
+export { MdOutlineManageAccounts } from "react-icons/md";
+export { HiOutlineHome } from "react-icons/hi";
 
