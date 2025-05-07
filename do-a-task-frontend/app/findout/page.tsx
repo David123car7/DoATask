@@ -84,7 +84,7 @@ export default async function Findout() {
         <section className={styles.containercenter}>
         <div>
           <h2>4. Cria ou Realiza uma Tarefa</h2>
-            <p>Agora é a parte divertida: publique uma tarefa que precisa de ajuda — como levar compras a um vizinho, organizar um evento ou pintar um muro comunitário — ou aceite tarefas que outros tenham publicado.</p>
+            <p>Agora é a parte divertida: publique uma tarefa que precisa de ajuda como levar compras a um vizinho, organizar um evento ou pintar um muro comunitário ou aceite tarefas que outros tenham publicado.</p>
             <p>Cada vez que completa uma tarefa, ganha pontos e moedas DoaTask que podem ser trocados por brindes, descontos ou bilhetes para eventos.</p>
         </div>
         <div className={styles.imageContainer}>
