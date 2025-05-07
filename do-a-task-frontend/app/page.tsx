@@ -24,8 +24,7 @@ export default async function Home() {
       )}
 
       <main>
-
-      {/* Call to Action */}
+      {/* Call to Action 
       {user ? (
         <section className={styles.fundo}>
         <div className={styles.content}>
@@ -46,7 +45,7 @@ export default async function Home() {
               </div>
             </div>
         </section>
-      )}
+      )}*/}
       
       {/* Hero Section */}
       <section className={styles.letter}>
