@@ -80,4 +80,11 @@ export class StoreController {
         const data = await this.storeService.userStoreExists(req.user.sub)
         return res.json(data);
     }
+
+    @Put("updateStock")
+    @UseGuards(JwtAuthGuard)
+    async updateStock(@Query('itemId', ParseIntPipe) itemId: number, @Query('stock', ParseIntPipe) stock: number, @Req() req: RequestWithUser, @Res() res: Response){
+        await this.storeService.updateItemStock(req.user.sub, itemId, stock)
+        return res.json({ message: 'Item was updated'});
+    }
 }
