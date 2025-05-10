@@ -121,6 +121,10 @@ export class TasksService{
                 }
             })
 
+            if(memberTask.volunteerId != null)
+                throw new HttpException("This task was allready accepted", HttpStatus.BAD_REQUEST)
+
+
             try{
                 await this.prisma.memberTask.update({
                     where:{
@@ -168,6 +172,10 @@ export class TasksService{
             throw new HttpException("The task has no creator", HttpStatus.BAD_REQUEST)
         }
 
+        if(memberTask.status == TASK_STATES.FINISH)
+            throw new HttpException("The task is allready finished", HttpStatus.BAD_REQUEST)
+
+
         try{
             await this.prisma.memberTask.update({
                 where: {
@@ -186,8 +194,23 @@ export class TasksService{
     }
 
     async evaluateTask(memberTaskId: number, score: number) {
-        if(!memberTaskId)
-            throw new HttpException("Invalid membertaskid", HttpStatus.BAD_REQUEST)
+        console.log("dwadadwa", memberTaskId)
+        const memberTask = await this.prisma.memberTask.findFirst({
+            where:{
+                id: memberTaskId
+            }
+        })
+        if(!memberTask){
+            throw new HttpException("The task is does not exist", HttpStatus.BAD_REQUEST)
+        }
+
+        if(memberTask.status == TASK_STATES.EVALUATED){
+            throw new HttpException("The task is allready evaluated", HttpStatus.BAD_REQUEST)
+        }
+
+        if(memberTask.status == TASK_STATES.ACCEPTED){
+            throw new HttpException("The task is not finished", HttpStatus.BAD_REQUEST)
+        }
 
         try{
             const memberTask = await this.prisma.memberTask.update({
@@ -501,12 +524,14 @@ export class TasksService{
         const memberTask = await this.prisma.memberTask.findFirst({
             where:{
                 taskId: task.id,
-                completedAt: null
             }
         })
         if(!memberTask){
-            throw new HttpException("The task is allready completed", HttpStatus.BAD_REQUEST)
+            throw new HttpException("The task is not assigned to a memberTask", HttpStatus.BAD_REQUEST)
         }
+
+        if(memberTask.status != TASK_STATES.NOT_ACCEPTED)
+            throw new HttpException("The task was allready accepted", HttpStatus.BAD_REQUEST)
 
         try{
             const result = await this.prisma.$transaction(async () => {
@@ -540,12 +565,15 @@ export class TasksService{
         const memberTask = await this.prisma.memberTask.findFirst({
             where:{
                 taskId: task.id,
-                completedAt: null
             }
         })
         if(!memberTask){
-            throw new HttpException("The task is allready completed", HttpStatus.BAD_REQUEST)
+            throw new HttpException("The task is not assigned to a member task", HttpStatus.BAD_REQUEST)
         }
+
+        if(memberTask.status != TASK_STATES.ACCEPTED)
+            throw new HttpException("The task can only be canceled when its not finished", HttpStatus.BAD_REQUEST)
+
 
         const creator = await this.prisma.member.findFirst({
             where:{

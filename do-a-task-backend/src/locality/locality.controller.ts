@@ -6,6 +6,4 @@ import { CreateLocalityDto } from './dto/locality.dto';
 @Controller('locality')
 export class LocalityController {
     constructor(private LocalityService: LocalityService) {}
-
-
 }
