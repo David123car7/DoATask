@@ -57,12 +57,17 @@ export default function CreateCommunityForm() {
                   <input type="text" className={styles.input} {...register('communityName')} placeholder="Nome da comunidade"/>
                   {errors.communityName && <p className={styles.error_message}>{errors.communityName.message}</p>}
                 </div>
+                 <div className={styles.inputGroup}>
+              <label className={styles.label}>
+                Escolha uma localidade onde a sua comunidade irá atuar
+              </label>
                 <select {...register('location')} disabled={locality.length == 0} className={styles.select}>
                   <option value="">Selecione Uma Localidade</option>
                   {locality.map((locality, index) => (
                     <option key={index} value={locality.name}>{locality.name}</option>
                   ))}
                 </select>
+                </div>
                 <button type="submit" className={styles.submitButton}>Submeter</button>
               </form>
             </div>
