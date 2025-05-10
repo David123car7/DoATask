@@ -26,14 +26,13 @@ export default async function CommunitiesListPage(){
                        <div className={styles.titles}>
   <p 
     className={styles.values} 
-    data-tooltip="Nome identificador da comunidade"
+    data-tooltip="Nome identificador da comunidade" // Quando o rato passa por cima, aparece a descrição
   >
     Comunidade
   </p>
   <p 
     className={styles.values} 
-    data-tooltip="Cidade/região onde a comunidade atua"
-  >
+    data-tooltip="Cidade/região onde a comunidade atua">
     Localidade
   </p>
   <p 
