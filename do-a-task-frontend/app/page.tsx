@@ -46,10 +46,20 @@ export default async function Home() {
         </section>
       )}*/}
 
+        {/* Frase Section */}
+        <section className={styles.pageTitle}>
+          <h2>O MELHOR DO VOLUNTÁRIO</h2>
+        </section>
+
+        {/* Logo Section */}
+        <section className={styles.image}>
+          <img src="/assets/logo.png" alt="DOATASK logo" />
+        </section>
+
         {/* Hero Section */}
         <section className={styles.letter}>
           <p>
-            Ajude a sua comunidade e seja recompensado! No DoaTask, pode
+            Ajude a sua comunidade e seja recompensado! No DoATask, pode
             publicar ou aceitar tarefas, desde apoiar vizinhos idosos até
             organizar eventos locais. Ao completar tarefas, ganha pontos e
             moedas que pode trocar por brindes ou bilhetes para eventos.
@@ -60,6 +70,7 @@ export default async function Home() {
             <li>Melhore a sua classificação</li>
           </ul>
           <p>Junte-se ao DoATask e transforme boas ações em benefícios!</p>
+          <div className={styles.space}></div>
           <div className={styles.buttons}>
             <a className={styles.buttonleft} href={ROUTES.ABOUT}>
               Sobre
@@ -68,16 +79,6 @@ export default async function Home() {
               Descobre como
             </a>
           </div>
-        </section>
-
-        {/* Frase Section */}
-        <section className={styles.letter}>
-          <h2> O melhor do Voluntariado...</h2>
-        </section>
-
-        {/* Logo Section */}
-        <section className={styles.image}>
-          <img src="/assets/logo.png" alt="DOATASK logo" />
         </section>
 
         <div className={styles.space}></div>

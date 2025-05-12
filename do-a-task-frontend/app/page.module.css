@@ -116,6 +116,15 @@ a.secondary {
   flex-shrink: 0;
 }
 
+.pageTitle {
+  color: rgb(255, 255, 255);
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-family: inherit;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
