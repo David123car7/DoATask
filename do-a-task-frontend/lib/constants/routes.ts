@@ -17,7 +17,9 @@ export const ROUTES = {
   MY_SHOP: "/store/myShop",
   MEMBER_PURCHASES: "/store/memberPurchases",
   CREATE_ITEM: "/store/createItem",
-  RANKS: "/rank"
+  RANKS: "/rank",
+  FINDOUT: "/findout",
+  ABOUT: "/about"
 };
 
 export const API_ROUTES = {
@@ -37,5 +39,6 @@ export const PROTECTED_ROUTES = new Set([
   ROUTES.MY_SHOP,
   ROUTES.CREATE_ITEM,
   ROUTES.MEMBER_PURCHASES,
-  ROUTES.RANKS
+  ROUTES.RANKS,
+  ROUTES.TASKS_AVAILABLE
 ]);

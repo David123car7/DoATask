@@ -14,6 +14,7 @@ import { Header } from '@/lib/components/layouts/header/header';
 export default async function Home() {
 
   const user = await GetUser();
+
   return (
     <div className="page">
       {!user ?(
@@ -21,9 +22,31 @@ export default async function Home() {
       ):(
         <HeaderWrapper/>
       )}
-      
 
       <main>
+      {/* Call to Action 
+      {user ? (
+        <section className={styles.fundo}>
+        <div className={styles.content}>
+          <h2>Participa!</h2>
+            <div className={styles.buttons}>
+              <a href={ROUTES.TASKS_AVAILABLE}>Realiza uma tarefa</a>
+              <a href={ROUTES.TASKS_CREATE}>Cria uma tarefa!</a>
+            </div>
+          </div>
+      </section>
+      ):(
+        <section className={styles.fundo}>
+          <div className={styles.content}>
+            <h2>Participa!</h2>
+              <div className={styles.buttons}>
+                <a href={ROUTES.SIGNIN}>Realiza uma tarefa</a>
+                <a href={ROUTES.SIGNIN}>Cria uma tarefa!</a>
+              </div>
+            </div>
+        </section>
+      )}*/}
+      
       {/* Hero Section */}
       <section className={styles.letter}>
         <p>Ajude a sua comunidade e seja recompensado! No DoaTask, pode publicar ou aceitar tarefas, desde apoiar vizinhos idosos até organizar eventos locais. Ao completar tarefas, ganha pontos e moedas que pode trocar por brindes ou bilhetes para eventos.</p>
@@ -34,7 +57,8 @@ export default async function Home() {
         </ul>
         <p>Junte-se ao DoATask e transforme boas ações em benefícios!</p>
           <div className={styles.buttons}>
-            <a href={ROUTES.HOME}>Sobre</a>
+            <a href={ROUTES.ABOUT}>Sobre</a>
+            <a href={ROUTES.FINDOUT}>Descobre como</a>
           </div>
       </section>
 
@@ -140,17 +164,7 @@ export default async function Home() {
       </section>
 
       <div className={styles.space}></div>
-
-      {/* Call to Action */}
-      <section className={styles.fundo}>
-        <div className={styles.content}>
-          <h2>Participa!</h2>
-            <div className={styles.buttons}>
-              <a href={ROUTES.HOME}>Realiza uma tarefa</a>
-              <a href={ROUTES.HOME}>Cria uma tarefa!</a>
-            </div>
-          </div>
-      </section>
+      
       </main>
 
       <Footer/>

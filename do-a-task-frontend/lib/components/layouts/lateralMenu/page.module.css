@@ -54,6 +54,7 @@
     display: flex;
     align-items: center;
     margin-left: 15rem;
+    transition: all 0.3s ease;
   }
 
   .options li svg{
@@ -64,7 +65,8 @@
   
   .options li:hover {
     background-color: #f0f0f0;
-
+    margin: auto;
+    justify-content: center;
   }
   
   @keyframes slideIn {
@@ -165,3 +167,13 @@
   cursor: pointer;       
   transition: all 0.2s; 
 }
+
+.buttonLogin:hover {
+    background-color: #cdcfd4; 
+    transform: scale(1.05);
+  }
+  
+.buttonRegister:hover {
+    background-color: #3a64da; 
+    transform: scale(1.05);
+  }
