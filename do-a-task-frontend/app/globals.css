@@ -1,29 +1,36 @@
-
-.page-auth{
+.page-auth {
   display: flex;
   flex-direction: column;
-  background: rgb(106,187,255);
-  background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
+  background: rgb(106, 187, 255);
+  background: radial-gradient(
+    circle,
+    rgba(106, 187, 255, 1) 6%,
+    rgba(0, 99, 255, 1) 88%
+  );
   overflow: hidden; /* Remove a barra de rolagem */
   height: 100vh;
 }
 
-.page{
+.page {
   display: flex;
   flex-direction: column;
-  background: rgb(106,187,255);
-  background: radial-gradient(circle, rgba(106,187,255,1) 6%, rgba(0,99,255,1) 88%);
+  background: rgb(106, 187, 255);
+  background: radial-gradient(
+    circle,
+    rgba(106, 187, 255, 1) 6%,
+    rgba(0, 99, 255, 1) 88%
+  );
   min-height: 100vh;
   margin: 0;
 }
 
-.logo_title{
+.logo_title {
   margin-left: 40px;
   font-size: 60px;
   font-weight: bold;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
-header{
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,7 +40,7 @@ header{
   height: 130px;
 }
 
-footer{
+footer {
   height: 100px;
   width: auto;
   background-color: white;
@@ -41,38 +48,37 @@ footer{
   justify-content: start;
 }
 
-footer p{
+footer p {
   color: black;
   margin-left: 40px;
   font-size: 60px;
   font-weight: bold;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
-nav ul{
+nav ul {
   list-style-type: none;
-  margin-right: 20px; 
+  margin-right: 20px;
   padding: 0;
   display: flex;
   gap: 10px;
   justify-content: flex-end;
   align-items: center;
-  font-size: 13px
+  font-size: 13px;
 }
 
-nav ul li{
+nav ul li {
   display: inline;
   color: black;
   font-size: 20;
 }
 
-nav ul li a{
+nav ul li a {
   text-decoration: none;
   color: black;
-
 }
 
-button{
+button {
   background-color: black;
   border: none;
   cursor: pointer;
@@ -81,36 +87,79 @@ button{
   font-size: 15px;
 }
 
-main{
+.taskbutton {
+  z-index: 1;
+  position: relative;
+  font-family: inherit;
+  color: white;
+  outline: none;
+  background-color: hsl(236, 32%, 26%);
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 13px 23px;
+  border: 1px solid #222222;
+}
+
+.taskbutton::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background-color: #97e0ff;
+  transform-origin: center;
+  transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);
+  transition: transform 0.4s ease-in-out;
+}
+
+.taskbutton:hover {
+  cursor: pointer;
+  color: #161616;
+}
+
+.taskbutton:hover::before {
+  transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15);
+}
+
+main {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.sucess_message{
+.sucess_message {
   color: rgb(5, 241, 190);
   font-size: 14px;
   margin-top: 5px;
   text-align: center;
 }
 
-.error_message{
+.error_message {
   color: red;
   font-size: 14px;
   margin-top: 5px;
   text-align: start;
 }
-.footerNav{
+.footerNav {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.footerNav li{
+.footerNav li {
   display: inline;
 }
 
-.footerlogo{
+.footerlogo {
   display: flex;
   justify-content: space-between;
   align-items: center;

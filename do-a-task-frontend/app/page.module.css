@@ -61,15 +61,15 @@
   gap: 16px;
 }
 
-.loginBox{
+.loginBox {
   width: 60px;
   height: 40px;
-  background-color:black;
+  background-color: black;
   color: white;
   padding: 3px;
   border-radius: 8px;
   text-align: center;
-  line-height: 35px;    
+  line-height: 35px;
 }
 
 .ctas a {
@@ -79,10 +79,7 @@
   padding: 0 20px;
   border: none;
   border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -178,96 +175,89 @@ a.secondary {
   }
 }
 
-  .letter {
-    font-size: 24px;
-    color: black;
-    line-height: 1.2;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-top: 1rem;
-  }
+.letter {
+  font-size: 24px;
+  color: black;
+  line-height: 1.2;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top: 1rem;
+}
 
-  .letter2{
-    font-size: 24px;
-    color: black;
-    line-height: 1.2;
-    margin-left: 3rem;
-    margin-right: 3rem;
-    padding-top: 1rem;
-    display: flex;
-    justify-content: center;
-  }
+.letter2 {
+  font-size: 24px;
+  color: black;
+  line-height: 1.2;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
 
-  .lis{
-    font-size: 25px;
-    color: black;
-    line-height: 1.2;
-    margin: 20px;
-  }
+.lis {
+  font-size: 25px;
+  color: black;
+  line-height: 1.2;
+  margin: 20px;
+}
 
-  .buttons a{
-    background-color: #000000; 
-    color: #ffffff;
-    border-radius: 15px;
-    padding: 20px 35px;
-    cursor: pointer;
-    display: inline-block;
-    margin: 1rem;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: 0.3s ease;
-  }
+.buttons a {
+  background-color: hsl(236, 32%, 26%);
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 20px 35px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 1rem;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+}
 
-  .buttons a:hover{
-    background: #222; 
-    transform: scale(1.05);
-  }
+.image {
+  max-width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block; /* Torna o elemento bloco */
+  margin-left: auto; /* Centraliza horizontalmente */
+  margin-right: auto;
+}
 
+.container {
+  font-size: 25px;
+  color: black;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  place-items: center; /* Centraliza conteúdo horizontal e verticalmente */
+  text-align: center; /* Alinha o texto ao centro */
+  gap: 2rem; /* Espaçamento entre colunas */
+  padding: 2rem; /* Espaçamento interno */
+  max-width: 1200px; /* Limita a largura máxima */
+  margin: 0 auto; /* Centraliza o container na página */
+}
 
-  .image{
-    max-width: 100%;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 8px;
-    display: block;          /* Torna o elemento bloco */
-    margin-left: auto;       /* Centraliza horizontalmente */
-    margin-right: auto;
-  }
+.space {
+  margin: 50px;
+}
 
-  .container{
-    font-size: 25px;
-    color: black;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    place-items: center; /* Centraliza conteúdo horizontal e verticalmente */
-    text-align: center; /* Alinha o texto ao centro */
-    gap: 2rem; /* Espaçamento entre colunas */
-    padding: 2rem; /* Espaçamento interno */
-    max-width: 1200px; /* Limita a largura máxima */
-    margin: 0 auto; /* Centraliza o container na página */
-  }
+.container2 {
+  font-size: 25px;
+  color: black;
+  display: flex; /* Flexbox para alinhar texto e imagem */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 2rem; /* Espaço entre texto e imagem */
+  margin: 0 3rem; /* Margem nas laterais */
+  padding-top: 1rem;
+  line-height: 1.2;
+  justify-content: center; /* Centraliza o conteúdo */
+}
 
-  .space{
-    margin: 50px;
-  }
-
-  .container2 {
-    font-size: 25px;
-    color: black;
-    display: flex;          /* Flexbox para alinhar texto e imagem */
-    align-items: center;    /* Centraliza verticalmente */
-    gap: 2rem;              /* Espaço entre texto e imagem */
-    margin: 0 3rem;         /* Margem nas laterais */
-    padding-top: 1rem;
-    line-height: 1.2;
-    justify-content: center; /* Centraliza o conteúdo */
-  }
-
-  
-  .imageContainer {
-    flex-shrink: 0;         /* Evita que a imagem diminua */
-  }
+.imageContainer {
+  flex-shrink: 0; /* Evita que a imagem diminua */
+}
 
 /* === Container Principal === */
 .section {
@@ -315,17 +305,17 @@ a.secondary {
 
 .container3 {
   color: black;
-  display: flex;          
-  align-items: center; 
-  width: 100%;   
-  gap: 2rem;             
-  margin: auto;         
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 2rem;
+  margin: auto;
   padding-top: 1rem;
   line-height: 1.2;
 }
 
 .fundo {
-  background: #E6E6E6;
+  background: #e6e6e6;
   color: black;
   margin: 0;
   padding: 0;
@@ -335,4 +325,125 @@ a.secondary {
 .content {
   text-align: center;
   padding-top: 1.5rem;
+}
+
+.taskbutton {
+  z-index: 1;
+  position: relative;
+  font-family: inherit;
+  color: white;
+  outline: none;
+  background-color: hsl(236, 32%, 26%);
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 13px 23px;
+  border: 1px solid #222222;
+}
+
+.taskbutton::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background-color: #97e0ff;
+  transform-origin: center;
+  transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);
+  transition: transform 0.4s ease-in-out;
+}
+
+.taskbutton:hover {
+  cursor: pointer;
+  color: #161616;
+}
+
+.taskbutton:hover::before {
+  transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15);
+}
+
+.buttonleft {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: hsl(236, 32%, 26%);
+  border-radius: 15px;
+}
+
+.buttonleft::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #97e0ff;
+  transform-origin: center right;
+  transform: scaleX(0);
+  transition: transform 0.25s ease-in-out;
+  border-radius: 15px;
+}
+
+.buttonleft:hover {
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.buttonleft:hover::before {
+  transform-origin: center left;
+  transform: scaleX(1);
+  border-radius: 15px;
+}
+
+.buttonright {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: hsl(236, 32%, 26%);
+  border-radius: 15px;
+}
+
+.buttonright::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #97e0ff;
+  transform-origin: center left;
+  transform: scaleX(0);
+  transition: transform 0.25s ease-in-out;
+  border-radius: 15px;
+}
+
+.buttonright:hover {
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.buttonright:hover::before {
+  transform-origin: center right;
+  transform: scaleX(1);
+  border-radius: 15px;
 }
