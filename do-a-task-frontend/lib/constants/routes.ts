@@ -1,29 +1,30 @@
 export const ROUTES = {
-  HOME: '/',
-  SIGNIN: '/auth/signin',
-  SIGNUP: '/auth/signup',
-  RESET_PASSWORD: '/auth/requestResetPassword',
-  USER_MAIN: '/user/main',
-  NOTIFICATION_LIST: '/notificationList',
-  COMMUNITIES:'/associateToCommunity',
-  ENTER_COMMUNITY: '/community/list/enterCommunity',
-  USER_COMMUNITY: '/community/list/userCommunity',
-  CREATE_COMMUNITY: '/community/create',
-  TASKS_USER_CREATED_LIST: '/tasks/list/tasksUserCreated',
-  TASKS_USER__DOING_LIST: '/tasks/list/tasksUserDoing',
-  TASKS_CREATE: '/tasks/create',
-  TASKS_AVAILABLE: '/tasks/list/tasksAvailable',
+  HOME: "/",
+  SIGNIN: "/auth/signin",
+  SIGNUP: "/auth/signup",
+  RESET_PASSWORD: "/auth/requestResetPassword",
+  USER_MAIN: "/user/main",
+  NOTIFICATION_LIST: "/notificationList",
+  COMMUNITIES: "/associateToCommunity",
+  ENTER_COMMUNITY: "/community/list/enterCommunity",
+  USER_COMMUNITY: "/community/list/userCommunity",
+  CREATE_COMMUNITY: "/community/create",
+  TASKS: "/tasks",
+  TASKS_USER_CREATED_LIST: "/tasks/list/tasksUserCreated",
+  TASKS_USER__DOING_LIST: "/tasks/list/tasksUserDoing",
+  TASKS_CREATE: "/tasks/create",
+  TASKS_AVAILABLE: "/tasks/list/tasksAvailable",
   SHOPS: "/store/shops",
   MY_SHOP: "/store/myShop",
   MEMBER_PURCHASES: "/store/memberPurchases",
   CREATE_ITEM: "/store/createItem",
   RANKS: "/rank",
   FINDOUT: "/findout",
-  ABOUT: "/about"
+  ABOUT: "/about",
 };
 
 export const API_ROUTES = {
-  SIGNOUT: '/auth/signout',
+  SIGNOUT: "/auth/signout",
 };
 
 export const PROTECTED_ROUTES = new Set([
@@ -40,5 +41,6 @@ export const PROTECTED_ROUTES = new Set([
   ROUTES.CREATE_ITEM,
   ROUTES.MEMBER_PURCHASES,
   ROUTES.RANKS,
-  ROUTES.TASKS_AVAILABLE
+  ROUTES.TASKS_AVAILABLE,
+  ROUTES.TASKS,
 ]);
