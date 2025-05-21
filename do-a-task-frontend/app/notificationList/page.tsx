@@ -22,6 +22,7 @@ export default async function NotificationList(){
                         <div className={styles.titles}>
                             <p className={styles.values}>Mensagem</p>
                             <p className={styles.values}>Recebida Ás</p>
+                            <p className={styles.values}>Lida Ás</p>
                         </div>  
                         
                         {notifications.length > 0 && (
@@ -29,6 +30,11 @@ export default async function NotificationList(){
                                 <div className={styles.row} key={index}>
                                     <p className={styles.values}>{notification.message}</p>
                                     <p className={styles.values}>{notification.createdAt}</p>
+                                    {notification.read ? (
+                                        <p className={styles.values}>{notification.updatedAt}</p>
+                                    ) : (
+                                        <p className={styles.values}>Não Lida</p>
+                                    )}
                                 </div>
                             ))
                         )}
