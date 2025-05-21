@@ -9,6 +9,7 @@ import { FaHome } from "@/lib/icons";
 import { ROUTES } from "@/lib/constants/routes";
 import { Notifications } from "../notifications/notifications";
 import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
+import { BsClockHistory } from "react-icons/bs";
 import {
   RiUserCommunityFill,
   MdOutlineSupport,
@@ -41,6 +42,11 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
             <li>
               <a href={ROUTES.HOME}>
                 <FaHome size={28} />
+              </a>
+            </li>
+            <li>
+              <a href={ROUTES.HISTORY}>
+                <BsClockHistory size={25} />
               </a>
             </li>
             {userData && (

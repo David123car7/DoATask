@@ -21,6 +21,7 @@ export const ROUTES = {
   RANKS: "/rank",
   FINDOUT: "/findout",
   ABOUT: "/about",
+  HISTORY: "/tasks/history",
 };
 
 export const API_ROUTES = {
@@ -43,4 +44,5 @@ export const PROTECTED_ROUTES = new Set([
   ROUTES.RANKS,
   ROUTES.TASKS_AVAILABLE,
   ROUTES.TASKS,
+  ROUTES.HISTORY,
 ]);
