@@ -26,6 +26,7 @@ export const ROUTES = {
 
 export const API_ROUTES = {
   SIGNOUT: "/auth/signout",
+    ADDRESSES: '/api/addresses',
 };
 
 export const PROTECTED_ROUTES = new Set([

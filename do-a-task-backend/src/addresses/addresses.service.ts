@@ -4,6 +4,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateAddressDto } from "./dto/addresses.dto";
 import { error } from "console";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import {UpdateAddressDto} from "./dto/update.address.dto"
 
 
 @Injectable({})
@@ -109,5 +110,42 @@ export class AddressService{
         });
 
         return validAddresses;
+    }
+
+    async deleteAddress(id: number, userId: string) {
+        try {
+            const address = await this.prisma.address.findFirst({
+                where: { id, userId }
+            });
+            if (!address) {
+                throw new HttpException("Address not found or not owned by user", HttpStatus.NOT_FOUND);
+            }
+
+            await this.prisma.address.delete({ where: { id } });
+        } catch (error) {
+            this.prisma.handlePrismaError("Delete Address", error);
+        }
+    }
+
+    async updateAddress(id: number, dto: UpdateAddressDto, userId: string) {
+        try {
+            const address = await this.prisma.address.findFirst({
+                where: { id, userId }
+            });
+            if (!address) {
+                throw new HttpException("Address not found or not owned by user", HttpStatus.NOT_FOUND);
+            }
+
+            return await this.prisma.address.update({
+                where: { id },
+                data: {
+                    port: dto.port,
+                    street: dto.street,
+                    postalCode: dto.postalCode
+                }
+            });
+        } catch (error) {
+            this.prisma.handlePrismaError("Update Address", error);
+        }
     }
 }
