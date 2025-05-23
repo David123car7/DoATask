@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const getTaskSchema = z.object({
+export const getTaskSchema = z.object({
   id: z.number(),
   title: z.string(),
   description: z.string(),
@@ -11,7 +11,7 @@ const getTaskSchema = z.object({
   location: z.string(),
 });
 
-const getMemberTaskSchema = z.object({
+export const getMemberTaskSchema = z.object({
   id: z.number(),
   status: z.string(),
   assignedAt: z.coerce.date().nullable(),
@@ -21,7 +21,7 @@ const getMemberTaskSchema = z.object({
   score: z.number().nullable(),
 });
 
-const communitySchema = z.object({
+export const communitySchema = z.object({
   communityName: z.string(),
 });
 
@@ -31,4 +31,6 @@ export const getTasksAndMemberTasksCreatedSchema = z.object({
   community: z.array(communitySchema),
 });
 
-export type GetTasksAndMemberTasksCreatedSchema = z.infer<typeof getTasksAndMemberTasksCreatedSchema>;
+export type GetTasksAndMemberTasksCreatedSchema = z.infer<
+  typeof getTasksAndMemberTasksCreatedSchema
+>;

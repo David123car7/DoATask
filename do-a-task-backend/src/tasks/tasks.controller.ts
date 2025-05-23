@@ -20,6 +20,7 @@ import {
   CreateTasksDto,
   EvaluateTaskDto,
   AssignTaskDto,
+  UpdateTaskDto,
 } from './dto/tasks.dto';
 import { RequestWithUser } from '../auth/types/jwt-payload.type';
 import { JwtAuthGuard } from '../auth/guard/jwt.auth.guard';
@@ -172,5 +173,17 @@ export class TasksController {
     await this.tasksService.evaluateTask(dto.memberTaskId, dto.score);
     await this.tasksService.assignBonus(dto.memberTaskId, dto.score);
     return res.json({ message: 'Task was evaluated' });
+  }
+
+  @Put('updateTask')
+  @UseGuards(JwtAuthGuard)
+  async updateTask(
+    @Query('taskId', ParseIntPipe) taskId: number,
+    @Body() dto: UpdateTaskDto,
+    @Req() req: RequestWithUser,
+    @Res() res: Response,
+  ) {
+    await this.tasksService.updateTask(taskId, dto, Number(req.user.sub));
+    return res.json({ message: 'Task was updated' });
   }
 }

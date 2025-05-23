@@ -2,34 +2,41 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaCoins, FaShoppingCart, CiUser } from "@/lib/icons";
 import styles from "@/app/tasks/create/page.module.css";
-import {
-  CreateTaskSchema,
-  createTaskSchema,
-} from "@/lib/schemas/tasks/create-task-form-schema";
 import { useRouter } from "next/navigation";
-import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { toast } from "react-toastify";
-import { ROUTES } from "@/lib/constants/routes";
-import { CreateTask } from "@/lib/api/tasks/create.task";
-import { GetNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 import { useState } from "react";
+import { UpdateTask } from "@/lib/api/tasks/update.task";
+import { getTaskSchema } from "@/lib/schemas/tasks/get-task-member-created";
+import { getNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 
-export default function CreateTaskForm({
+type TaskFormData = ReturnType<typeof getTaskSchema.parse>;
+
+interface EditTaskFormProps {
+  communityData: ReturnType<typeof getNameCommunitySchemaArray.parse>;
+  taskData: TaskFormData;
+}
+
+export default function EditTaskForm({
   communityData,
-}: {
-  communityData: GetNameCommunitySchemaArray;
-}) {
+  taskData,
+}: EditTaskFormProps) {
+  const router = useRouter();
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateTaskSchema>({
-    resolver: zodResolver(createTaskSchema),
+  } = useForm<TaskFormData>({
+    resolver: zodResolver(getTaskSchema),
+    defaultValues: {
+      ...taskData,
+      difficulty: taskData.difficulty ?? 1,
+      coins: taskData.coins ?? 0,
+      points: taskData.points ?? 0,
+    },
   });
-  const router = useRouter();
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -37,27 +44,23 @@ export default function CreateTaskForm({
     }
   };
 
-  const onSubmit = async (data: CreateTaskSchema) => {
-    if (!selectedImage) {
-      toast.error("Por favor, selecione uma imagem.");
-      return;
-    }
-
+  const onSubmit = async (data: TaskFormData) => {
     try {
       const formData = new FormData();
-
-      formData.append("tittle", data.tittle);
+      formData.append("id", data.id.toString());
+      formData.append("title", data.title);
       formData.append("description", data.description);
-      formData.append("difficulty", data.difficulty.toString());
       formData.append("location", data.location);
-      formData.append("communityName", data.communityName);
-      formData.append("image", selectedImage);
 
-      const responseData = await CreateTask(formData);
-      toast.success(responseData.message);
-      router.push(ROUTES.TASKS_USER_CREATED_LIST);
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+      }
+
+      await UpdateTask(data.id, formData);
+      toast.success("Tarefa atualizada com sucesso!");
+      router.push("/dashboard");
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Erro ao atualizar tarefa: " + error.message);
     }
   };
 
@@ -72,22 +75,24 @@ export default function CreateTaskForm({
       <main>
         <div className={styles.container}>
           <div className={styles.formBox}>
-            <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
+            <h1 className={styles.mainTitle}>Editar Tarefa</h1>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+              <input type="hidden" {...register("id")} />
+              <input type="hidden" {...register("creatorId")} />
+
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Título da tarefa</label>
                 <input
                   type="text"
                   className={styles.input}
-                  {...register("tittle")}
+                  {...register("title")}
                   placeholder="Título"
                 />
-                {errors.tittle && (
-                  <p className={styles.error_message}>
-                    {errors.tittle.message}
-                  </p>
+                {errors.title && (
+                  <p className={styles.error_message}>{errors.title.message}</p>
                 )}
               </div>
+
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Descrição</label>
                 <input
@@ -133,28 +138,45 @@ export default function CreateTaskForm({
               </div>
 
               <div className={styles.inputGroup}>
-                <label className={styles.label}>Imagens</label>
+                <label className={styles.label}>Moedas</label>
+                <input
+                  type="number"
+                  className={styles.input}
+                  {...register("coins", { valueAsNumber: true })}
+                  min="0"
+                />
+                {errors.coins && (
+                  <p className={styles.error_message}>{errors.coins.message}</p>
+                )}
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Pontos</label>
+                <input
+                  type="number"
+                  className={styles.input}
+                  {...register("points", { valueAsNumber: true })}
+                  min="0"
+                />
+                {errors.points && (
+                  <p className={styles.error_message}>
+                    {errors.points.message}
+                  </p>
+                )}
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Imagem da tarefa</label>
                 <input
                   type="file"
                   accept="image/*"
-                  multiple
                   className={styles.input}
                   onChange={handleFileChange}
                 />
               </div>
 
-              <div className={styles.inputGroup}>
-                <label className={styles.label}>Comunidade</label>
-                <select {...register("communityName")} className={styles.input}>
-                  {communityData.map((community, index) => (
-                    <option key={index} value={community.communityName}>
-                      {community.communityName}
-                    </option>
-                  ))}
-                </select>
-              </div>
               <button type="submit" className={styles.createButton}>
-                Criar Tarefa
+                Atualizar Tarefa
               </button>
             </form>
           </div>

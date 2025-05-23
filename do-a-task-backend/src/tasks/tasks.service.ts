@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
-import { AssignTaskDto, CreateTasksDto } from './dto/tasks.dto';
+import { AssignTaskDto, CreateTasksDto, UpdateTaskDto } from './dto/tasks.dto';
 import { baseReward } from '../lib/constants/tasks/tasks.constants';
 import { TASK_STATES } from '../lib/constants/tasks/tasks.constants';
 import { BUCKETS } from '../lib/constants/storage/buckets';
@@ -749,5 +749,30 @@ export class TasksService {
     } catch (error) {
       this.prisma.handlePrismaError('Cancel Task', error);
     }
+  }
+  async updateTask(taskId: number, dto: UpdateTaskDto, userId: number) {
+    const task = await this.prisma.task.findUnique({
+      where: { id: taskId },
+    });
+
+    if (!task) {
+      throw new Error('Task not found');
+    }
+
+    if (task.creatorId !== userId) {
+      throw new Error('Unauthorized to update this task');
+    }
+
+    await this.prisma.task.update({
+      where: { id: taskId },
+      data: {
+        title: dto.tittle,
+        description: dto.description,
+        location: dto.location,
+        coins: dto.coins,
+        points: dto.points,
+        difficulty: parseInt(dto.difficulty as any, 10),
+      },
+    });
   }
 }
