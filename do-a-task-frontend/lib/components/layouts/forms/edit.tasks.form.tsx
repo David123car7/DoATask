@@ -57,10 +57,10 @@ export default function EditTaskForm({
       }
 
       await UpdateTask(data.id, formData);
-      toast.success("Tarefa atualizada com sucesso!");
+      toast.success("voluntariado atualizada com sucesso!");
       router.push("/app");
     } catch (error: any) {
-      toast.error("Erro ao atualizar tarefa: " + error.message);
+      toast.error("Erro ao atualizar voluntariado: " + error.message);
     }
   };
 
@@ -75,13 +75,13 @@ export default function EditTaskForm({
       <main>
         <div className={styles.container}>
           <div className={styles.formBox}>
-            <h1 className={styles.mainTitle}>Editar Tarefa</h1>
+            <h1 className={styles.mainTitle}>Editar voluntariado</h1>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
               <input type="hidden" {...register("id")} />
               <input type="hidden" {...register("creatorId")} />
 
               <div className={styles.inputGroup}>
-                <label className={styles.label}>Título da tarefa</label>
+                <label className={styles.label}>Título da voluntariado</label>
                 <input
                   type="text"
                   className={styles.input}
@@ -166,7 +166,7 @@ export default function EditTaskForm({
               </div>
 
               <div className={styles.inputGroup}>
-                <label className={styles.label}>Imagem da tarefa</label>
+                <label className={styles.label}>Imagem da voluntariado</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -176,7 +176,7 @@ export default function EditTaskForm({
               </div>
 
               <button type="submit" className={styles.createButton}>
-                Atualizar Tarefa
+                Atualizar voluntariado
               </button>
             </form>
           </div>

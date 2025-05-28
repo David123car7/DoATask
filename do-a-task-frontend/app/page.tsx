@@ -29,8 +29,8 @@ export default async function Home() {
         <div className={styles.content}>
           <h2>Participa!</h2>
             <div className={styles.buttons}>
-              <a href={ROUTES.TASKS_AVAILABLE}>Realiza uma tarefa</a>
-              <a href={ROUTES.TASKS_CREATE}>Cria uma tarefa!</a>
+              <a href={ROUTES.TASKS_AVAILABLE}>Realiza uma voluntariado</a>
+              <a href={ROUTES.TASKS_CREATE}>Cria uma voluntariado!</a>
             </div>
           </div>
       </section>
@@ -39,8 +39,8 @@ export default async function Home() {
           <div className={styles.content}>
             <h2>Participa!</h2>
               <div className={styles.buttons}>
-                <a href={ROUTES.SIGNIN}>Realiza uma tarefa</a>
-                <a href={ROUTES.SIGNIN}>Cria uma tarefa!</a>
+                <a href={ROUTES.SIGNIN}>Realiza uma voluntariado</a>
+                <a href={ROUTES.SIGNIN}>Cria uma voluntariado!</a>
               </div>
             </div>
         </section>
@@ -60,12 +60,12 @@ export default async function Home() {
         <section className={styles.letter}>
           <p>
             Ajude a sua comunidade e seja recompensado! No DoATask, pode
-            publicar ou aceitar tarefas, desde apoiar vizinhos idosos até
-            organizar eventos locais. Ao completar tarefas, ganha pontos e
+            publicar ou aceitar tarefas de voluntariado, desde apoiar vizinhos idosos até
+            organizar eventos locais. Ao completar tarefas de voluntariado, ganha pontos e
             moedas que pode trocar por brindes ou bilhetes para eventos.
           </p>
           <ul className={styles.lis}>
-            <li>Publique e aceite tarefas</li>
+            <li>Publique e aceite tarefas de voluntariado</li>
             <li>Ganhe recompensas</li>
             <li>Melhore a sua classificação</li>
           </ul>
@@ -87,7 +87,7 @@ export default async function Home() {
         <section className={styles.container}>
           <div>
             <MdOutlineVolunteerActivism size={250} />
-            <h3>Voluntariado</h3>
+            <h3>Tarefas de voluntariado</h3>
             <p>Ajuda quem mais precisa e sente-te bem com isso!</p>
           </div>
           <div>
@@ -129,14 +129,14 @@ export default async function Home() {
         <section className={styles.container}>
           <div>
             <BiTask size={250} />
-            <h3>Tarefador</h3>
-            <p>Cria tarefas à tua escolha e disponibiliza recompensas!</p>
+            <h3>voluntariador</h3>
+            <p>Cria tarefas de voluntariado à tua escolha e disponibiliza recompensas!</p>
           </div>
           <div>
             <BiTask size={250} />
             <h3>Ajudante</h3>
             <p>
-              Participa em quantas tarefas tu quiseres, e recebe recompensas por
+              Participa em quantas voluntariados tu quiseres, e recebe recompensas por
               isso!
             </p>
           </div>

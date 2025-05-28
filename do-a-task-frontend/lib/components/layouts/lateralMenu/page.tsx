@@ -69,7 +69,7 @@ export function Menu({ userData }: { userData: UserDataSchema | null }) {
                 <a href={ROUTES.TASKS}>
                   <FaTasks size={26} />
                 </a>
-                <a href={ROUTES.TASKS}>Tarefas</a>
+                <a href={ROUTES.TASKS}>Tarefas Voluntariado</a>
               </li>
               <li>
                 <a href={ROUTES.USER_COMMUNITY}>

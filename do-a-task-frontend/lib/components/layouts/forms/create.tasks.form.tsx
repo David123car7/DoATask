@@ -72,10 +72,10 @@ export default function CreateTaskForm({
       <main>
         <div className={styles.container}>
           <div className={styles.formBox}>
-            <h1 className={styles.mainTitle}>Publicar Tarefa</h1>
+            <h1 className={styles.mainTitle}>Publicar voluntariado</h1>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
               <div className={styles.inputGroup}>
-                <label className={styles.label}>Título da tarefa</label>
+                <label className={styles.label}>Título da voluntariado</label>
                 <input
                   type="text"
                   className={styles.input}
@@ -154,7 +154,7 @@ export default function CreateTaskForm({
                 </select>
               </div>
               <button type="submit" className={styles.createButton}>
-                Criar Tarefa
+                Criar voluntariado
               </button>
             </form>
           </div>

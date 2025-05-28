@@ -118,7 +118,7 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
             },
             data: {
               read: true,
-              //updatedAt: new Date(),
+              updatedAt: new Date(),
             },
           });
           return updateResult;

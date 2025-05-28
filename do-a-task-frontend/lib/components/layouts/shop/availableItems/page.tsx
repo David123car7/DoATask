@@ -29,7 +29,7 @@ export function AvaiableItems({community, userData, UserStore}: {community: GetN
         const validateItems = getItemSchemaArray.parse(result);
         setItems(validateItems);
     } catch (error) {
-        console.error('Erro ao buscar tarefas:', error);
+        console.error('Erro ao buscar voluntariados:', error);
     }
     }
 

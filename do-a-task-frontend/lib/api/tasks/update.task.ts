@@ -20,7 +20,7 @@ export async function UpdateTask(taskId: number, data: any) {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || "Erro ao atualizar tarefa");
+    throw new Error(error.message || "Erro ao atualizar voluntariado");
   }
 
   return response.json();

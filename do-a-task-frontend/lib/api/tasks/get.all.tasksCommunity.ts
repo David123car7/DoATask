@@ -30,7 +30,7 @@ export async function GetAllTasksCommunity(communityName: string) {
 
 
     const data = await response.json();
-    console.log("Tarefas API:",data.task)
+    console.log("voluntariados API:",data.task)
     return data.task;
   } catch (error) {
     console.error('Error retrieving tasks:', error);

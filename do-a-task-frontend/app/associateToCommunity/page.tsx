@@ -34,7 +34,7 @@ export default function ConnectToCommunity(){
 <div className={styles.blur}>
 
                 <div className={styles.container}>
-                    <p className={styles.title}>Novas Tarefas</p>
+                    <p className={styles.title}>Novas voluntariados</p>
                 </div>
 
                 <div className={styles.taskBox}>
@@ -44,7 +44,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -55,7 +55,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -66,7 +66,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -77,7 +77,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -96,7 +96,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -107,7 +107,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -118,7 +118,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
@@ -129,7 +129,7 @@ export default function ConnectToCommunity(){
                             <Image src="/assets/linkdinlogo.png" alt="Logo" fill className={styles.taskImage} />
                         </div>
                         <p className={styles.info}>
-                            Tarefa adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
+                            voluntariado adda ad ad ad ad ad ad a daddadad a add adada ad  dadadadadadadad
                             adadadadadadasd asd ASd ad asd a da dad  a ad ad asda a  adadad asd asda
                             dadaddaddad
                         </p>
