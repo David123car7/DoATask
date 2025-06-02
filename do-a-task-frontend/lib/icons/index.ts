@@ -1,5 +1,5 @@
 export { CiUser } from "react-icons/ci";
-export { FaCoins, FaShoppingCart } from "react-icons/fa";
+export {FaCoins, FaShoppingCart} from "react-icons/fa";
 export { CiCircleInfo } from "react-icons/ci";
 export { BiBell } from "react-icons/bi";
 export { FaHome } from "react-icons/fa";
@@ -9,7 +9,7 @@ export { IoIosAdd } from "react-icons/io";
 export { FaLocationPin } from "react-icons/fa6";
 export { RiUserCommunityFill } from "react-icons/ri";
 export { MdOutlineSupport } from "react-icons/md";
-export { FaRegUserCircle, FaTasks } from "react-icons/fa";
+export { FaRegUserCircle,FaTasks } from "react-icons/fa";
 export { TiShoppingCart } from "react-icons/ti";
 export { MdOutlineVolunteerActivism } from "react-icons/md";
 export { FiBookOpen } from "react-icons/fi";
@@ -20,4 +20,4 @@ export { PiRankingLight } from "react-icons/pi";
 export { IoMenu } from "react-icons/io5";
 export { MdOutlineManageAccounts } from "react-icons/md";
 export { HiOutlineHome } from "react-icons/hi";
-export { BsClockHistory } from "react-icons/bs";
+
