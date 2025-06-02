@@ -10,7 +10,6 @@ import MyShopNavBar from "@/lib/components/layouts/shop/navbar/myShopPage/nav.ba
 import { HideItemButton } from "@/lib/components/layouts/shop/buttons/hide.item.button";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
 import { ShowItemButton } from "@/lib/components/layouts/shop/buttons/show.item.button";
-import UpdateStockItem from "@/lib/components/layouts/shop/ChangeStock/page";
 
 
 export default async function MemberShopPage(){
@@ -35,7 +34,7 @@ export default async function MemberShopPage(){
                                         </div>
                                         <div className={styles.title}>{item.name}</div>
                                             <p className={styles.description}><strong>Preço: </strong>{item.price}</p>
-                                            <UpdateStockItem  newStock={item.stock} ItemId={item.id}/>
+                                            <p className={styles.description}><strong>Disponivel: </strong>{item.available}</p>
                                         <div className={styles.buttonContainer}>
                                             {item.available ? (
                                                 <HideItemButton itemId={item.id}/>

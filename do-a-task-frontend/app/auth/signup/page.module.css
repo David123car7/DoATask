@@ -79,16 +79,15 @@
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    background-color: #007bff;
+    background-color: black;
     color: white;
     font-size: 16px;
     cursor: pointer;
-    transition: 0.3s ease;
 }
 
 .submitButton:hover{
-    background-color: #3a64da; 
-    transform: scale(1.05);
+    background: rgb(255,255,255);
+    color: black;
 }
 
 .information {

@@ -13,7 +13,6 @@ import { CreateAddress } from "@/lib/api/address/create-addressUser";
 import { createAddressSchema, CreateAddressSchema } from "@/lib/schemas/address/createAddress.schema";
 import { toast } from "react-toastify";
 import { Toaster } from "../../toaster/toaster";
-import { GetNameCommunitySchemaArray } from "@/lib/schemas/community/get-communityName-schema";
 
 export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
 
@@ -81,7 +80,7 @@ export function AddAdress({allAddresses} : {allAddresses: AddressSchema}){
                 Adicionar Nova Morada
               </div>
               <form  onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                <input type="text" {...register('locality')} placeholder="Freguesia"/>
+                <input type="text" {...register('locality')} placeholder="Localidade"/>
                 {errors.locality && <p>{errors.locality.message}</p> }
                 <input type="text" {...register('street')} placeholder="Rua"/>
                 {errors.street && <p>{errors.street.message}</p> }

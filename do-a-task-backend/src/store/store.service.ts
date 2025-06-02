@@ -420,49 +420,4 @@ export class StoreService {
         }
         return true;
     }
-
-    async updateItemStock(userId:string, itemId: number, stock: number){ 
-        const community = await this.prisma.community.findFirst({
-            where:{
-                creatorId: userId
-            }
-        })
-        if(!community){
-            throw new HttpException("The user does not have any community", HttpStatus.BAD_REQUEST)
-        }
-
-        const store = await this.prisma.store.findFirst({
-            where:{
-                communityId: community.id
-            }
-        })
-        if(!store){
-            throw new HttpException("The community is not assigned to any store", HttpStatus.BAD_REQUEST)
-        }
-
-        const item = await this.prisma.item.findUnique({
-            where:{
-                id: itemId,
-                storeId: store.id
-            }
-        })
-        if(!item){      
-            throw new HttpException("The item does not exist", HttpStatus.BAD_REQUEST)
-        }
-        try{
-            await this.prisma.item.update({
-                where:{
-                    id: item.id,
-                },
-                data:{
-                    stock: stock
-                }
-            })
-        }
-        catch(error){
-            this.prisma.handlePrismaError("Update Item", error)
-        }
-        return true
-    }   
-
 }

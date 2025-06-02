@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { useRouter } from 'next/navigation';
 import { ROUTES, API_ROUTES} from "@/lib/constants/routes";
-import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, IoMenu, TiShoppingCart, PiRankingLight} from "@/lib/icons"
+import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart, PiRankingLight} from "@/lib/icons"
 
 export function Menu({userData }: {userData: UserDataSchema | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +35,7 @@ export function Menu({userData }: {userData: UserDataSchema | null }) {
   return (
     <div className={styles.menuContainer} ref={menuRef}>
       <button className={styles.logoButton} onClick={toggleMenu}>
-        <IoMenu size={28} />
+        <CiUser size={28} />
       </button>
   
       {isOpen && (

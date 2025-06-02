@@ -52,8 +52,6 @@ export class TasksController {
     @Put("assignTask")
     @UseGuards(JwtAuthGuard)
     async assignTask(@Query('taskId', ParseIntPipe) taskId: number, @Req() req: RequestWithUser, @Res() res: Response) {
-      console.log("task", taskId)
-      console.log("user", req.user.sub)
       await this.tasksService.assignTask(req.user.sub, taskId);
       return res.json({ message: 'Task was assigned'});
     }

@@ -110,7 +110,6 @@ export default function CreateTaskForm({communityData}: {communityData: GetNameC
                     {community.communityName}
                   </option>
                 ))}
-
               </select>
             </div>
             <button type="submit" className={styles.createButton}>

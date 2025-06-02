@@ -121,34 +121,4 @@
     display: inline-block; 
   }
   
-  /* Adicione estas classes ao seu arquivo CSS */
-
-.singleOption {
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    padding: 1.5rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    transition: all 0.3s ease; /* Adiciona transição suave */
-    transform: scale(1); /* Tamanho normal */
-    cursor: pointer; /* Muda o cursor para pointer */
-}
-
-.singleOption:hover {
-    background-color: #f0f0f0; /* Cor mais escura no hover */
-    transform: scale(1.05); /* Aumenta ligeiramente */
-}
-
-.singleOption a {
-    color: inherit; /* Mantém a cor do texto */
-    text-decoration: none; /* Remove sublinhado */
-    display: block; /* Faz o link ocupar todo o espaço */
-    width: 100%;
-    height: 100%;
-}
-
-.active {
-    border-bottom: 3px solid black;
-    background-color: #e0e0e0; /* Cor diferente para o item ativo */
-}
+  

@@ -6,13 +6,10 @@ import { GetNameCommunitySchemaArray, getNameCommunitySchemaArray } from "@/lib/
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
 import Footer from "@/lib/components/layouts/footer/page";
 import { Toaster } from "@/lib/components/layouts/toaster/toaster";
-import { GetUser } from "@/lib/utils/supabase/user/get-user";
 
 export default async function PublishTask() {
   const communities = await GetUserCommunitiesNames()
   const communitiesValidated = getNameCommunitySchemaArray.parse(communities);
-
-  const user = await GetUser();
   
   return (
     <>

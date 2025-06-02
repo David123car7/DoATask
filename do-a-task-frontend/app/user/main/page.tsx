@@ -26,10 +26,10 @@ export default async function UserMainPage() {
     
     console.log(validatedData.user.birthDate)
     const formattedBirthDate = validatedData.user.birthDate.split('T')[0];
-  
+    
+
     const data = await GetAllAddresses();
     const validatedAddresses = addressSchemaData.parse(data);
-
 
     return (
       <div className="page">
@@ -51,7 +51,7 @@ export default async function UserMainPage() {
             {/* Password Change Forms */}
             <ChangePasswordForm></ChangePasswordForm>
             {/* Add Adresses */}
-            <AddAdress allAddresses={validatedAddresses}/>
+            <AddAdress allAddresses={validatedAddresses} />
             
           </div>
         </main>
@@ -59,6 +59,7 @@ export default async function UserMainPage() {
       </div>
     );
   } catch (err) {
+    // Handle errors (this might be enhanced with error pages or fallback UI)
     return <div>Error: {(err as Error).message}</div>;
   }
 }

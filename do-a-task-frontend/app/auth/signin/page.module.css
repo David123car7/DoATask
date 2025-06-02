@@ -34,7 +34,6 @@
 }
 
 .container_form{
-    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,13 +90,7 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
-    transition: 0.3s ease;
 }
-
-.submitButton:hover{
-    background-color: #3a64da; 
-    transform: scale(1.05);
-  }
 
 .information {
     text-align: center;

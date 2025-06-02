@@ -1,49 +1,18 @@
 # DoATask
 
-**DoATask** is a web platform that centralizes, organizes, and promotes volunteer opportunities within local communities. The platform enables users to create and manage tasks, join communities, engage in volunteer actions, and earn points and virtual coins as rewards.
-> **Academic Context**  
-> This application was developed as part of the “Software Development Project” course in the second year of the degree in Computer Systems Engineering (Licenciatura em Engenharia de Sistemas Informáticos) at Instituto Politécnico do Cávado e do Ave.
+The DoATask project is a website for a local community, where the goal is to collaboratively perform tasks for other people, and in exchange receive ranking points and coins that can be exchanged for various rewards.
 
-## 🧩 Key Features
+Users can:
 
-- ✅ Create, accept, and complete **volunteer tasks**
-- 👥 Join and manage **communities**
-- 🛒 Earn and spend **virtual coins** in the community shop
-- 💬 Automatic rewards system: coins and points
-- 🔐 Secure login with **Supabase Auth**
-- 🖼️ File and image storage via **Supabase Storage**
+● Post tasks that need help, ranging from assisting elderly neighbors with shopping to organizing local cleaning events;
 
-## 🛠️ Technologies Used
+● Browse and accept available tasks in their area;
 
-| Layer      | Tech Stack                   |
-|------------|------------------------------|
-| Frontend   | [Next.js](https://nextjs.org/) (React) |
-| Backend    | [NestJS](https://nestjs.com/) + [Prisma](https://www.prisma.io/) |
-| Database   | PostgreSQL (via [Supabase](https://supabase.com/)) |
-| Auth/File Storage | Supabase Auth & Storage |
+● Earn points and coins upon completing tasks—depending on the difficulty, required time, or necessary skills, the rewards (points and coins) will vary;
 
----
+● Climb the rankings based on their contribution to the community;
 
-### Setup Instructions
+● Exchange the earned coins for rewards such as freebies (t-shirts, caps, etc.), tickets to community events, among other things.
 
-```bash
-# Clone the repository
-git clone https://github.com/David123car7/doatask.git
-```
-```bash
-# Install frontend & backend dependencies
-npm install
-```
-```bash
-# Set up environment variables
-copy .env.sample
-```
-```bash
-# Start backend (NestJS)
-npm run start:dev
-```
-```bash
-# Start frontend (Next.js)
-npm run next dev
-```
+To enhance transparency and trust, an evaluation system allows both the task requesters and the volunteers to receive feedback after each completed task. This helps maintain the quality of the service and encourages positive behavior within the community.
 

@@ -23,37 +23,14 @@ export default async function CommunitiesListPage(){
                 <div className={styles.container}>
                     <div className={styles.table}>
 
-                       <div className={styles.titles}>
-  <p 
-    className={styles.values} 
-    data-tooltip="Nome identificador da comunidade" // Quando o rato passa por cima, aparece a descrição
-  >
-    Comunidade
-  </p>
-  <p 
-    className={styles.values} 
-    data-tooltip="Cidade/região onde a comunidade atua">
-    Localidade
-  </p>
-  <p 
-    className={styles.values} 
-    data-tooltip="Moedas internas para recompensas"
-  >
-    Moedas
-  </p>
-  <p 
-    className={styles.values} 
-    data-tooltip="Pontos acumulados por atividades"
-  >
-    Pontos
-  </p>
-  <p 
-    className={styles.values} 
-    data-tooltip="Número total de membros"
-  >
-    Membros
-  </p>
-</div> 
+                        <div className={styles.titles}>
+                            <p className={styles.values}>Comunidade</p>
+                            <p className={styles.values}>Localidade</p>
+                            <p className={styles.values}>Moedas</p>
+                            <p className={styles.values}>Pontos</p>
+                            <p className={styles.values}>Membros</p>
+                   
+                        </div>  
                         
                         {communitiesDataValidated.communities.length > 0 && (
                             communitiesDataValidated.communities.map((community, index) => {

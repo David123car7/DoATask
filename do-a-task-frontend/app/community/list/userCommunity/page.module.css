@@ -32,7 +32,6 @@
     min-width: 45%;
     max-height: 600px;
     overflow-y: auto;
-    overflow: visible !important;
 }
 
 .row:last-child {
@@ -60,7 +59,6 @@
     background-color: white;
     border-bottom: 3px solid #333; 
     border-radius: 15px 15px 0 0;
-     overflow: visible !important;
 }
 
 
@@ -83,35 +81,3 @@
     flex: 1; 
     margin: 0;
 } 
-
-/* Adicione estas classes no seu CSS */
-.values {
-  position: relative; /* Permite posicionar o tooltip */
-  cursor: help; /* Mostra um "?" no cursor */
-}
-
-.values:hover::after {
-  content: attr(data-tooltip); /* Pega o texto do atributo data-tooltip */
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  width: max-content;
-  max-width: 200px;
-  z-index: 9999;
-  white-space:normal;
-  pointer-events:nome;
-  overflow: visible !important;
-  visibility: visible !important;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.values:hover::after {
-  opacity: 1;
-}
