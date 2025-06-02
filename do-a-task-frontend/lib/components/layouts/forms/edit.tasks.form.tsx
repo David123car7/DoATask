@@ -58,7 +58,7 @@ export default function EditTaskForm({
 
       await UpdateTask(data.id, formData);
       toast.success("Tarefa atualizada com sucesso!");
-      router.push("/app");
+      router.push("/dashboard");
     } catch (error: any) {
       toast.error("Erro ao atualizar tarefa: " + error.message);
     }
