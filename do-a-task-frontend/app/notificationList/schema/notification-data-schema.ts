@@ -16,7 +16,6 @@ export const notificationSchema = z.object({
   message: z.string(),
   read: z.boolean(),
   createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime().nullable(),
 });
 
 export const notificationDataSchema = z.array(notificationSchema)

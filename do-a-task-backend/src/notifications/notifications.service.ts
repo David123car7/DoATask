@@ -118,7 +118,6 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
             },
             data: {
               read: true,
-              updatedAt: new Date(),
             },
           });
           return updateResult;
@@ -126,5 +125,4 @@ export class NotificationsService implements OnGatewayConnection, OnGatewayDisco
           this.prisma.handlePrismaError("Set Notifications", error);
         }
       }
-      
 }
