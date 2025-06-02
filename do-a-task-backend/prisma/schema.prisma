@@ -76,14 +76,13 @@ model MemberTask {
 }
 
 model Notification {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   message     String
-  read        Boolean   @default(false)
-  createdAt   DateTime  @default(now())
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
   recipientId String
-  updatedAt   DateTime? @db.Date
-  user        user      @relation(fields: [recipientId], references: [id])
+  user        user     @relation(fields: [recipientId], references: [id])
 }
 
 model PointsMember {
