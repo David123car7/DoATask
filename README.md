@@ -35,10 +35,6 @@ git clone https://github.com/David123car7/doatask.git
 npm install
 ```
 ```bash
-# Set up environment variables
-copy .env.sample
-```
-```bash
 # Start backend (NestJS)
 npm run start:dev
 ```
