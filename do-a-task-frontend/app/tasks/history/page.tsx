@@ -1,38 +1,28 @@
 "use server";
 
-import Footer from "@/lib/components/layouts/footer/page";
+import CreateTaskForm from "@/lib/components/layouts/forms/create.tasks.form";
+import { GetUserCommunitiesNames } from "@/lib/api/communities/get.user.communities.names";
+import {
+  GetNameCommunitySchemaArray,
+  getNameCommunitySchemaArray,
+} from "@/lib/schemas/community/get-communityName-schema";
 import HeaderWrapper from "@/lib/components/layouts/header/HeaderWrapper";
-import styles from "./page.module.css";
-import { GetAllTasksCommunity } from "@/lib/api/tasks/get.all.tasksCommunity";
-import { notificationDataSchema } from "./schema/notification-data-schema";
+import Footer from "@/lib/components/layouts/footer/page";
+import { Toaster } from "@/lib/components/layouts/toaster/toaster";
+import { GetUser } from "@/lib/utils/supabase/user/get-user";
 
-export default async function NotificationList() {
-  const resultTasks = await GetAllTasksCommunity();
-  const notifications = notificationDataSchema.parse(resultNotifications);
+export default async function TasksHistory() {
+  const communities = await GetUserCommunitiesNames();
+  const communitiesValidated = getNameCommunitySchemaArray.parse(communities);
+
+  const user = await GetUser();
 
   return (
-    <div className="page">
+    <>
       <HeaderWrapper />
-      <h2 className={styles.title}>Histórico</h2>
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <div className={styles.table}>
-            <div className={styles.titles}>
-              <p className={styles.values}>Mensagem</p>
-              <p className={styles.values}>Recebida Ás</p>
-            </div>
-
-            {notifications.length > 0 &&
-              notifications.map((notification, index) => (
-                <div className={styles.row} key={index}>
-                  <p className={styles.values}>{notification.message}</p>
-                  <p className={styles.values}>{notification.createdAt}</p>
-                </div>
-              ))}
-          </div>
-        </div>
-      </main>
+      <Toaster />
+      <CreateTaskForm communityData={communitiesValidated} />
       <Footer />
-    </div>
+    </>
   );
 }

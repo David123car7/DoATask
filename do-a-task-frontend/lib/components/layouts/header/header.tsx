@@ -5,11 +5,20 @@ import { FaCoins } from "react-icons/fa6";
 import styles from "./page.module.css";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { Menu } from "../lateralMenu/page";
+import { FaHome } from "@/lib/icons";
 import { ROUTES } from "@/lib/constants/routes";
 import { Notifications } from "../notifications/notifications";
 import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
 import { BsClockHistory } from "react-icons/bs";
-import { FaRegUserCircle } from "@/lib/icons";
+import {
+  RiUserCommunityFill,
+  MdOutlineSupport,
+  FaRegUserCircle,
+  FaTasks,
+  CiUser,
+  TiShoppingCart,
+  PiRankingLight,
+} from "@/lib/icons";
 
 export function Header({ userData }: { userData: UserDataSchema | null }) {
   return (
@@ -30,6 +39,11 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
 
         <nav className={styles.nav}>
           <ul className={styles.navList}>
+            <li>
+              <a href={ROUTES.HOME}>
+                <FaHome size={28} />
+              </a>
+            </li>
             <li>
               <a href={ROUTES.HISTORY}>
                 <BsClockHistory size={25} />
