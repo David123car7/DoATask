@@ -15,7 +15,7 @@ export default async function About() {
           <h1 className={styles.abouttitle}>Sobre Nós</h1>
           <h2 className={styles.aboutsubtitle}>Ajuda o próximo</h2>
           <p className={styles.abouttext}>
-            Imagina um lugar onde ajudar faz mesmo a diferença e ainda és
+            Imagina um lugar onde ajudar faz mesmo a diferença — e ainda és
             recompensado por isso. Esta aplicação foi criada para tornar o
             voluntariado mais acessível, divertido e motivador. Aqui, podes
             publicar tarefas que precisas de ajuda ou juntar-te a desafios de

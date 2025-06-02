@@ -16,7 +16,7 @@
   color: #2e3a4d;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  background: linear-gradient(90deg, #000000, #3498db);
+  background: linear-gradient(90deg, #3c94e7, #3498db);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -24,7 +24,7 @@
 
 .aboutsubtitle {
   font-size: 1.5rem;
-  color: #000000;
+  color: #3ca0e7;
   font-weight: 600;
   margin-bottom: 2rem;
 }
@@ -40,7 +40,7 @@
 .abouttext {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #000000;
+  color: #ffffff;
   text-align: center;
 }
 
