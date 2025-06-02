@@ -13,16 +13,16 @@ export default function TaskNavBar(){
         <div className={styles.optionsContainer}>
             <div className={styles.options}>
                 <div className={`${styles.singleOption} ${pathname === ROUTES.TASKS_AVAILABLE ? styles.active : ''}`}>
-                    <a href={ROUTES.TASKS_AVAILABLE}>Encontrar Tarefas Voluntariado</a>
+                    <a href={ROUTES.TASKS_AVAILABLE}>Encontrar Tarefas</a>
                 </div>
                 <div className={`${styles.singleOption} ${pathname === ROUTES.TASKS_USER__DOING_LIST ? styles.active : ''}`}>
-                    <a href={ROUTES.TASKS_USER__DOING_LIST}>Tarefas Voluntariado em Progresso</a>
+                    <a href={ROUTES.TASKS_USER__DOING_LIST}>Tarefas em progresso</a>
                 </div>
                 <div className={`${styles.singleOption} ${pathname === ROUTES.TASKS_USER_CREATED_LIST ? styles.active : ''}`}>
-                    <a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas Voluntariado Criadas</a>
+                    <a href={ROUTES.TASKS_USER_CREATED_LIST}>Tarefas criadas</a>
                 </div>
                 <div className={`${styles.singleOption} ${pathname === ROUTES.TASKS_CREATE ? styles.active : ''}`}>
-                    <a href={ROUTES.TASKS_CREATE}>Criar Tarefas Voluntariado</a>
+                    <a href={ROUTES.TASKS_CREATE}>Criar Tarefas</a>
                 </div>
             </div>
         </div>

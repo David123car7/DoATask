@@ -23,7 +23,7 @@ export const taskSchema = z.object({
   ),
 });
 
-// Definir o esquema para um conjunto de voluntariados
+// Definir o esquema para um conjunto de tarefas
 export const taskDataSchema = z.array(taskSchema);
 
 export type TasksDataSchema = z.infer<typeof taskDataSchema >

@@ -27,7 +27,7 @@ export function ListTask({community }: {community: GetNameCommunitySchemaArray |
       const tasks = taskDataSchema.parse(result);
       console.log(tasks);
     } catch (error) {
-      console.error('Erro ao buscar voluntariados:', error);
+      console.error('Erro ao buscar tarefas:', error);
     }
     };
 
@@ -44,14 +44,14 @@ export function ListTask({community }: {community: GetNameCommunitySchemaArray |
                         ))}      
                 </select>
                 <div className={styles.singleOption}>
-                voluntariados Criadas
+                Tarefas Criadas
                 </div>
                 <div className={styles.singleOption}>
-                voluntariados Aceites
+                Tarefas Aceites
                 </div>
             </div>
             
-            <div className={styles.mainTitle}>voluntariados Realizadas</div>
+            <div className={styles.mainTitle}>Tarefas Realizadas</div>
 
             <div className={styles.table}>
 

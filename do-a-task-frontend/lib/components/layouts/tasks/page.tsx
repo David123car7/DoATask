@@ -7,11 +7,11 @@ import styles from "./page.module.css";
 export function TasksPage() {
   const pages = [
     {
-      title: "Encontrar Tarefas Voluntariado",
+      title: "Encontrar Tarefas",
       route: "/tasks/list/tasksAvailable",
     },
     {
-      title: "Criar Tarefas Voluntariado",
+      title: "Criar Tarefa",
       route: "/tasks/create",
     },
   ];
