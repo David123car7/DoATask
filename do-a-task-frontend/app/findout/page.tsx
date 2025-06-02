@@ -63,7 +63,7 @@ export default async function Findout() {
               Para conectar-se com pessoas à sua volta, adicione a sua morada.
             </p>
             <p>
-              Isto permite que veja voluntariados disponíveis na sua área e
+              Isto permite que veja tarefas disponíveis na sua área e
               realiza-las.
             </p>
           </div>
@@ -86,7 +86,7 @@ export default async function Findout() {
             <h2>3. Cria ou Entra numa Comunidade</h2>
             <p>Junte-se a uma comunidade local já existente ou crie a sua!</p>
             <p>
-              As comunidades permitem organizar voluntariados específicas por bairro,
+              As comunidades permitem organizar tarefas específicas por bairro,
               escola, associação ou grupo de interesse.
             </p>
             <p>Assim, pode colaborar com quem partilha os mesmos objetivos.</p>
@@ -110,15 +110,15 @@ export default async function Findout() {
 
         <section className={styles.containercenter}>
           <div>
-            <h2>4. Cria ou Realiza uma voluntariado</h2>
+            <h2>4. Cria ou Realiza uma Tarefa</h2>
             <p>
-              Agora é a parte divertida: publique uma voluntariado que precisa de
+              Agora é a parte divertida: publique uma tarefa que precisa de
               ajuda como levar compras a um vizinho, organizar um evento ou
-              pintar um muro comunitário ou aceite voluntariados que outros tenham
+              pintar um muro comunitário ou aceite tarefas que outros tenham
               publicado.
             </p>
             <p>
-              Cada vez que completa uma voluntariado, ganha pontos e moedas DoaTask
+              Cada vez que completa uma tarefa, ganha pontos e moedas DoaTask
               que podem ser trocados por brindes, descontos ou bilhetes para
               eventos.
             </p>
@@ -130,10 +130,10 @@ export default async function Findout() {
         <section className={styles.containercenter}>
           <div className={styles.buttons}>
             <a className={styles.buttonleft} href={ROUTES.TASKS_CREATE}>
-              Cria voluntariado
+              Cria tarefa
             </a>
             <a className={styles.buttonright} href={ROUTES.TASKS_AVAILABLE}>
-              Realiza voluntariado
+              Realiza tarefa
             </a>
           </div>
         </section>

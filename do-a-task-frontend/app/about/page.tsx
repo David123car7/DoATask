@@ -18,11 +18,11 @@ export default async function About() {
             Imagina um lugar onde ajudar faz mesmo a diferença e ainda és
             recompensado por isso. Esta aplicação foi criada para tornar o
             voluntariado mais acessível, divertido e motivador. Aqui, podes
-            publicar voluntariados que precisas de ajuda ou juntar-te a desafios de
+            publicar tarefas que precisas de ajuda ou juntar-te a desafios de
             outros, contribuindo com o teu tempo e boa vontade.
           </p>
           <p className={styles.abouttext}>
-            Cada voluntariado que concluis vale pontos e moedas, que te ajudam a subir
+            Cada tarefa que concluis vale pontos e moedas, que te ajudam a subir
             no ranking e desbloquear recompensas exclusivas na loja. Tudo gira em
             torno de comunidades: podes criar a tua, juntar-te a uma na tua
             localidade ou construir uma rede de impacto com quem partilha os teus

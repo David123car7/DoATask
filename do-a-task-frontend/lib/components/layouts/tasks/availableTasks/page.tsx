@@ -31,10 +31,10 @@ export function AvaiableTasks({
       setTasks(validateTasks.tasks);
       setMemberTasks(validateTasks.memberTasks);
     } catch (error) {
-      console.error("Erro ao procurar voluntariados:", error);
+      console.error("Erro ao procurar tarefas:", error);
     }
   };
-  console.log("voluntariados", tasks);
+  console.log("Tarefas", tasks);
 
   return (
     <div className={styles.container}>

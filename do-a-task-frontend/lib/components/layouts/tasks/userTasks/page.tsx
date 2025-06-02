@@ -8,7 +8,7 @@ import { CancelTaskButton } from '../buttons/cancel.task.butto';
 export function UserTasks({ data }: { data: GetTasksMemberDoingSchema | null }) {
   return (
     <div className={styles.optionsContainer}>
-       <div className={styles.title}>voluntariados em progresso</div>
+       <div className={styles.title}>Tarefas em progresso</div>
       <div className={styles.container}>
           <div className={styles.table}>
             <div className={styles.titles}>
@@ -31,7 +31,7 @@ export function UserTasks({ data }: { data: GetTasksMemberDoingSchema | null }) 
                   );
                 })
               ) : (
-                <div className={styles.noTasks}>Ainda não tem voluntariados</div>
+                <div className={styles.noTasks}>Ainda não tem Tarefas</div>
               )}
              
           </div>

@@ -74,11 +74,11 @@ export function UserCreatedTasks({ taskMemberCreated }: UserCreatedTasksProps) {
 
   return (
     <main className={styles.main}>
-      <h2 className={styles.title}>As minhas Tarefas de voluntariado</h2>
+      <h2 className={styles.title}>As minhas tarefas</h2>
       <div className={styles.container}>
         <div className={styles.table}>
           <div className={styles.titles}>
-            <p className={styles.values}>voluntariado</p>
+            <p className={styles.values}>Tarefa</p>
             <p className={styles.values}>Estado</p>
             <p className={styles.values}>Ações</p>
           </div>
