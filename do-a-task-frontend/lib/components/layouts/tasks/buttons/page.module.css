@@ -1,93 +1,32 @@
 .button {
-  padding: 8px 16px;
-  font-size: 1rem;
-  color: white;
-  background-color: rgb(93, 120, 243);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    padding: 8px 16px;
+    font-size: 1rem;
+    color: white;
+    background-color: rgb(93, 120, 243);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .button3 {
-  padding: 24px 32px;
-  font-size: 1rem;
-  color: white;
-  background-color: rgb(93, 120, 243);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    padding: 24px 32px;
+    font-size: 1rem;
+    color: white;
+    background-color: rgb(93, 120, 243);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .button2 {
-  padding: 8px 16px;
-  font-size: 1rem;
-  color: white;
-  background-color: red;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.taskbutton {
-  z-index: 1;
-  position: relative;
-  color: white;
-  outline: none;
-  background-color: hsl(236, 32%, 26%);
-  overflow: hidden;
-  transition: color 0.4s ease-in-out;
-  display: inline-block;
-  cursor: pointer;
-  font-size: 50px;
-  line-height: 70px;
-  font-weight: 700;
-  border-radius: 8px;
-  padding: 13px 23px;
-  border: 1px solid #222222;
-}
-
-.taskbutton::before {
-  content: "";
-  z-index: -1;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  background-color: #e9f8ff;
-  transform-origin: center;
-  transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);
-  transition: transform 0.4s ease-in-out;
-}
-
-.taskbutton:hover {
-  cursor: pointer;
-  color: #161616;
-}
-
-.taskbutton:hover::before {
-  transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15);
-}
-
-.title {
-  position: relative;
-}
-
-.title::before {
-  left: -8px;
-  transform-origin: center top;
-}
-
-.title:hover::before {
-  transform-origin: center bottom;
-  transform: scaleY(1);
-}
-
-.title::after {
-  right: -8px;
-  transform-origin: center bottom;
+    padding: 8px 16px;
+    font-size: 1rem;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
