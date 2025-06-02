@@ -30,6 +30,11 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
 
         <nav className={styles.nav}>
           <ul className={styles.navList}>
+            <li>
+              <a href={ROUTES.HISTORY}>
+                <BsClockHistory size={25} />
+              </a>
+            </li>
             {userData && (
               <>
                 <li>
