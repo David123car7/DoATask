@@ -17,4 +17,5 @@ export { RiHandCoinLine } from "react-icons/ri";
 export { IoPersonOutline } from "react-icons/io5";
 export { BiTask } from "react-icons/bi";
 export  { PiRankingLight } from "react-icons/pi";
+export { CiMenuBurger } from "react-icons/ci";
 

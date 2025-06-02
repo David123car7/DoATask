@@ -1,15 +1,13 @@
 'use client'
 
-import { CiCircleInfo } from "react-icons/ci";
-import { FaCoins } from "react-icons/fa6";
 import styles from "./page.module.css";
 import { UserDataSchema } from "@/app/user/schema/user-data-schema";
 import { Menu } from "../lateralMenu/page";
 import { FaHome } from "@/lib/icons";
 import { ROUTES } from "@/lib/constants/routes";
 import { Notifications } from "../notifications/notifications";
-import { NotificationDataSchema } from "@/app/notificationList/schema/notification-data-schema";
-import {RiUserCommunityFill, MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart, PiRankingLight} from "@/lib/icons"
+import {RiUserCommunityFill ,MdOutlineSupport, FaRegUserCircle,FaTasks, CiUser, TiShoppingCart, PiRankingLight} from "@/lib/icons"
+
 
 
 export function Header({ userData }: { userData: UserDataSchema | null }) {
@@ -40,10 +38,10 @@ export function Header({ userData }: { userData: UserDataSchema | null }) {
               </>
             )}
             <li>
-              <Menu userData={userData} />
+              <a href={ROUTES.USER_MAIN}><CiUser size={26}/></a><a href={ROUTES.USER_MAIN}></a>
             </li>
             <li>
-              <a href={ROUTES.USER_MAIN}><FaRegUserCircle size={26}/></a><a href={ROUTES.USER_MAIN}>Dados Pessoais</a>
+              <Menu userData={userData} />
             </li>
           </ul>
         </nav>
