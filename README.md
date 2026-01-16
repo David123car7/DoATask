@@ -4,23 +4,20 @@
 > **Academic Context**  
 > This application was developed as part of the “Software Development Project” course in the second year of the degree in Computer Systems Engineering (Licenciatura em Engenharia de Sistemas Informáticos) at Instituto Politécnico do Cávado e do Ave.
 
-## 🧩 Key Features
+## Key Features
 
-- ✅ Create, accept, and complete **volunteer tasks**
-- 👥 Join and manage **communities**
-- 🛒 Earn and spend **virtual coins** in the community shop
-- 💬 Automatic rewards system: coins and points
-- 🔐 Secure login with **Supabase Auth**
-- 🖼️ File and image storage via **Supabase Storage**
+- Create, accept, and complete **volunteer tasks**
+- Join **communities**
+- Earn and spend **virtual coins** in the community shop
+- Automatic rewards system: coins and points
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 | Layer      | Tech Stack                   |
 |------------|------------------------------|
 | Frontend   | [Next.js](https://nextjs.org/) (React) |
 | Backend    | [NestJS](https://nestjs.com/) + [Prisma](https://www.prisma.io/) |
 | Database   | PostgreSQL (via [Supabase](https://supabase.com/)) |
-| Auth/File Storage | Supabase Auth & Storage |
 
 ---
 
@@ -42,4 +39,3 @@ npm run start:dev
 # Start frontend (Next.js)
 npm run next dev
 ```
-
